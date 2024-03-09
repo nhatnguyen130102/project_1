@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 
 class Promotion_Notification_Modun extends StatelessWidget {
   const Promotion_Notification_Modun({
@@ -36,44 +37,41 @@ class Promotion_Notification_Modun extends StatelessWidget {
                 bottomRight: Radius.circular(15),
               ),
             ),
-            child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  left: 20, right: 20, top: 20, bottom: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    margin: EdgeInsets.only(
-                      top: 15,
-                      left: 15,
-                    ),
                     child: Text(
                       '08:32 AM - 05/03/2024',
                       style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w400,
-                          color: const Color.fromARGB(255, 80, 80, 80)),
+                          color: Colors.grey[400]),
                     ),
                   ),
+                  Gap(15),
                   Container(
-                    margin: EdgeInsets.only(top: 15, left: 15),
                     child: Text(
                       'YOU HAVE A GIFT FROM CINEONE',
                       style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
+                  Gap(10),
                   Container(
-                    margin: EdgeInsets.only(
-                      top: 15,
-                      left: 15,
-                      right: 15,
-                    ),
                     child: Text(
                       'asdfasdflasdfaslkdjflaafsdfasdfasdfasdfasflasdfaslkddfasdflasdfaslkdjflaafsdfasdfasdfasdfasflasdfaslkdjflaafsdfasdfasdfasdfasdfasdfasdfjflaafsdfasdfasdfasdfasdfasdfasdfasddfasflasdfaslkdjflaafsdfasdfasdfasdfasdfasdfasdfasddfasdfasdfasdf',
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        fontSize: 13,
-                      ),
+                          fontSize: 13,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.grey[500]),
                     ),
                   ),
                 ],

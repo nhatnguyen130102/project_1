@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 
 class Infomation_Notification_Modun extends StatelessWidget {
   const Infomation_Notification_Modun({
@@ -27,59 +28,55 @@ class Infomation_Notification_Modun extends StatelessWidget {
             ),
           ),
           Container(
-            height: 150,
-            width: size.width * 0.9,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(15),
-                bottomRight: Radius.circular(15),
+              height: 150,
+              width: size.width * 0.9,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(15),
+                  bottomRight: Radius.circular(15),
+                ),
               ),
-            ),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(
-                      top: 15,
-                      left: 15,
-                    ),
-                    child: Text(
-                      '08:32 AM - 05/03/2024',
-                      style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400,
-                          color: const Color.fromARGB(255, 80, 80, 80)),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 15, left: 15),
-                    child: Text(
-                      'YOU HAVE A GIFT FROM CINEONE',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    left: 20, right: 20, top: 20, bottom: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      child: Text(
+                        '08:32 AM - 05/03/2024',
+                        style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.grey[400]),
                       ),
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(
-                      top: 15,
-                      left: 15,
-                      right: 15,
-                    ),
-                    child: Text(
-                      'asdfasdflasdfaslkdjflaafsdfasdfasdfasdfasflasdfaslkddfasdflasdfaslkdjflaafsdfasdfasdfasdfasflasdfaslkdjflaafsdfasdfasdfasdfasdfasdfasdfjflaafsdfasdfasdfasdfasdfasdfasdfasddfasflasdfaslkdjflaafsdfasdfasdfasdfasdfasdfasdfasddfasdfasdfasdf',
-                      style: TextStyle(
-                        fontSize: 13,
+                    Gap(15),
+                    Container(
+                      child: Text(
+                        'YOU HAVE A GIFT FROM CINEONE',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+                    Gap(10),
+                    Container(
+                      child: Text(
+                        'asdfasdflasdfaslkdjflaafsdfasdfasdfasdfasflasdfaslkddfasdflasdfaslkdjflaafsdfasdfasdfasdfasflasdfaslkdjflaafsdfasdfasdfasdfasdfasdfasdfjflaafsdfasdfasdfasdfasdfasdfasdfasddfasflasdfaslkdjflaafsdfasdfasdfasdfasdfasdfasdfasddfasdfasdfasdf',
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.grey[500]),
+                      ),
+                    ),
+                  ],
+                ),
+              )),
         ],
       ),
     );

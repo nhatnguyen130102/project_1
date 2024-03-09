@@ -34,7 +34,7 @@ class _OrdersState extends State<Orders> with SingleTickerProviderStateMixin {
           tabs: [
             Tab(text: 'All'),
             Tab(text: 'Completed'),
-            Tab(text: 'Cancled'),
+            Tab(text: 'Canceled'),
           ],
         ),
       ),

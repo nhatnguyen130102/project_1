@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class Headline_1 extends StatelessWidget {
+class HeadlineComponent extends StatelessWidget {
   final StringA;
-  const Headline_1({
+  const HeadlineComponent({
     this.StringA,
     super.key,
   });
@@ -10,7 +10,7 @@ class Headline_1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
+      padding: EdgeInsets.only(left: 15, right: 15, top: 30, bottom: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -23,12 +23,12 @@ class Headline_1 extends StatelessWidget {
           ),
           InkWell(
             onTap: () {},
-            child: const Text(
+            child: Text(
               'See All',
               style: TextStyle(
                 fontSize: 15,
-                fontWeight: FontWeight.w500,
-                color: Color.fromARGB(255, 53, 53, 53),
+                fontWeight: FontWeight.w400,
+                color: Colors.grey[400],
               ),
             ),
           ),

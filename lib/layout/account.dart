@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
+import 'package:gap/gap.dart';
 import 'package:project_1/layout/orders.dart';
 
 class Account extends StatelessWidget {
@@ -38,22 +39,21 @@ class Account extends StatelessWidget {
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   Text('Account Email'),
+                  Gap(20),
                   Container(
                     child: GestureDetector(
                       onTap: () {},
                       child: Container(
-                        height: 40,
-                        width: 90,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                         decoration: BoxDecoration(
-                          color: Colors.amber,
+                          color: Colors.grey[800],
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: const Center(
                           child: Text(
                             'Logout',
-                            style: TextStyle(
-                              fontSize: 17,
-                            ),
+                            style: TextStyle(fontSize: 17, color: Colors.white),
                           ),
                         ),
                       ),
@@ -63,6 +63,7 @@ class Account extends StatelessWidget {
               ),
             ],
           ),
+          Gap(25),
           GestureDetector(
             onTap: () {},
             child: Container(
@@ -75,8 +76,9 @@ class Account extends StatelessWidget {
                   Row(
                     children: [
                       Icon(
-                        FontAwesome.shield,
+                        FontAwesome.lock,
                       ),
+                      Gap(10),
                       Text(
                         'Change Password',
                         style: TextStyle(
@@ -103,8 +105,9 @@ class Account extends StatelessWidget {
                   Row(
                     children: [
                       Icon(
-                        FontAwesome.shield,
+                        FontAwesome.star,
                       ),
+                      Gap(10),
                       Text(
                         'Favorite',
                         style: TextStyle(
@@ -138,8 +141,9 @@ class Account extends StatelessWidget {
                   Row(
                     children: [
                       Icon(
-                        FontAwesome.shield,
+                        FontAwesome.tag,
                       ),
+                      Gap(10),
                       Text(
                         'Orders',
                         style: TextStyle(
@@ -169,8 +173,9 @@ class Account extends StatelessWidget {
                   Row(
                     children: [
                       Icon(
-                        FontAwesome.shield,
+                        FontAwesome.info,
                       ),
+                      Gap(10),
                       Text(
                         'About',
                         style: TextStyle(
@@ -197,8 +202,9 @@ class Account extends StatelessWidget {
                   Row(
                     children: [
                       Icon(
-                        FontAwesome.shield,
+                        FontAwesome.mic,
                       ),
+                      Gap(10),
                       Text(
                         'Help',
                         style: TextStyle(

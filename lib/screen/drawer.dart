@@ -47,9 +47,9 @@ class DrawerLeft extends StatelessWidget {
                   onTap: () {},
                 ),
                 ListTile(
-                  leading: const Icon(FontAwesomeIcons.gift),
+                  leading: const Icon(FontAwesomeIcons.tags),
                   title: const Text(
-                    'Home',
+                    'Voucher',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w400,
