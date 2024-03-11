@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:gap/gap.dart';
 import 'package:project_1/layout/booking.dart';
+import 'package:ionicons/ionicons.dart';
 import '../screen/heading_1.dart';
 
 class MovieDetail extends StatefulWidget {
@@ -71,9 +72,11 @@ class _MovieDetailState extends State<MovieDetail> {
                                 Icon(
                                   Icons.star,
                                   color: Colors.amber,
+                                  size: 20
                                 ),
+                                Gap(4),
                                 Text(
-                                  '5.0',
+                                  '4.5',
                                   style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500),
@@ -81,7 +84,11 @@ class _MovieDetailState extends State<MovieDetail> {
                               ],
                             ),
                             Gap(10),
-                            Text('1h00'),
+                            Row(children: [
+                              Icon(Ionicons.time_outline, size: 14, color: Colors.grey[500]),
+                              Gap(4),
+                              Text('1h00', style: TextStyle(color: Colors.grey[500]),),
+                            ],),
                             Gap(15),
                             Container(
                               padding: const EdgeInsets.symmetric(
@@ -109,14 +116,14 @@ class _MovieDetailState extends State<MovieDetail> {
                             padding: EdgeInsets.symmetric(
                                 horizontal: 15, vertical: 10),
                             decoration: BoxDecoration(
-                              color: Colors.grey[800],
+                              color: Colors.amber,
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: const Center(
                               child: Text(
                                 'Book Now',
                                 style: TextStyle(
-                                    fontSize: 17, color: Colors.white),
+                                    fontSize: 18,),
                               ),
                             ),
                           ),
@@ -147,15 +154,17 @@ class _MovieDetailState extends State<MovieDetail> {
                 itemCount: 10,
                 itemBuilder: (context, index) {
                   return Container(
-                    margin: EdgeInsets.only(right: 10),
+                    margin: EdgeInsets.only(right: 15),
                     height: 100,
                     width: 100,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Image.network(
+
+                    // ClipRRect -> Widget that clips its child using a rounded retangle.
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                        child: Image.network(
                       'https://i.pinimg.com/564x/93/cd/6f/93cd6f16d1e0a76a91f4beb6fd8e2a86.jpg',
                       fit: BoxFit.cover,
+                    )
                     ),
                   );
                 },
@@ -165,18 +174,22 @@ class _MovieDetailState extends State<MovieDetail> {
             //Trailer-Slider
             HeadlineComponent(StringA: 'Trailer'),
             Container(
-              margin: EdgeInsets.only(top: 15, left: 15),
+              margin: EdgeInsets.only(left: 15),
               height: 150,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: 5,
                 itemBuilder: (context, index) {
                   return Container(
+                    margin: EdgeInsets.only(right: 15),
                     height: 150,
-                    padding: EdgeInsets.symmetric(horizontal: 2.5),
                     width: 250,
-                    child: Image.network(
-                        'https://i.pinimg.com/564x/7c/d6/dc/7cd6dc7b34af544375336c288aec69da.jpg'),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.network(
+                          'https://i.pinimg.com/564x/7c/d6/dc/7cd6dc7b34af544375336c288aec69da.jpg',
+                      fit: BoxFit.cover,),
+                    ),
                   );
                 },
               ),

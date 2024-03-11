@@ -132,7 +132,7 @@ class _MainLayoutState extends State<MainLayout> {
               height: 40,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: 10,
+                itemCount: 5,
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {},
