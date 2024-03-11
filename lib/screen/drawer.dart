@@ -3,6 +3,8 @@ import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:project_1/layout/account.dart';
 
+import '../layout/voucher.dart';
+
 class DrawerLeft extends StatelessWidget {
   const DrawerLeft({super.key});
 
@@ -57,7 +59,16 @@ class DrawerLeft extends StatelessWidget {
                     textAlign: TextAlign.start,
                   ),
                   titleAlignment: ListTileTitleAlignment.center,
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return Voucher();
+                        },
+                      ),
+                    );
+                  },
                 ),
                 ListTile(
                   leading: const Icon(Icons.person),
