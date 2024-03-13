@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:project_1/layout/account.dart';
+import 'package:project_1/screen/account.dart';
 
-import '../layout/search.dart';
-import '../layout/voucher.dart';
+import '../screen/search.dart';
+import '../screen/voucher.dart';
 
 class DrawerLeft extends StatelessWidget {
   const DrawerLeft({super.key});

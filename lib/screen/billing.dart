@@ -1,6 +1,6 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:project_1/layout/mainlayout.dart';
+import 'package:project_1/screen/mainlayout.dart';
 
 class Billing extends StatefulWidget {
   const Billing({super.key});

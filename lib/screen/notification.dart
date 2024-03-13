@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../screen/infomation_notification.dart';
-import '../screen/promotion_notification.dart';
-import '../screen/transaction_notification.dart';
+import '../component_widget/infomation_notification.dart';
+import '../component_widget/promotion_notification.dart';
+import '../component_widget/transaction_notification.dart';
 
 class Notification_layout extends StatefulWidget {
   const Notification_layout({super.key});

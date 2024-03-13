@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_1/screen/movie_order.dart';
+import 'package:project_1/component_widget/movie_order.dart';
 
 class Orders extends StatefulWidget {
   const Orders({super.key});

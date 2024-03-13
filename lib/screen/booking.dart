@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:project_1/screen/billing.dart';
 
 class Booking extends StatefulWidget {
   final number;
@@ -9,6 +11,8 @@ class Booking extends StatefulWidget {
 }
 
 class _BookingState extends State<Booking> {
+  final int _rowSeat = 17;
+  final int _quantitySeat = 187;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -20,237 +24,162 @@ class _BookingState extends State<Booking> {
             Navigator.of(context).pop();
           },
         ),
-        title: Text('Name movie ${widget.number}'),
+        // title: Text('Name movie ${widget.number}'),
       ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Column(
-          children: [
-            const Divider(
-              color: Colors.red, // Màu sắc của đường ngang
-              thickness: 2, // Độ dày của đường ngang
-              height: 20, // Chiều cao của đường ngang
-            ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      'In',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      body: Center(
+        child: InteractiveViewer(
+          boundaryMargin:
+              EdgeInsets.all(20), // Độ lề giữa nội dung và ranh giới
+          minScale: 0.1, // Phạm vi thu phóng tối thiểu
+          maxScale: 4.0, // Phạm vi thu phóng tối đa
+          constrained: false, // Vô hạn cuộn
+          child: Container(
+            width: 1000, // Độ rộng của nội dung
+            height: size.height + 200, // Độ cao của nội dung
+            color: const Color.fromARGB(
+                255, 255, 255, 255), // Màu sắc của nội dung
+            child: Center(
+              child: Column(
+                children: [
+                  Text(
+                    'MOVIE NAME',
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    'TUE 04/04/2024 - 08:00 PM',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
                     ),
-                    Icon(Icons.arrow_forward_ios),
-                  ],
-                ),
-                Text(
-                  'Screen',
-                  style: TextStyle(
-                      fontSize: 30,
-                      color: Colors.blueGrey,
-                      fontWeight: FontWeight.bold),
-                ),
-                Row(
-                  children: [
-                    Text(
-                      'Out',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    '236 Park Streetm Pleston, California CA',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w300,
                     ),
-                    Icon(Icons.arrow_forward_ios),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 25),
-                  height: 300,
-                  width: size.width - 50,
-                  child: GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 5, // Số cột
-                      childAspectRatio:
-                          1.5, // Tỉ lệ giữa chiều rộng và chiều cao của mỗi ô
-                      crossAxisSpacing: 10, // Khoảng cách giữa các cột
-                      mainAxisSpacing: 10, // Khoảng cách giữa các hàng
+                  ),
+                  Gap(15),
+                  Text(
+                    'Screen',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
                     ),
-                    itemCount: 25, // Tổng số ghế
-                    itemBuilder: (BuildContext context, int index) {
-                      // Tính toán tên ghế dựa trên số thứ tự cột và số thứ tự hàng
-                      int row = index ~/ 5 +
-                          1; // Tính số thứ tự hàng (index / số cột + 1)
-                      int column = index % 5 +
-                          1; // Tính số thứ tự cột (index % số cột + 1)
-                      String seatName =
-                          '${String.fromCharCode(65 + row - 1)}$column'; // Tạo tên ghế
+                  ),
+                  Gap(15),
+                  Container(
+                    width: 900,
+                    height: size.height - 100,
+                    child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: _rowSeat, // Số cột
+                        childAspectRatio:
+                            1.2, // Tỉ lệ giữa chiều rộng và chiều cao của mỗi ô
+                        crossAxisSpacing: 10, // Khoảng cách giữa các cột
+                        mainAxisSpacing: 20, // Khoảng cách giữa các hàng
+                      ),
+                      physics: BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: _quantitySeat, // Tổng số ghế
+                      itemBuilder: (BuildContext context, int index) {
+                        // Tính toán tên ghế dựa trên số thứ tự cột và số thứ tự hàng
+                        int row = index ~/ _rowSeat +
+                            1; // Tính số thứ tự hàng (index / số cột + 1)
+                        int column = index % _rowSeat +
+                            1; // Tính số thứ tự cột (index % số cột + 1)
+                        String seatName =
+                            '${String.fromCharCode(65 + row - 1)}$column'; // Tạo tên ghế
 
-                      // Tạo widget cho từng ghế
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey[300], // Màu của ghế
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Center(
-                          child: Text(
-                            seatName, // Tên của ghế
-                            style: const TextStyle(
-                              fontSize: 11,
+                        // Tạo widget cho từng ghế
+                        return GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey[300], // Màu của ghế
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: Center(
+                              child: Text(
+                                seatName, // Tên của ghế
+                                style: const TextStyle(
+                                  fontSize: 11,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
-                ),
-              ],
-            ),
-            // const SizedBox(
-            //   height: 10,
-            // ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const Row(
-                  children: [
-                    Icon(Icons.circle),
-                    Text('Unavailable'),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.circle,
-                      color: Colors.grey[300],
+
+                  // const SizedBox(
+                  //   height: 10,
+                  // ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      const Row(
+                        children: [
+                          Icon(Icons.circle),
+                          Text('Unavailable'),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.circle,
+                            color: Colors.grey[300],
+                          ),
+                          const Text('Available'),
+                        ],
+                      ),
+                      const Row(
+                        children: [
+                          Icon(
+                            Icons.circle,
+                            color: Colors.red,
+                          ),
+                          Text('Booking'),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Container(
+                    width: size.width,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    const Text('Available'),
-                  ],
-                ),
-                const Row(
-                  children: [
-                    Icon(
-                      Icons.circle,
-                      color: Colors.red,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return Billing();
+                            },
+                          ),
+                        );
+                      },
+                      child: Center(
+                        child: Text(
+                          '\$0.00 - Checkout',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
                     ),
-                    Text('Booking'),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              alignment: Alignment.topLeft,
-              child: const Text(
-                'Choose Date',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
             ),
-            Row(
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15),
-                  height: 100, // Đặt chiều cao cho ListView.builder
-                  width: size.width,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        margin: EdgeInsets.symmetric(horizontal: 5),
-                        height: 100,
-                        width: 100,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[300],
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Center(
-                          child: Column(
-                            children: [
-                              Text('Date ${index}'),
-                              Text('Time: $index'),
-                              Text('Available: $index/${25}'),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                margin: const EdgeInsets.only(
-                  top: 60,
-                ),
-                height: 100,
-                width: size.width,
-                color: Colors.grey[300],
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Total',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          'SubTotal',
-                          style: TextStyle(
-                            fontSize: 17,
-                            color: Colors.black38,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '20\$',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          '20\$',
-                          style: TextStyle(
-                            fontSize: 17,
-                            color: Colors.black38,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: const Text('Booking'),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

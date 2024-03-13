@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_1/screen/search_modun.dart';
+import 'package:project_1/component_widget/search_modun.dart';
 
 class Search_Page extends StatefulWidget {
   const Search_Page({super.key});

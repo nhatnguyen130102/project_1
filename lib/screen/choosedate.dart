@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-import 'package:project_1/layout/booking.dart';
+import 'package:project_1/screen/booking.dart';
 
-import '../screen/choosedate_modun.dart';
-import '../screen/headline_2_component.dart';
+import '../component_widget/choosedate_modun.dart';
+import '../component_widget/headline_2_component.dart';
 
 class Choose_Date extends StatefulWidget {
   const Choose_Date({super.key});

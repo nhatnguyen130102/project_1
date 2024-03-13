@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:gap/gap.dart';
-import 'package:project_1/layout/orders.dart';
+import 'package:project_1/screen/login.dart';
+import 'package:project_1/screen/orders.dart';
 
 class Account extends StatelessWidget {
   const Account({super.key});
@@ -50,10 +51,23 @@ class Account extends StatelessWidget {
                           color: Colors.grey[800],
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: const Center(
-                          child: Text(
-                            'Logout',
-                            style: TextStyle(fontSize: 17, color: Colors.white),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return Login();
+                                },
+                              ),
+                            );
+                          },
+                          child: Center(
+                            child: Text(
+                              'Logout',
+                              style:
+                                  TextStyle(fontSize: 17, color: Colors.white),
+                            ),
                           ),
                         ),
                       ),

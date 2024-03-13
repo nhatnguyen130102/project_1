@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:project_1/layout/choosedate.dart';
-import 'package:project_1/layout/rating.dart';
-import '../screen/headline_1_component.dart';
+import 'package:project_1/screen/choosedate.dart';
+import 'package:project_1/screen/rating.dart';
+import '../component_widget/headline_1_component.dart';
 
 class MovieDetail extends StatefulWidget {
   final number;

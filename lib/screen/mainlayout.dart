@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:gap/gap.dart';
-import 'package:project_1/layout/notification.dart';
-import 'package:project_1/screen/drawer.dart';
-import 'package:project_1/layout/movie_detail.dart';
+import 'package:project_1/screen/notification.dart';
+import 'package:project_1/component_widget/drawer.dart';
+import 'package:project_1/screen/movie_detail.dart';
 
-import '../screen/headline_1_component.dart';
+import '../component_widget/headline_1_component.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key});

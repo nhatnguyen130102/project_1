@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../screen/widget_voucher.dart';
+import '../component_widget/widget_voucher.dart';
 
 class Voucher extends StatefulWidget {
   const Voucher({Key? key}) : super(key: key);
