@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:gap/gap.dart';
-import 'package:project_1/layout/booking.dart';
 import 'package:ionicons/ionicons.dart';
-import '../screen/heading_1.dart';
+import 'package:project_1/layout/choosedate.dart';
+import 'package:project_1/layout/rating.dart';
+import '../screen/headline_1_component.dart';
 
 class MovieDetail extends StatefulWidget {
   final number;
@@ -67,29 +67,6 @@ class _MovieDetailState extends State<MovieDetail> {
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),
                             Gap(5),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                  size: 20
-                                ),
-                                Gap(4),
-                                Text(
-                                  '4.5',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500),
-                                )
-                              ],
-                            ),
-                            Gap(10),
-                            Row(children: [
-                              Icon(Ionicons.time_outline, size: 14, color: Colors.grey[500]),
-                              Gap(4),
-                              Text('1h00', style: TextStyle(color: Colors.grey[500]),),
-                            ],),
-                            Gap(15),
                             Container(
                               padding: const EdgeInsets.symmetric(
                                 vertical: 5,
@@ -99,11 +76,84 @@ class _MovieDetailState extends State<MovieDetail> {
                                 borderRadius: BorderRadius.circular(20),
                                 color: Colors.grey[200],
                               ),
-                              child: Center(child: Text('Genre')),
+                              child: Center(
+                                child: Text(
+                                  'Genre',
+                                ),
+                              ),
                             ),
                             Row(
-                              children: [Container()],
-                            )
+                              children: [
+                                Icon(
+                                  Icons.star_outline,
+                                  color: Colors.black,
+                                  size: 20,
+                                ),
+                                Gap(4),
+                                Text(
+                                  '4.5',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.symmetric(
+                                    horizontal: 15,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      width: 0.7,
+                                      color: Colors.black,
+                                    ),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                    vertical: 2,
+                                  ),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return Rating_Page();
+                                          },
+                                        ),
+                                      );
+                                    },
+                                    child: Text(
+                                      '182 Ratings >',
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              margin: EdgeInsets.symmetric(vertical: 5),
+                              child: Text(
+                                'add your content here.',
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Ionicons.time_outline,
+                                  size: 14,
+                                  color: Colors.grey[500],
+                                ),
+                                Gap(4),
+                                Text(
+                                  '1h00',
+                                  style: TextStyle(
+                                    color: Colors.grey[500],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),
@@ -111,19 +161,30 @@ class _MovieDetailState extends State<MovieDetail> {
                       //Booking-Button
                       Container(
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return Choose_Date();
+                                },
+                              ),
+                            );
+                          },
                           child: Container(
                             padding: EdgeInsets.symmetric(
                                 horizontal: 15, vertical: 10),
                             decoration: BoxDecoration(
-                              color: Colors.amber,
+                              color: Colors.black,
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: const Center(
+                            child: Center(
                               child: Text(
                                 'Book Now',
                                 style: TextStyle(
-                                    fontSize: 18,),
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),
@@ -145,7 +206,7 @@ class _MovieDetailState extends State<MovieDetail> {
             ),
 
             //Actor-Slider
-            HeadlineComponent(StringA: 'Actor'),
+            Headline1Component(StringA: 'Actor'),
             Container(
               margin: EdgeInsets.only(left: 15),
               height: 100,
@@ -160,19 +221,18 @@ class _MovieDetailState extends State<MovieDetail> {
 
                     // ClipRRect -> Widget that clips its child using a rounded retangle.
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(10),
                         child: Image.network(
-                      'https://i.pinimg.com/564x/93/cd/6f/93cd6f16d1e0a76a91f4beb6fd8e2a86.jpg',
-                      fit: BoxFit.cover,
-                    )
-                    ),
+                          'https://i.pinimg.com/564x/93/cd/6f/93cd6f16d1e0a76a91f4beb6fd8e2a86.jpg',
+                          fit: BoxFit.cover,
+                        )),
                   );
                 },
               ),
             ),
 
             //Trailer-Slider
-            HeadlineComponent(StringA: 'Trailer'),
+            Headline1Component(StringA: 'Trailer'),
             Container(
               margin: EdgeInsets.only(left: 15),
               height: 150,
@@ -187,8 +247,9 @@ class _MovieDetailState extends State<MovieDetail> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Image.network(
-                          'https://i.pinimg.com/564x/7c/d6/dc/7cd6dc7b34af544375336c288aec69da.jpg',
-                      fit: BoxFit.cover,),
+                        'https://i.pinimg.com/564x/7c/d6/dc/7cd6dc7b34af544375336c288aec69da.jpg',
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   );
                 },

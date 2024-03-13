@@ -5,7 +5,7 @@ import 'package:project_1/layout/notification.dart';
 import 'package:project_1/screen/drawer.dart';
 import 'package:project_1/layout/movie_detail.dart';
 
-import '../screen/heading_1.dart';
+import '../screen/headline_1_component.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key});
@@ -17,7 +17,8 @@ class MainLayout extends StatefulWidget {
 class _MainLayoutState extends State<MainLayout> {
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    String _text = '';
+    // Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -58,13 +59,20 @@ class _MainLayoutState extends State<MainLayout> {
                   Flexible(
                     flex: 1,
                     child: TextField(
+                      onChanged: (text) {
+                        setState(() {
+                          _text =
+                              text; // Update the text variable when text changes
+                        });
+                      },
                       cursorColor: Colors.grey,
                       decoration: InputDecoration(
                         fillColor: Colors.grey[200],
                         filled: true,
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: BorderSide.none),
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide.none,
+                        ),
                         hintText: 'Search',
                         hintStyle:
                             TextStyle(color: Colors.grey[600], fontSize: 18),
@@ -83,7 +91,7 @@ class _MainLayoutState extends State<MainLayout> {
             ),
 
             //Heading-NowPlaying-------------------------------------------------------
-            const HeadlineComponent(StringA: 'Now Playing'),
+            const Headline1Component(StringA: 'Now Playing'),
 
             //Now-Playing-Carousel-------------------------------------------------------
             CarouselSlider(
@@ -156,7 +164,7 @@ class _MainLayoutState extends State<MainLayout> {
             ),
 
             //Heading-ComingSoon
-            const HeadlineComponent(StringA: 'Coming Soon'),
+            const Headline1Component(StringA: 'Coming Soon'),
 
             SizedBox(
               height: 500,

@@ -3,6 +3,7 @@ import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:project_1/layout/account.dart';
 
+import '../layout/search.dart';
 import '../layout/voucher.dart';
 
 class DrawerLeft extends StatelessWidget {
@@ -36,8 +37,8 @@ class DrawerLeft extends StatelessWidget {
             child: Column(
               children: [
                 ListTile(
-                  leading: const Icon(FontAwesome.home),
-                  title: const Text(
+                  leading: Icon(FontAwesome.home),
+                  title: Text(
                     'Home',
                     style: TextStyle(
                       fontSize: 18,
@@ -46,7 +47,16 @@ class DrawerLeft extends StatelessWidget {
                     textAlign: TextAlign.start,
                   ),
                   titleAlignment: ListTileTitleAlignment.center,
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return Search_Page();
+                        },
+                      ),
+                    );
+                  },
                 ),
                 ListTile(
                   leading: const Icon(FontAwesomeIcons.tags),

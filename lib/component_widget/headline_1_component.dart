@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class HeadlineComponent extends StatelessWidget {
+class Headline1Component extends StatelessWidget {
   final StringA;
-  const HeadlineComponent({
+  const Headline1Component({
     this.StringA,
     super.key,
   });
