@@ -15,28 +15,38 @@ class ChooseDate_Modun extends StatelessWidget {
       margin: EdgeInsets.only(
         right: 15,
       ),
-      height: 100,
-      width: 85,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.grey.shade200,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
-            StringA,
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.w500,
+          Container(
+            margin: EdgeInsets.only(left: 4, right: 4),
+            padding: EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10))
+            ),
+            child: Text(
+              StringA,
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
-          Text(
-            StringB,
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w400,
+          Container(
+            padding: EdgeInsets.only(top: 10, bottom: 5),
+            child: Text(
+              StringB,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: Colors.grey.shade700
+              ),
             ),
           ),
         ],

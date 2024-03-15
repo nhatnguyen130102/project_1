@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fluttericon/font_awesome_icons.dart';
+import 'package:gap/gap.dart';
 import 'package:project_1/screen/booking.dart';
-
+import 'package:selection_menu/selection_menu.dart';
+import 'package:selection_menu/components_configurations.dart';
 import '../component_widget/choosedate_modun.dart';
 import '../component_widget/headline_2_component.dart';
 
@@ -33,6 +36,10 @@ class _Choose_DateState extends State<Choose_Date> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+
+
+
+              //Choose-Date-------------------------------------
               HeadLine2Component(
                 StringA: 'Choose Date',
                 StringB: '7 days of week',
@@ -40,20 +47,23 @@ class _Choose_DateState extends State<Choose_Date> {
               Container(
                 width: size.width,
                 height: 100,
-                margin: EdgeInsets.symmetric(
-                  vertical: 15,
+                margin: EdgeInsets.only(
+                  top: 20, bottom: 25
                 ),
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: 10,
                   itemBuilder: (context, index) {
                     return ChooseDate_Modun(
-                      StringA: 'Ngày',
-                      StringB: 'Thứ',
+                      StringA: '12',
+                      StringB: 'MON',
                     );
                   },
                 ),
               ),
+
+
+              //Choose-Time-------------------------------------
               HeadLine2Component(
                 StringA: 'Choose Time',
                 StringB: '24 hours of day',
@@ -62,38 +72,92 @@ class _Choose_DateState extends State<Choose_Date> {
                 scrollDirection: Axis.vertical,
                 physics: BouncingScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: 5,
+                itemCount: 1,
                 itemBuilder: (context, index) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Container(
-                        margin: EdgeInsets.only(top: 15),
-                        child: Text(
-                          'Standard',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                      Gap(20),
+
+                      //Cinema: Time & Info--------------------------------------
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          //Cinema & Address-------------
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'CGV Hoang Van Thu',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Gap(2),
+                              Row(
+                                children: [
+                                  Text(
+                                    'Tan Binh District',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.grey[400],
+                                    ),
+                                  ),
+                                  Gap(10),
+                                  Icon(FontAwesome.circle, size: 4, color: Colors.grey[400],),
+                                  Gap(5),
+                                  Text('1.8 km', style: TextStyle(color: Colors.grey[400]),),
+                                ],
+                              ),
+                            ],
                           ),
+
+                          //Favorite-Icon
+                          Container(
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey.shade300),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Icon(
+                              FontAwesome.heart_empty,
+                              size: 20,
+                              color: Colors.grey[600],
+                            ),
+                          )
+                        ],
+                      ),
+
+                      Gap(15),
+                      Text(
+                        'Floor 1st & 2nd, Gala Center, 415 Hoang Van Thu',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey.shade500,
                         ),
                       ),
+                      Gap(10),
+
+                      //Screening---------------------------------
                       Container(
-                        margin: EdgeInsets.only(top: 15),
+                        margin: EdgeInsets.only(top: 10),
                         width: size.width,
                         child: Wrap(
                           direction: Axis.horizontal,
-                          spacing: 10,
-                          runSpacing: 10,
-                          children: List.generate(5, (index) {
+                          spacing: 15,
+                          runSpacing: 15,
+                          children: List.generate(6, (index) {
                             return Container(
                               padding: EdgeInsets.symmetric(
-                                horizontal: 15,
-                                vertical: 7,
+                                horizontal: 16,
+                                vertical: 8,
                               ),
                               decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey.shade300),
                                 borderRadius: BorderRadius.circular(10),
-                                color: Colors.grey[300],
                               ),
                               child: GestureDetector(
                                 onTap: () {
@@ -106,11 +170,27 @@ class _Choose_DateState extends State<Choose_Date> {
                                     ),
                                   );
                                 },
-                                child: Text(
-                                  '08:00 AM',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                  ),
+
+                                //Screening-Item---------------
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min, //wrap-content
+                                  children: [
+                                    Text(
+                                      '08:00',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    Gap(5),
+                                    Text(
+                                      '~ 10:00',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey.shade500,
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ),
                             );
