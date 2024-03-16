@@ -1,3 +1,6 @@
+// ignore_for_file: deprecated_member_use
+
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:gap/gap.dart';
@@ -15,6 +18,7 @@ class MainLayout extends StatefulWidget {
 }
 
 class _MainLayoutState extends State<MainLayout> {
+  final databaseReference = FirebaseDatabase.instance.reference();
   @override
   Widget build(BuildContext context) {
     String _text = '';
