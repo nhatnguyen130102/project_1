@@ -33,7 +33,7 @@ class _MovieDetailState extends State<MovieDetail> {
         scrollDirection: Axis.vertical,
         child: Column(
           children: [
-            Gap(20),
+            Gap(10),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -42,10 +42,12 @@ class _MovieDetailState extends State<MovieDetail> {
                   margin: EdgeInsets.only(left: 15, right: 25),
                   height: 200,
                   width: 150,
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(217, 210, 210, 210),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: Image.network(
+                        'https://i.pinimg.com/564x/93/cd/6f/93cd6f16d1e0a76a91f4beb6fd8e2a86.jpg',
+                        fit: BoxFit.cover,
+                      )),
                 ),
 
                 //Movie-Info
@@ -66,22 +68,7 @@ class _MovieDetailState extends State<MovieDetail> {
                               style: TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),
-                            Gap(5),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 5,
-                                horizontal: 10,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Colors.grey[200],
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'Genre',
-                                ),
-                              ),
-                            ),
+                            Gap(10),
                             Row(
                               children: [
                                 Icon(
@@ -132,26 +119,43 @@ class _MovieDetailState extends State<MovieDetail> {
                                 ),
                               ],
                             ),
+                            Gap(10),
                             Container(
-                              margin: EdgeInsets.symmetric(vertical: 5),
-                              child: Text(
-                                'add your content here.',
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 5,
+                                horizontal: 10,
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.grey[200],
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Genre',
+                                ),
                               ),
                             ),
+                            Gap(10),
                             Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Icon(
-                                  Ionicons.time_outline,
-                                  size: 14,
-                                  color: Colors.grey[500],
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Ionicons.time_outline,
+                                      size: 14,
+                                      color: Colors.grey.shade500,
+                                    ),
+                                    Gap(4),
+                                    Text(
+                                      '1h00',
+                                      style: TextStyle(
+                                        color: Colors.grey.shade500,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                Gap(4),
-                                Text(
-                                  '1h00',
-                                  style: TextStyle(
-                                    color: Colors.grey[500],
-                                  ),
-                                ),
+                                Gap(10),
                               ],
                             ),
                           ],
@@ -159,36 +163,58 @@ class _MovieDetailState extends State<MovieDetail> {
                       ),
 
                       //Booking-Button
-                      Container(
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return Choose_Date();
-                                },
-                              ),
-                            );
-                          },
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 10),
+                      Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: Colors.black,
+                              border: Border.all(
+                                  width: 1, color: Colors.grey.shade400),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: Center(
-                              child: Text(
-                                'Book Now',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.white,
+
+                            //T16: for 16+, T18: for 18+
+                            //P, C, K
+
+                            child: Text(
+                              'T16',
+                              style: TextStyle(color: Colors.grey.shade600),
+                            ),
+                          ),
+                          Gap(10),
+                          Container(
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return Choose_Date();
+                                    },
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 15, vertical: 10),
+                                decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'Book Now',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
                     ],
                   ),
@@ -197,11 +223,11 @@ class _MovieDetailState extends State<MovieDetail> {
             ),
             Container(
               width: size.width,
-              padding: EdgeInsets.only(top: 20, left: 15, right: 15),
+              padding: EdgeInsets.only(top: 25, left: 15, right: 15),
               child: Text(
                 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget semper risus. Nullam facilisis ligula sit amet justo vehicula, nec eleifend ipsum lacinia. Vivamus vestibulum eros eu dapibus vehicula.',
                 style: TextStyle(
-                    fontWeight: FontWeight.w400, color: Colors.grey[600]),
+                    fontWeight: FontWeight.w400, color: Colors.grey.shade500),
               ),
             ),
 
@@ -255,6 +281,7 @@ class _MovieDetailState extends State<MovieDetail> {
                 },
               ),
             ),
+            Gap(20),
           ],
         ),
       ),

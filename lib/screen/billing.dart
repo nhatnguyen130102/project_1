@@ -1,5 +1,6 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:project_1/screen/mainlayout.dart';
 
 class Billing extends StatefulWidget {
@@ -51,34 +52,35 @@ class _BillingState extends State<Billing> {
                             ),
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(top: 15),
-                              child: Text('DELUXE'),
-                            ),
-                            Container(
-                              child: Text('B 0000-12532-K'),
-                            ),
-                          ],
+                        Gap(15),
+                        Container(
+                          height: 200,
+                          width: size.width,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade200,
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
                         ),
-                        Horizontal_Line(size: size),
+                        Gap(20),
                         Container(
                           child: Center(
                             child: Text(
                               'TUE 08:00 PM',
                               style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.w600),
+                                  fontSize: 18, fontWeight: FontWeight.w600),
                             ),
                           ),
                         ),
+                        Gap(5),
                         Container(
                           child: Center(
                             child: Text(
-                                '236 Park Street, Pletson, Califorrnia CA 94588'),
+                              '236 Park Street, Pletson, Califorrnia CA 94588',
+                              style: TextStyle(color: Colors.grey.shade400),
+                            ),
                           ),
                         ),
+                        Gap(5),
                         Horizontal_Line(size: size),
                         Container(
                           child: Row(
@@ -93,6 +95,7 @@ class _BillingState extends State<Billing> {
                                       'APRIL',
                                       style: TextStyle(
                                         fontSize: 15,
+                                        color: Colors.grey.shade500,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
@@ -112,8 +115,10 @@ class _BillingState extends State<Billing> {
                                 child: Text(
                                   '/',
                                   style: TextStyle(
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.w100),
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.w100,
+                                    color: Colors.grey.shade400,
+                                  ),
                                 ),
                               ),
                               Column(
@@ -126,6 +131,7 @@ class _BillingState extends State<Billing> {
                                       style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.w500,
+                                        color: Colors.grey.shade500,
                                       ),
                                     ),
                                   ),
@@ -150,6 +156,7 @@ class _BillingState extends State<Billing> {
                                       style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.w500,
+                                        color: Colors.grey.shade500,
                                       ),
                                     ),
                                   ),
@@ -174,6 +181,7 @@ class _BillingState extends State<Billing> {
                                       style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.w500,
+                                        color: Colors.grey.shade500,
                                       ),
                                     ),
                                   ),
@@ -200,7 +208,7 @@ class _BillingState extends State<Billing> {
                               child: Text(
                                 'Total',
                                 style: TextStyle(
-                                  fontSize: 17,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -209,7 +217,7 @@ class _BillingState extends State<Billing> {
                               child: Text(
                                 '\$0.00',
                                 style: TextStyle(
-                                  fontSize: 17,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -238,13 +246,45 @@ class _BillingState extends State<Billing> {
                             ),
                           ],
                         ),
-                        BarcodeWidget(
-                          barcode: Barcode.code128(),
-                          data: 'A 08345655440834565544',
-                          height: 150,
-                          margin: EdgeInsets.symmetric(
-                            vertical: 15,
-                          ),
+                        Gap(30),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Booking ID',
+                                  style: TextStyle(
+                                    color: Colors.grey.shade500,
+                                  ),
+                                ),
+                                Gap(5),
+                                Text(
+                                  '112183555',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                Gap(20),
+                                SizedBox(
+                                  width: size.width / 2.5,
+                                  child: Text(
+                                    'Scan QR code at check-in counter.',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.grey.shade500,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            BarcodeWidget(
+                              barcode: Barcode.qrCode(),
+                              data: 'A 08345655440834565544',
+                              height: 100,
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -258,14 +298,14 @@ class _BillingState extends State<Billing> {
             left: 15,
             right: 15,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
                   height: 45,
-                  width: 160,
+                  width: 170,
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: Colors.black,
+                      color: Colors.grey.shade400,
                       width: 1,
                     ),
                     borderRadius: BorderRadius.circular(10),
@@ -273,6 +313,10 @@ class _BillingState extends State<Billing> {
                   child: Center(
                     child: Text(
                       'Cancel',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.grey.shade500,
+                      ),
                     ),
                   ),
                 ),
@@ -287,7 +331,7 @@ class _BillingState extends State<Billing> {
                   },
                   child: Container(
                     height: 45,
-                    width: 160,
+                    width: 170,
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: Colors.black,
@@ -301,6 +345,7 @@ class _BillingState extends State<Billing> {
                         'Confirm',
                         style: TextStyle(
                           color: Colors.white,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ),
@@ -327,9 +372,9 @@ class Horizontal_Line extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
-      height: 1,
+      height: .5,
       width: size.width,
-      color: const Color.fromARGB(255, 74, 74, 74),
+      color: Colors.grey.shade400,
     );
   }
 }
