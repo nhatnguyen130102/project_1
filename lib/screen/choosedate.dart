@@ -6,6 +6,7 @@ import 'package:selection_menu/selection_menu.dart';
 import 'package:selection_menu/components_configurations.dart';
 import '../component_widget/choosedate_modun.dart';
 import '../component_widget/headline_2_component.dart';
+import '../model/login_model.dart';
 
 class Choose_Date extends StatefulWidget {
   const Choose_Date({super.key});
@@ -36,9 +37,6 @@ class _Choose_DateState extends State<Choose_Date> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-
-
-
               //Choose-Date-------------------------------------
               HeadLine2Component(
                 StringA: 'Choose Date',
@@ -47,9 +45,7 @@ class _Choose_DateState extends State<Choose_Date> {
               Container(
                 width: size.width,
                 height: 100,
-                margin: EdgeInsets.only(
-                  top: 20, bottom: 25
-                ),
+                margin: EdgeInsets.only(top: 20, bottom: 25),
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: 10,
@@ -61,7 +57,6 @@ class _Choose_DateState extends State<Choose_Date> {
                   },
                 ),
               ),
-
 
               //Choose-Time-------------------------------------
               HeadLine2Component(
@@ -107,9 +102,16 @@ class _Choose_DateState extends State<Choose_Date> {
                                     ),
                                   ),
                                   Gap(10),
-                                  Icon(FontAwesome.circle, size: 4, color: Colors.grey[400],),
+                                  Icon(
+                                    FontAwesome.circle,
+                                    size: 4,
+                                    color: Colors.grey[400],
+                                  ),
                                   Gap(5),
-                                  Text('1.8 km', style: TextStyle(color: Colors.grey[400]),),
+                                  Text(
+                                    '1.8 km',
+                                    style: TextStyle(color: Colors.grey[400]),
+                                  ),
                                 ],
                               ),
                             ],

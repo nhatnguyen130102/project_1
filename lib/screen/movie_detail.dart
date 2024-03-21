@@ -4,10 +4,14 @@ import 'package:ionicons/ionicons.dart';
 import 'package:project_1/screen/choosedate.dart';
 import 'package:project_1/screen/rating.dart';
 import '../component_widget/headline_1_component.dart';
+import '../model/login_model.dart';
 
 class MovieDetail extends StatefulWidget {
-  final number;
-  MovieDetail({this.number, super.key});
+  final Map<String, dynamic> movie;
+  MovieDetail({
+    required this.movie,
+    super.key,
+  });
 
   @override
   State<MovieDetail> createState() => _MovieDetailState();
@@ -26,7 +30,7 @@ class _MovieDetailState extends State<MovieDetail> {
           },
         ),
         title: Text(
-          'MovieName ${widget.number}',
+          '${widget.movie['name']}',
         ),
       ),
       body: SingleChildScrollView(
@@ -34,192 +38,235 @@ class _MovieDetailState extends State<MovieDetail> {
         child: Column(
           children: [
             Gap(10),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                //Movie-Image
-                Container(
-                  margin: EdgeInsets.only(left: 15, right: 25),
-                  height: 200,
-                  width: 150,
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: Image.network(
-                        'https://i.pinimg.com/564x/93/cd/6f/93cd6f16d1e0a76a91f4beb6fd8e2a86.jpg',
-                        fit: BoxFit.cover,
-                      )),
-                ),
+            Container(
+              width: size.width,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  //Movie-Image
+                  Container(
+                    margin: EdgeInsets.only(left: 15, right: 25),
+                    height: 200,
+                    width: 150,
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(15),
+                        child: Image.network(
+                          widget.movie['image'],
+                          fit: BoxFit.cover,
+                        )),
+                  ),
 
-                //Movie-Info
-                Container(
-                  height: 200,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'MovieName ${widget.number}',
-                              softWrap: true,
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
-                            ),
-                            Gap(10),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.star_outline,
-                                  color: Colors.black,
-                                  size: 20,
+                  //Movie-Info
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${widget.movie['name']}',
+                                softWrap: true,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                Gap(4),
-                                Text(
-                                  '4.5',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.symmetric(
-                                    horizontal: 15,
+                              ),
+                              Gap(10),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.star_outline,
+                                    color: Colors.black,
+                                    size: 20,
                                   ),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      width: 0.7,
-                                      color: Colors.black,
+                                  Gap(4),
+                                  Text(
+                                    widget.movie['rating'].toString(),
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.symmetric(
+                                      horizontal: 15,
                                     ),
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 10,
-                                    vertical: 2,
-                                  ),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) {
-                                            return Rating_Page();
-                                          },
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        width: 0.7,
+                                        color: Colors.black,
+                                      ),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 10,
+                                      vertical: 2,
+                                    ),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return Rating_Page();
+                                            },
+                                          ),
+                                        );
+                                      },
+                                      child: Text(
+                                        '182 Ratings >',
+                                        style: TextStyle(
+                                          fontSize: 13,
                                         ),
-                                      );
-                                    },
-                                    child: Text(
-                                      '182 Ratings >',
-                                      style: TextStyle(
-                                        fontSize: 13,
                                       ),
                                     ),
                                   ),
+                                ],
+                              ),
+                              Gap(10),
+                              // Container(
+                              //   padding: const EdgeInsets.symmetric(
+                              //     vertical: 5,
+                              //     horizontal: 10,
+                              //   ),
+                              //   decoration: BoxDecoration(
+                              //     borderRadius: BorderRadius.circular(20),
+                              //     color: Colors.grey[200],
+                              //   ),
+                              //   child: Center(
+                              //     child: Text(
+                              //       'Genre',
+                              //     ),
+                              //   ),
+                              // ),
+                              // Container(
+                              //   padding: const EdgeInsets.symmetric(
+                              //       vertical: 5, horizontal: 10),
+                              //   decoration: BoxDecoration(
+                              //     borderRadius: BorderRadius.circular(20),
+
+                              //   ),
+                              //   child: Wrap(
+                              //     spacing: 8,
+                              //     children: (widget.movie['genre'] as String)
+                              //         .split(',')
+                              //         .map((genre) {
+                              //       return Chip(
+                              //         label: Text(genre.trim()),
+                              //       );
+                              //     }).toList(),
+                              //   ),
+                              // ),
+                              Container(
+                                height:
+                                    40, // Điều chỉnh chiều cao của danh sách
+                                child: ListView(
+                                  scrollDirection: Axis.horizontal,
+                                  children: (widget.movie['genre'] as String)
+                                      .split(',')
+                                      .map((genre) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 4),
+                                      child: Chip(
+                                        label: Text(genre.trim()),
+                                      ),
+                                    );
+                                  }).toList(),
                                 ),
-                              ],
+                              ),
+
+                              Gap(10),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Ionicons.time_outline,
+                                        size: 14,
+                                        color: Colors.grey.shade500,
+                                      ),
+                                      Gap(4),
+                                      Text(
+                                        '1h00',
+                                        style: TextStyle(
+                                          color: Colors.grey.shade500,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Gap(10),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        //Booking-Button
+                        Row(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 1, color: Colors.grey.shade400),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+
+                              //T16: for 16+, T18: for 18+
+                              //P, C, K
+
+                              child: Text(
+                                'T16',
+                                style: TextStyle(color: Colors.grey.shade600),
+                              ),
                             ),
                             Gap(10),
                             Container(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 5,
-                                horizontal: 10,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Colors.grey[200],
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'Genre',
-                                ),
-                              ),
-                            ),
-                            Gap(10),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Ionicons.time_outline,
-                                      size: 14,
-                                      color: Colors.grey.shade500,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return Choose_Date();
+                                      },
                                     ),
-                                    Gap(4),
-                                    Text(
-                                      '1h00',
+                                  );
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 10),
+                                  decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      'Book Now',
                                       style: TextStyle(
-                                        color: Colors.grey.shade500,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
                                       ),
                                     ),
-                                  ],
+                                  ),
                                 ),
-                                Gap(10),
-                              ],
+                              ),
                             ),
                           ],
                         ),
-                      ),
-
-                      //Booking-Button
-                      Row(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  width: 1, color: Colors.grey.shade400),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-
-                            //T16: for 16+, T18: for 18+
-                            //P, C, K
-
-                            child: Text(
-                              'T16',
-                              style: TextStyle(color: Colors.grey.shade600),
-                            ),
-                          ),
-                          Gap(10),
-                          Container(
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return Choose_Date();
-                                    },
-                                  ),
-                                );
-                              },
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 15, vertical: 10),
-                                decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    'Book Now',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             Container(
               width: size.width,

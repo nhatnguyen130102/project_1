@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:project_1/screen/billing.dart';
 
+import '../model/login_model.dart';
+
 class Booking extends StatefulWidget {
   final number;
   const Booking({this.number, super.key});

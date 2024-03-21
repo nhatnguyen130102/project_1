@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:project_1/screen/mainlayout.dart';
 
+import '../model/login_model.dart';
+
 class Billing extends StatefulWidget {
   const Billing({super.key});
 

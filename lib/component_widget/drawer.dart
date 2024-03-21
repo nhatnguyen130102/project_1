@@ -3,11 +3,15 @@ import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:project_1/screen/account.dart';
 
+import '../model/login_model.dart';
 import '../screen/search.dart';
 import '../screen/voucher.dart';
 
 class DrawerLeft extends StatelessWidget {
-  const DrawerLeft({super.key});
+  final isLoggedIn;
+  final username;
+  final userID;
+  const DrawerLeft({super.key, this.username, this.userID, this.isLoggedIn});
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +19,9 @@ class DrawerLeft extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          const UserAccountsDrawerHeader(
-            accountName: Text('Account Name'),
-            accountEmail: Text('Account Email'),
+          UserAccountsDrawerHeader(
+            accountName: isLoggedIn ? Text(username) : Text('Account Name'),
+            accountEmail: isLoggedIn ? Text(userID) : Text('Account Email'),
             currentAccountPicture: CircleAvatar(
               backgroundImage: NetworkImage(
                   'https://i.pinimg.com/564x/5b/04/6e/5b046e698036db4c57e70314a26fad70.jpg'),
@@ -95,7 +99,11 @@ class DrawerLeft extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Account(),
+                        builder: (context) => Account(
+                          userID: userID,
+                          username: username,
+                          isLoggedIn: isLoggedIn,
+                        ),
                       ),
                     );
                   },

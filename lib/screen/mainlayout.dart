@@ -1,14 +1,16 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:gap/gap.dart';
+import 'package:project_1/model/login_model.dart';
 import 'package:project_1/screen/notification.dart';
 import 'package:project_1/component_widget/drawer.dart';
 import 'package:project_1/screen/movie_detail.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../component_widget/headline_1_component.dart';
+import '../data/user_preferences.dart';
+import '../repository/movie_repository.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key});
@@ -18,7 +20,38 @@ class MainLayout extends StatefulWidget {
 }
 
 class _MainLayoutState extends State<MainLayout> {
-  final databaseReference = FirebaseDatabase.instance.reference();
+  late String username = '';
+  late String userID = '';
+  late bool isLoggedIn = false;
+  final MovieRepository _movieRepository = MovieRepository();
+  late Future<List<Map<String, dynamic>>> _moviesFuture;
+  @override
+  void initState() {
+    super.initState();
+    checkLoginStatus();
+    _moviesFuture = _movieRepository.getMovies();
+  }
+
+  void checkLoginStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+    if (isLoggedIn) {
+      String username = prefs.getString('username') ?? '';
+      String userID = prefs.getString('userID') ?? '';
+      setState(() {
+        this.isLoggedIn = isLoggedIn;
+        this.username = username;
+        this.userID = userID;
+      });
+    } else {
+      setState(() {
+        this.isLoggedIn = false;
+        this.username = '';
+        this.userID = '';
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     String _text = '';
@@ -50,7 +83,8 @@ class _MainLayoutState extends State<MainLayout> {
           ),
         ],
       ),
-      drawer: const DrawerLeft(),
+      drawer: DrawerLeft(
+          userID: userID, username: username, isLoggedIn: isLoggedIn),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
@@ -98,42 +132,105 @@ class _MainLayoutState extends State<MainLayout> {
             const Headline1Component(StringA: 'Now Playing'),
 
             //Now-Playing-Carousel-------------------------------------------------------
-            CarouselSlider(
-              options: CarouselOptions(
-                height: 200,
-                autoPlay: true, // Tự động lướt
-                autoPlayInterval:
-                    Duration(seconds: 3), // Thời gian mỗi lượt lướt
-                autoPlayAnimationDuration: Duration(
-                    milliseconds:
-                        800), // Thời gian chuyển đổi giữa các lượt lướt
-                autoPlayCurve: Curves
-                    .fastOutSlowIn, // Đường cong chuyển động của lướt tự động
-              ),
-              items: [1, 2, 3, 4, 5].map((i) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    return Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            child: Text('Text $i'),
-                            bottom: 20,
-                            left: 20,
+
+            FutureBuilder(
+              future: _moviesFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text(
+                      'Error: ${snapshot.error}',
+                    ),
+                  );
+                }
+                List<Map<String, dynamic>> movie_modun =
+                    snapshot.data as List<Map<String, dynamic>>;
+                return CarouselSlider(
+                  options: CarouselOptions(
+                    height: 200,
+                    autoPlay: true,
+                    autoPlayInterval: Duration(seconds: 3),
+                    autoPlayAnimationDuration: Duration(milliseconds: 800),
+                    autoPlayCurve: Curves.fastOutSlowIn,
+                  ),
+                  items: movie_modun.map((i) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MovieDetail(movie: i),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: EdgeInsets.symmetric(horizontal: 10),
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: NetworkImage(i['image']),
+                                fit: BoxFit.cover,
+                              ),
+                              // color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Center(
+                              child: Text(
+                                i['name'],
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            ),
                           ),
-                        ],
-                      ),
+                        );
+                      },
                     );
-                  },
+                  }).toList(),
                 );
-              }).toList(),
+              },
             ),
+            // CarouselSlider(
+            //   options: CarouselOptions(
+            //     height: 200,
+            //     autoPlay: true, // Tự động lướt
+            //     autoPlayInterval:
+            //         Duration(seconds: 3), // Thời gian mỗi lượt lướt
+            //     autoPlayAnimationDuration: Duration(
+            //         milliseconds:
+            //             800), // Thời gian chuyển đổi giữa các lượt lướt
+            //     autoPlayCurve: Curves
+            //         .fastOutSlowIn, // Đường cong chuyển động của lướt tự động
+            //   ),
+            //   items: [1, 2, 3, 4, 5].map((i) {
+            //     return Builder(
+            //       builder: (BuildContext context) {
+            //         return Container(
+            //           width: MediaQuery.of(context).size.width,
+            //           margin: EdgeInsets.symmetric(horizontal: 10),
+            //           decoration: BoxDecoration(
+            //             color: Colors.grey[200],
+            //             borderRadius: BorderRadius.circular(15),
+            //           ),
+            //           child: Stack(
+            //             children: [
+            //               Positioned(
+            //                 child: Text('Text $i'),
+            //                 bottom: 20,
+            //                 left: 20,
+            //               ),
+            //             ],
+            //           ),
+            //         );
+            //       },
+            //     );
+            //   }).toList(),
+            // ),
 
             const SizedBox(
               height: 25,
@@ -170,81 +267,107 @@ class _MainLayoutState extends State<MainLayout> {
             //Heading-ComingSoon
             const Headline1Component(StringA: 'Coming Soon'),
 
-            SizedBox(
-              height: 500,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      GestureDetector(
+            FutureBuilder(
+              future: _moviesFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text(
+                      'Error: ${snapshot.error}',
+                    ),
+                  );
+                }
+                List<Map<String, dynamic>> movies =
+                    snapshot.data as List<Map<String, dynamic>>;
+                return Container(
+                  margin: EdgeInsets.only(bottom: 30),
+                  height: 300,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: movies.length,
+                    itemBuilder: (context, index) {
+                      Map<String, dynamic> movie_modun = movies[index];
+                      return GestureDetector(
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (conetxt) {
-                                return MovieDetail();
-                              },
+                              builder: (context) =>
+                                  MovieDetail(movie: movie_modun),
                             ),
                           );
                         },
                         child: Container(
-                          margin: const EdgeInsets.only(
-                            left: 20,
-                          ),
+                          margin: const EdgeInsets.only(left: 20),
                           width: 200,
-                          height: 300,
+                          height: 200,
                           decoration: BoxDecoration(
-                            color: Colors.grey[200],
+                            image: DecorationImage(
+                              image: NetworkImage(movie_modun['image']),
+                              fit: BoxFit.cover,
+                            ),
                             borderRadius: BorderRadius.circular(15),
                           ),
-                        ),
-                      ),
-
-                      //Movie-Card-Info
-                      Container(
-                        width: 200,
-                        padding: EdgeInsets.only(top: 10, left: 15),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              child: Text(
-                                'This is a long title ${index}',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.w600),
-                              ),
-                            ),
-                            Gap(4),
-                            Row(
-                              children: [
-                                Container(
-                                  child: const Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withOpacity(0.5),
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(15),
+                                    bottomRight: Radius.circular(15),
                                   ),
                                 ),
-                                Gap(5),
-                                Container(
-                                  child: const Text(
-                                    '4.5',
-                                    style: TextStyle(
-                                      fontSize: 16,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      movie_modun['name'],
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                  ),
+                                    SizedBox(height: 5),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                          size: 20,
+                                        ),
+                                        SizedBox(width: 5),
+                                        Text(
+                                          '4.5',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  );
-                },
-              ),
+                      );
+                    },
+                  ),
+                );
+              },
             ),
           ],
         ),

@@ -2,10 +2,37 @@ import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:gap/gap.dart';
 import 'package:project_1/screen/login.dart';
+import 'package:project_1/screen/mainlayout.dart';
 import 'package:project_1/screen/orders.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class Account extends StatelessWidget {
-  const Account({super.key});
+class Account extends StatefulWidget {
+  final isLoggedIn;
+  final username;
+  final userID;
+  const Account({super.key, this.isLoggedIn, this.username, this.userID});
+
+  @override
+  State<Account> createState() => _AccountState();
+}
+
+class _AccountState extends State<Account> {
+  Future<void> _logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('isLoggedIn'); // Xóa trạng thái đăng nhập
+    await prefs.remove('username'); // Xóa tên người dùng
+    await prefs.remove('userID'); // Xóa tên người dùng
+
+    // Gán các giá trị state về giá trị mặc định hoặc rỗng
+    // setState(() {});
+    // Chuyển hướng về màn hình đăng nhập hoặc màn hình khác tùy thuộc vào logic của ứng dụng
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MainLayout(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +62,20 @@ class Account extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Account Name',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  Text('Account Email'),
+                  widget.isLoggedIn
+                      ? Text(
+                          widget.username,
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        )
+                      : Text(
+                          'Account Name',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                  widget.isLoggedIn
+                      ? Text(widget.userID)
+                      : Text('Account Email'),
                   Gap(20),
                   Container(
                     child: GestureDetector(
@@ -51,25 +87,38 @@ class Account extends StatelessWidget {
                           color: Colors.grey[800],
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return Login();
+                        child: widget.isLoggedIn
+                            ? GestureDetector(
+                                onTap: () {
+                                  _logout();
                                 },
+                                child: Center(
+                                  child: Text(
+                                    'Logout',
+                                    style: TextStyle(
+                                        fontSize: 17, color: Colors.white),
+                                  ),
+                                ),
+                              )
+                            : GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return Login();
+                                      },
+                                    ),
+                                  );
+                                },
+                                child: Center(
+                                  child: Text(
+                                    'Login',
+                                    style: TextStyle(
+                                        fontSize: 17, color: Colors.white),
+                                  ),
+                                ),
                               ),
-                            );
-                          },
-                          child: Center(
-                            child: Text(
-                              'Logout',
-                              style:
-                                  TextStyle(fontSize: 17, color: Colors.white),
-                            ),
-                          ),
-                        ),
                       ),
                     ),
                   ),
