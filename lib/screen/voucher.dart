@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_1/style/style.dart';
 
 import '../component_widget/widget_voucher.dart';
 
@@ -10,13 +11,13 @@ class Voucher extends StatefulWidget {
 }
 
 class _VoucherState extends State<Voucher> {
-  late TabController _tabController;
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: background,
+        foregroundColor: white,
         title: Text('Voucher'),
       ),
       body: Column(

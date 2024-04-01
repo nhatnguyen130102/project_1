@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_1/component_widget/search_modun.dart';
+import 'package:project_1/style/style.dart';
 
 class Search_Page extends StatefulWidget {
   const Search_Page({super.key});
@@ -15,6 +16,8 @@ class _Search_PageState extends State<Search_Page> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: background,
+        foregroundColor: white,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,

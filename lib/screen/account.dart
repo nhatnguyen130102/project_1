@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:project_1/screen/login.dart';
 import 'package:project_1/screen/mainlayout.dart';
 import 'package:project_1/screen/orders.dart';
+import 'package:project_1/style/style.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Account extends StatefulWidget {
@@ -39,6 +40,8 @@ class _AccountState extends State<Account> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: background,
+        foregroundColor: white,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios), // Biểu tượng menu
           onPressed: () {

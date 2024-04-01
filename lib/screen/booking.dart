@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:project_1/screen/billing.dart';
-
-import '../model/login_model.dart';
+import 'package:project_1/style/style.dart';
 
 class Booking extends StatefulWidget {
   final number;
@@ -20,6 +19,8 @@ class _BookingState extends State<Booking> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: background,
+        foregroundColor: white,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           onPressed: () {
@@ -40,8 +41,7 @@ class _BookingState extends State<Booking> {
               child: Container(
                 width: 1000, // Độ rộng của nội dung
                 height: size.height + 200, // Độ cao của nội dung
-                color: const Color.fromARGB(
-                    255, 255, 255, 255), // Màu sắc của nội dung
+                color: background, // Màu sắc của nội dung
                 child: Center(
                   child: Column(
                     children: [
@@ -100,6 +100,7 @@ class _BookingState extends State<Booking> {
                                 '${String.fromCharCode(65 + row - 1)}$column'; // Tạo tên ghế
 
                             // Tạo widget cho từng ghế
+                            // sửa về ghế
                             return GestureDetector(
                               onTap: () {},
                               child: Container(
@@ -175,7 +176,7 @@ class _BookingState extends State<Booking> {
                 height: 60,
                 margin: EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: Colors.black,
+                  color: yellow400,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: GestureDetector(
@@ -192,7 +193,7 @@ class _BookingState extends State<Booking> {
                   child: Center(
                     child: Text(
                       '\$0.00 - Checkout',
-                      style: TextStyle(color: Colors.white, fontSize: 18),
+                      style: TextStyle(color: black, fontSize: 18),
                     ),
                   ),
                 ),

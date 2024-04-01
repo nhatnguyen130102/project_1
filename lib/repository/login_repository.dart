@@ -4,7 +4,7 @@ import '../model/login_model.dart';
 
 class UserRepository {
   final CollectionReference usersCollection =
-      FirebaseFirestore.instance.collection('users');
+      FirebaseFirestore.instance.collection('user');
 
   // Phương thức để thêm người dùng mới vào Firestore
   Future<void> addUser(UserModel user) async {
@@ -38,7 +38,7 @@ class UserRepository {
     try {
       DocumentSnapshot snapshot = await usersCollection.doc(userID).get();
       if (snapshot.exists) {
-        return UserModel.fromMap(snapshot.data() as Map<String, dynamic>);
+        return UserModel.fromMap(snapshot.data() as DocumentSnapshot<Object?>);
       } else {
         return null;
       }
@@ -62,7 +62,7 @@ class UserRepository {
 
       if (userSnapshot.docs.isNotEmpty) {
         var userData = userSnapshot.docs.first.data();
-        return UserModel.fromMap(userData);
+        return UserModel.fromMap(userData as DocumentSnapshot<Object?>);
       } else {
         return null; // Trả về null nếu không tìm thấy người dùng
       }
@@ -78,7 +78,8 @@ class UserRepository {
       QuerySnapshot querySnapshot = await usersCollection.get();
       List<UserModel> userList = [];
       querySnapshot.docs.forEach((doc) {
-        userList.add(UserModel.fromMap(doc.data() as Map<String, dynamic>));
+        userList
+            .add(UserModel.fromMap(doc.data() as DocumentSnapshot<Object?>));
       });
       return userList;
     } catch (e) {

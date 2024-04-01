@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:project_1/style/style.dart';
 
 class Rating_Page extends StatefulWidget {
   const Rating_Page({super.key});
@@ -16,6 +17,8 @@ class _Rating_PageState extends State<Rating_Page> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: background,
+        foregroundColor: white,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           onPressed: () {
@@ -29,6 +32,9 @@ class _Rating_PageState extends State<Rating_Page> {
         ),
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            //Header--------
             children: [
               Row(
                 children: [
@@ -39,9 +45,11 @@ class _Rating_PageState extends State<Rating_Page> {
                       Row(
                         children: [
                           Icon(
-                            Icons.star_outline_outlined,
+                            Icons.star,
+                            color: Colors.amber,
                             size: 30,
                           ),
+                          Gap(5),
                           Text(
                             '4.9',
                             style: TextStyle(
@@ -50,69 +58,33 @@ class _Rating_PageState extends State<Rating_Page> {
                           ),
                         ],
                       ),
+                      Gap(2),
                       Text(
                         '182 Ratings',
                         style: TextStyle(
-                          fontSize: 13,
+                          color: Colors.grey.shade500,
+                          fontSize: 12,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                     ],
                   ),
+
+                  //Selection menu----------------------------
                   Container(
                     margin: EdgeInsets.only(
                       left: 20,
                     ),
                     padding: EdgeInsets.symmetric(
                       vertical: 0,
-                      horizontal: 10,
+                      horizontal: 15,
                     ),
                     decoration: BoxDecoration(
                       border: Border.all(
                         width: 1,
-                        color: Colors.black,
+                        color: Colors.grey.shade300,
                       ),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: DropdownButton<String>(
-                      // underline: null,
-                      value: _selectedItem,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          _selectedItem = newValue!;
-                        });
-                      },
-                      items: <String>[
-                        '5 stars',
-                        '4 stars',
-                        '3 stars',
-                        '2 stars',
-                        '1 stars'
-                      ].map<DropdownMenuItem<String>>(
-                        (String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        },
-                      ).toList(),
-                      underline: SizedBox(), // Tắt khung hình vuông
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(
-                      left: 15,
-                    ),
-                    padding: EdgeInsets.symmetric(
-                      vertical: 0,
-                      horizontal: 10,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 1,
-                        color: Colors.black,
-                      ),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(30),
                     ),
                     child: DropdownButton<String>(
                       // underline: null,
@@ -141,29 +113,30 @@ class _Rating_PageState extends State<Rating_Page> {
                   ),
                 ],
               ),
-              Gap(20),
-              Row(
+              Gap(30),
+              Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Ratings',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Gap(15),
+                  Gap(5),
                   RatingBar.builder(
                     initialRating: 5,
                     minRating: 1,
                     direction: Axis.horizontal,
-                    allowHalfRating: true,
+                    allowHalfRating: false,
                     itemCount: 5,
                     itemPadding: EdgeInsets.symmetric(horizontal: 0),
                     itemBuilder: (context, _) => Icon(
-                      Icons.star_outline,
+                      Icons.star,
                       color: Colors.amber,
+                      size: 16,
                     ),
                     onRatingUpdate: (rating) {
                       print(rating);

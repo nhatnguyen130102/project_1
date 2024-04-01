@@ -1,15 +1,14 @@
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:gap/gap.dart';
-import 'package:project_1/model/login_model.dart';
 import 'package:project_1/screen/notification.dart';
 import 'package:project_1/component_widget/drawer.dart';
 import 'package:project_1/screen/movie_detail.dart';
+import 'package:project_1/style/style.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:shadow/shadow.dart';
 import '../component_widget/headline_1_component.dart';
-import '../data/user_preferences.dart';
 import '../repository/movie_repository.dart';
 
 class MainLayout extends StatefulWidget {
@@ -54,10 +53,11 @@ class _MainLayoutState extends State<MainLayout> {
 
   @override
   Widget build(BuildContext context) {
-    String _text = '';
     // Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: background,
+        foregroundColor: white,
         centerTitle: true,
         title: const Center(
           child: Text(
@@ -99,8 +99,7 @@ class _MainLayoutState extends State<MainLayout> {
                     child: TextField(
                       onChanged: (text) {
                         setState(() {
-                          _text =
-                              text; // Update the text variable when text changes
+// Update the text variable when text changes
                         });
                       },
                       cursorColor: Colors.grey,
@@ -175,16 +174,49 @@ class _MainLayoutState extends State<MainLayout> {
                             margin: EdgeInsets.symmetric(horizontal: 10),
                             decoration: BoxDecoration(
                               image: DecorationImage(
-                                image: NetworkImage(i['image']),
+                                image: NetworkImage(i['banner']),
                                 fit: BoxFit.cover,
                               ),
                               // color: Colors.grey[200],
                               borderRadius: BorderRadius.circular(15),
                             ),
-                            child: Center(
-                              child: Text(
-                                i['name'],
-                                style: TextStyle(fontSize: 15),
+                            child: Container(
+                              padding:
+                                  const EdgeInsets.fromLTRB(20, 130, 10, 20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    i['name'],
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.grey.shade100,
+                                    ),
+                                  ),
+                                  Gap(2),
+                                  Row(
+                                    children: [
+                                      Text(i['genre'],
+                                          style: TextStyle(
+                                            color: Colors.grey.shade100,
+                                          )),
+                                      Gap(4),
+                                      Text(
+                                        '•',
+                                        style: TextStyle(color: Colors.amber),
+                                      ),
+                                      Gap(4),
+                                      Text(i['age'],
+                                          style: TextStyle(
+                                            color: Colors.grey.shade100,
+                                          )),
+                                    ],
+                                  )
+                                ],
                               ),
                             ),
                           ),
@@ -195,42 +227,6 @@ class _MainLayoutState extends State<MainLayout> {
                 );
               },
             ),
-            // CarouselSlider(
-            //   options: CarouselOptions(
-            //     height: 200,
-            //     autoPlay: true, // Tự động lướt
-            //     autoPlayInterval:
-            //         Duration(seconds: 3), // Thời gian mỗi lượt lướt
-            //     autoPlayAnimationDuration: Duration(
-            //         milliseconds:
-            //             800), // Thời gian chuyển đổi giữa các lượt lướt
-            //     autoPlayCurve: Curves
-            //         .fastOutSlowIn, // Đường cong chuyển động của lướt tự động
-            //   ),
-            //   items: [1, 2, 3, 4, 5].map((i) {
-            //     return Builder(
-            //       builder: (BuildContext context) {
-            //         return Container(
-            //           width: MediaQuery.of(context).size.width,
-            //           margin: EdgeInsets.symmetric(horizontal: 10),
-            //           decoration: BoxDecoration(
-            //             color: Colors.grey[200],
-            //             borderRadius: BorderRadius.circular(15),
-            //           ),
-            //           child: Stack(
-            //             children: [
-            //               Positioned(
-            //                 child: Text('Text $i'),
-            //                 bottom: 20,
-            //                 left: 20,
-            //               ),
-            //             ],
-            //           ),
-            //         );
-            //       },
-            //     );
-            //   }).toList(),
-            // ),
 
             const SizedBox(
               height: 25,
@@ -250,14 +246,17 @@ class _MainLayoutState extends State<MainLayout> {
                         left: 15,
                       ),
                       padding: const EdgeInsets.symmetric(
-                        vertical: 10,
                         horizontal: 15,
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         color: Colors.grey[200],
                       ),
-                      child: Center(child: Text('Option $index')),
+                      child: Center(
+                          child: Text(
+                        'Category $index',
+                        style: TextStyle(color: black),
+                      )),
                     ),
                   );
                 },
@@ -318,7 +317,7 @@ class _MainLayoutState extends State<MainLayout> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                padding: const EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(15),
                                 decoration: BoxDecoration(
                                   color: Colors.black.withOpacity(0.5),
                                   borderRadius: BorderRadius.only(

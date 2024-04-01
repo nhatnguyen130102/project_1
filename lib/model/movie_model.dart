@@ -4,11 +4,13 @@ class Movie {
   late String movieID;
   late String name;
   late String image;
-  late String fromDate;
-  late String toDate;
-  late List<String> trailer;
-  late List<String> genre;
-  late List<String> director;
+  late String banner;
+  late String age;
+  late String summary;
+  late String date;
+  late String trailer;
+  late String genre;
+  late String director;
   late List<Actor> actors;
   late double rating;
 
@@ -16,8 +18,10 @@ class Movie {
     required this.movieID,
     required this.name,
     required this.image,
-    required this.fromDate,
-    required this.toDate,
+    required this.banner,
+    required this.age,
+    required this.summary,
+    required this.date,
     required this.trailer,
     required this.genre,
     required this.director,
@@ -29,14 +33,16 @@ class Movie {
   factory Movie.fromFirestore(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return Movie(
-      movieID: doc.id,
+      movieID: data['movieID'],
       name: data['name'] ?? '',
       image: data['image'] ?? '',
-      fromDate: data['fromDate'] ?? '',
-      toDate: data['toDate'] ?? '',
-      trailer: List<String>.from(data['trailers'] ?? []),
-      genre: List<String>.from(data['genres'] ?? []),
-      director: List<String>.from(data['directors'] ?? []),
+      banner: data['banner'] ?? '',
+      age: data['age'] ?? '',
+      summary: data['summary'] ?? '',
+      date: data['date'] ?? '',
+      trailer: data['trailer'] ?? '',
+      genre: data['genre'] ?? '',
+      director: data['director'] ?? '',
       actors: (data['actors'] as List<dynamic>?)
               ?.map((actorData) => Actor.fromMap(actorData))
               .toList() ??

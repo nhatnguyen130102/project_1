@@ -2,8 +2,7 @@ import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:project_1/screen/mainlayout.dart';
-
-import '../model/login_model.dart';
+import 'package:project_1/style/style.dart';
 
 class Billing extends StatefulWidget {
   const Billing({super.key});
@@ -19,6 +18,8 @@ class _BillingState extends State<Billing> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: background,
+        foregroundColor: white,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           onPressed: () {

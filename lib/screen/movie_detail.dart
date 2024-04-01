@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:project_1/screen/choosedate.dart';
+import 'package:project_1/screen/mainlayout.dart';
+import 'package:expandable_text/expandable_text.dart';
 import 'package:project_1/screen/rating.dart';
+import 'package:project_1/style/style.dart';
 import '../component_widget/headline_1_component.dart';
-import '../model/login_model.dart';
+import '../model/screening_model.dart';
+import '../repository/screening_repository.dart';
+import 'choosedate.dart';
 
 class MovieDetail extends StatefulWidget {
   final Map<String, dynamic> movie;
@@ -18,11 +22,24 @@ class MovieDetail extends StatefulWidget {
 }
 
 class _MovieDetailState extends State<MovieDetail> {
+  late String movieId = widget.movie['movieID'];
+  late Future<List<ScreeningModel>> _screeningsFuture;
+  late ScreeningRepository _repository;
+
+  @override
+  void initState() {
+    super.initState();
+    _repository = ScreeningRepository();
+    _screeningsFuture = _repository.getScreeningsByMovieId(movieId);
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: background,
+        foregroundColor: white,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           onPressed: () {
@@ -36,6 +53,8 @@ class _MovieDetailState extends State<MovieDetail> {
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Gap(10),
             Container(
@@ -45,11 +64,11 @@ class _MovieDetailState extends State<MovieDetail> {
                 children: [
                   //Movie-Image
                   Container(
-                    margin: EdgeInsets.only(left: 15, right: 25),
-                    height: 200,
+                    margin: EdgeInsets.only(left: 15, right: 15),
+                    height: 220,
                     width: 150,
                     child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
+                        borderRadius: BorderRadius.circular(10),
                         child: Image.network(
                           widget.movie['image'],
                           fit: BoxFit.cover,
@@ -60,13 +79,14 @@ class _MovieDetailState extends State<MovieDetail> {
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
+                          height: 140,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              //Name-----------------
                               Text(
                                 '${widget.movie['name']}',
                                 softWrap: true,
@@ -77,15 +97,18 @@ class _MovieDetailState extends State<MovieDetail> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Gap(10),
+
+                              Gap(4),
+
+                              //Ratings-----------------
                               Row(
                                 children: [
                                   Icon(
-                                    Icons.star_outline,
-                                    color: Colors.black,
+                                    Icons.star,
+                                    color: Colors.amber,
                                     size: 20,
                                   ),
-                                  Gap(4),
+                                  Gap(2),
                                   Text(
                                     widget.movie['rating'].toString(),
                                     style: TextStyle(
@@ -98,8 +121,8 @@ class _MovieDetailState extends State<MovieDetail> {
                                     ),
                                     decoration: BoxDecoration(
                                       border: Border.all(
-                                        width: 0.7,
-                                        color: Colors.black,
+                                        width: 0.8,
+                                        color: Colors.grey.shade400,
                                       ),
                                       borderRadius: BorderRadius.circular(15),
                                     ),
@@ -119,69 +142,25 @@ class _MovieDetailState extends State<MovieDetail> {
                                         );
                                       },
                                       child: Text(
-                                        '182 Ratings >',
+                                        '182 ratings',
                                         style: TextStyle(
-                                          fontSize: 13,
-                                        ),
+                                            fontSize: 12,
+                                            color: Colors.grey.shade500),
                                       ),
                                     ),
                                   ),
                                 ],
                               ),
-                              Gap(10),
-                              // Container(
-                              //   padding: const EdgeInsets.symmetric(
-                              //     vertical: 5,
-                              //     horizontal: 10,
-                              //   ),
-                              //   decoration: BoxDecoration(
-                              //     borderRadius: BorderRadius.circular(20),
-                              //     color: Colors.grey[200],
-                              //   ),
-                              //   child: Center(
-                              //     child: Text(
-                              //       'Genre',
-                              //     ),
-                              //   ),
-                              // ),
-                              // Container(
-                              //   padding: const EdgeInsets.symmetric(
-                              //       vertical: 5, horizontal: 10),
-                              //   decoration: BoxDecoration(
-                              //     borderRadius: BorderRadius.circular(20),
 
-                              //   ),
-                              //   child: Wrap(
-                              //     spacing: 8,
-                              //     children: (widget.movie['genre'] as String)
-                              //         .split(',')
-                              //         .map((genre) {
-                              //       return Chip(
-                              //         label: Text(genre.trim()),
-                              //       );
-                              //     }).toList(),
-                              //   ),
-                              // ),
-                              Container(
-                                height:
-                                    40, // Điều chỉnh chiều cao của danh sách
-                                child: ListView(
-                                  scrollDirection: Axis.horizontal,
-                                  children: (widget.movie['genre'] as String)
-                                      .split(',')
-                                      .map((genre) {
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 4),
-                                      child: Chip(
-                                        label: Text(genre.trim()),
-                                      ),
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
+                              Gap(8),
 
+                              Text('${widget.movie['date']}',
+                                  style: TextStyle(
+                                    color: Colors.blueGrey,
+                                    fontSize: 12,
+                                  )),
                               Gap(10),
+                              //Movie Length--------
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -190,32 +169,42 @@ class _MovieDetailState extends State<MovieDetail> {
                                       Icon(
                                         Ionicons.time_outline,
                                         size: 14,
-                                        color: Colors.grey.shade500,
+                                        color: Colors.grey.shade300,
                                       ),
                                       Gap(4),
                                       Text(
                                         '1h00',
                                         style: TextStyle(
-                                          color: Colors.grey.shade500,
+                                          color: Colors.grey.shade300,
+                                          fontSize: 12,
                                         ),
                                       ),
                                     ],
                                   ),
-                                  Gap(10),
                                 ],
+                              ),
+
+                              Gap(8),
+
+                              //Genre----------------------------
+                              Text(
+                                widget.movie['genre'].toString().trim(),
+                                style: TextStyle(
+                                    fontSize: 12, color: Colors.red.shade400),
                               ),
                             ],
                           ),
                         ),
 
+                        Gap(38),
+
                         //Booking-Button
                         Row(
                           children: [
                             Container(
-                              padding: EdgeInsets.all(8),
+                              padding: EdgeInsets.all(10),
                               decoration: BoxDecoration(
-                                border: Border.all(
-                                    width: 1, color: Colors.grey.shade400),
+                                border: Border.all(width: 1, color: white),
                                 borderRadius: BorderRadius.circular(10),
                               ),
 
@@ -223,19 +212,21 @@ class _MovieDetailState extends State<MovieDetail> {
                               //P, C, K
 
                               child: Text(
-                                'T16',
-                                style: TextStyle(color: Colors.grey.shade600),
+                                widget.movie['age'],
+                                style: TextStyle(color: white),
                               ),
                             ),
                             Gap(10),
                             Container(
                               child: GestureDetector(
-                                onTap: () {
+                                onTap: () async {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) {
-                                        return Choose_Date();
+                                        return Choose_Date(
+                                            screenings: _screeningsFuture);
+                                        // return MainLayout();
                                       },
                                     ),
                                   );
@@ -244,7 +235,7 @@ class _MovieDetailState extends State<MovieDetail> {
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 15, vertical: 10),
                                   decoration: BoxDecoration(
-                                    color: Colors.black,
+                                    color: red500,
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Center(
@@ -269,14 +260,17 @@ class _MovieDetailState extends State<MovieDetail> {
               ),
             ),
             Container(
-              width: size.width,
-              padding: EdgeInsets.only(top: 25, left: 15, right: 15),
-              child: Text(
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget semper risus. Nullam facilisis ligula sit amet justo vehicula, nec eleifend ipsum lacinia. Vivamus vestibulum eros eu dapibus vehicula.',
-                style: TextStyle(
-                    fontWeight: FontWeight.w400, color: Colors.grey.shade500),
-              ),
-            ),
+                width: size.width,
+                padding: EdgeInsets.only(top: 25, left: 15, right: 15),
+                child: ExpandableText(
+                  widget.movie['summary'].toString().trim(),
+                  style: TextStyle(
+                      fontWeight: FontWeight.w400, color: Colors.grey.shade400),
+                  expandText: 'show more',
+                  collapseText: 'show less',
+                  maxLines: 3,
+                  linkColor: Colors.blue,
+                )),
 
             //Actor-Slider
             Headline1Component(StringA: 'Actor'),
@@ -294,7 +288,7 @@ class _MovieDetailState extends State<MovieDetail> {
 
                     // ClipRRect -> Widget that clips its child using a rounded retangle.
                     child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(5),
                         child: Image.network(
                           'https://i.pinimg.com/564x/93/cd/6f/93cd6f16d1e0a76a91f4beb6fd8e2a86.jpg',
                           fit: BoxFit.cover,
@@ -318,7 +312,7 @@ class _MovieDetailState extends State<MovieDetail> {
                     height: 150,
                     width: 250,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(5),
                       child: Image.network(
                         'https://i.pinimg.com/564x/7c/d6/dc/7cd6dc7b34af544375336c288aec69da.jpg',
                         fit: BoxFit.cover,

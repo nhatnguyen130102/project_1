@@ -18,9 +18,10 @@ class UserModel {
   });
 
   // Phương thức từMap để tạo đối tượng User từ dữ liệu trả về từ Firestore
-  factory UserModel.fromMap(Map<String, dynamic> data) {
+  factory UserModel.fromMap(DocumentSnapshot doc) {
+    Map data = doc.data() as Map<String, dynamic>;
     return UserModel(
-      userID: data['userID'] ?? '',
+      userID: doc.id,
       username: data['username'] ?? '',
       password: data['password'] ?? '',
       role: data['role'] ?? '',

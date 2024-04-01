@@ -1,10 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:project_1/test/testdata.dart';
+import 'package:project_1/screen/mainlayout.dart';
+import 'style/style.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
-import 'package:project_1/screen/mainlayout.dart';
 
-import 'model/login_model.dart';
+import 'test/testScreening.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,8 +21,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
+      // themeMode: ThemeMode.dark,
+      // darkTheme: ThemeData.dark(),
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        primarySwatch: Colors.purple,
+        scaffoldBackgroundColor: background,
+        textTheme: Theme.of(context)
+            .textTheme
+            .apply(bodyColor: white, displayColor: white),
         useMaterial3: true,
       ),
       home: MainLayout(),

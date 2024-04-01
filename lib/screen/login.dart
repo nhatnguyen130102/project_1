@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:project_1/screen/mainlayout.dart';
-import 'package:project_1/test/afterlogin.dart';
+import 'package:project_1/style/style.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:project_1/data/user_preferences.dart';
 
 import '../model/login_model.dart';
 import '../repository/login_repository.dart';
@@ -79,6 +78,8 @@ class _LoginState extends State<Login> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: background,
+        foregroundColor: white,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);

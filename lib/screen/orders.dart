@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_1/component_widget/movie_order.dart';
+import 'package:project_1/style/style.dart';
 
 class Orders extends StatefulWidget {
   const Orders({super.key});
@@ -28,6 +29,8 @@ class _OrdersState extends State<Orders> with SingleTickerProviderStateMixin {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: background,
+        foregroundColor: white,
         title: Text('Orders'),
         bottom: TabBar(
           controller: _tabController,

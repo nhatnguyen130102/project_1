@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_1/style/style.dart';
 import '../component_widget/infomation_notification.dart';
 import '../component_widget/promotion_notification.dart';
 import '../component_widget/transaction_notification.dart';
@@ -29,8 +30,10 @@ class _Notification_layoutState extends State<Notification_layout>
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 237, 237, 237),
+      backgroundColor: purple800,
       appBar: AppBar(
+        backgroundColor: background,
+        foregroundColor: white,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           onPressed: () {
