@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:project_1/screen/account.dart';
+import 'package:project_1/style/style.dart';
 
 import '../model/login_model.dart';
 import '../screen/search.dart';
@@ -27,7 +28,7 @@ class DrawerLeft extends StatelessWidget {
                   'https://i.pinimg.com/564x/5b/04/6e/5b046e698036db4c57e70314a26fad70.jpg'),
             ),
             decoration: BoxDecoration(
-              color: Colors.pinkAccent,
+              color: blue700,
               image: DecorationImage(
                 image: NetworkImage(
                     'https://i.pinimg.com/564x/5b/04/6e/5b046e698036db4c57e70314a26fad70.jpg'),

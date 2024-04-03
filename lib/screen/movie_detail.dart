@@ -1,12 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:project_1/screen/mainlayout.dart';
+
 import 'package:expandable_text/expandable_text.dart';
 import 'package:project_1/screen/rating.dart';
 import 'package:project_1/style/style.dart';
 import '../component_widget/headline_1_component.dart';
+import '../model/movie_model.dart';
 import '../model/screening_model.dart';
+import '../repository/movie_repository.dart';
 import '../repository/screening_repository.dart';
 import 'choosedate.dart';
 
@@ -35,6 +38,12 @@ class _MovieDetailState extends State<MovieDetail> {
 
   @override
   Widget build(BuildContext context) {
+    // List<Actor> actors = [];
+    // if (widget.movie.containsKey('actors')) {
+    //   List<dynamic> actorList = widget.movie['actors'];
+    //   actors = actorList.map((actor) => Actor.fromMap(actor)).toList();
+    // }
+
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -81,7 +90,7 @@ class _MovieDetailState extends State<MovieDetail> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          height: 140,
+                          height: 180,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,7 +107,7 @@ class _MovieDetailState extends State<MovieDetail> {
                                 ),
                               ),
 
-                              Gap(4),
+                              Gap(6),
 
                               //Ratings-----------------
                               Row(
@@ -154,49 +163,70 @@ class _MovieDetailState extends State<MovieDetail> {
 
                               Gap(8),
 
-                              Text('${widget.movie['date']}',
-                                  style: TextStyle(
-                                    color: Colors.blueGrey,
-                                    fontSize: 12,
-                                  )),
-                              Gap(10),
-                              //Movie Length--------
                               Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  //Movie Length--------
                                   Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Icon(
-                                        Ionicons.time_outline,
-                                        size: 14,
-                                        color: Colors.grey.shade300,
-                                      ),
-                                      Gap(4),
-                                      Text(
-                                        '1h00',
-                                        style: TextStyle(
-                                          color: Colors.grey.shade300,
-                                          fontSize: 12,
-                                        ),
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Ionicons.time_outline,
+                                            size: 14,
+                                            color: Colors.grey.shade300,
+                                          ),
+                                          Gap(4),
+                                          Text(
+                                            '1h00',
+                                            style: TextStyle(
+                                              color: Colors.grey.shade300,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
+                                  Gap(10),
+                                  Text('·',
+                                      style: TextStyle(
+                                        color: Colors.grey.shade300,
+                                        fontSize: 12,
+                                      )),
+                                  Gap(10),
+                                  //date
+                                  Text('${widget.movie['date']}',
+                                      style: TextStyle(
+                                        color: Colors.grey.shade300,
+                                        fontSize: 12,
+                                      )),
                                 ],
                               ),
 
-                              Gap(8),
-
+                              Gap(10),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 6, horizontal: 10),
+                                decoration: BoxDecoration(
+                                    color: yellow100,
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: Text('${widget.movie['director']}',
+                                    style: TextStyle(
+                                      color: black,
+                                      fontSize: 12,
+                                    )),
+                              ),
+                              Gap(10),
                               //Genre----------------------------
                               Text(
                                 widget.movie['genre'].toString().trim(),
-                                style: TextStyle(
-                                    fontSize: 12, color: Colors.red.shade400),
+                                style: TextStyle(fontSize: 14, color: white),
                               ),
                             ],
                           ),
                         ),
-
-                        Gap(38),
 
                         //Booking-Button
                         Row(
@@ -274,29 +304,69 @@ class _MovieDetailState extends State<MovieDetail> {
 
             //Actor-Slider
             Headline1Component(StringA: 'Actor'),
-            Container(
-              margin: EdgeInsets.only(left: 15),
-              height: 100,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return Container(
-                    margin: EdgeInsets.only(right: 15),
-                    height: 100,
-                    width: 100,
 
-                    // ClipRRect -> Widget that clips its child using a rounded retangle.
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
-                        child: Image.network(
-                          'https://i.pinimg.com/564x/93/cd/6f/93cd6f16d1e0a76a91f4beb6fd8e2a86.jpg',
-                          fit: BoxFit.cover,
-                        )),
-                  );
-                },
-              ),
+            FutureBuilder<List<Actor>>(
+              future: MovieRepository().getAllActorsForMovie(movieId),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator(); // Hiển thị loading indicator khi đang tải dữ liệu
+                } else {
+                  if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    List<Actor> actors = snapshot.data ??
+                        []; // Lấy danh sách diễn viên từ snapshot
+                    return Container(
+                      margin: EdgeInsets.only(left: 15),
+                      height: 100,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: actors.length,
+                        itemBuilder: (context, index) {
+                          Actor actor = actors[index];
+                          return Container(
+                            margin: EdgeInsets.only(right: 15),
+                            height: 100,
+                            width: 100,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(5),
+                              child: Image.network(
+                                actor.image, // Hiển thị hình ảnh của diễn viên
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  }
+                }
+              },
             ),
+
+            // Container(
+            //   margin: EdgeInsets.only(left: 15),
+            //   height: 100,
+            //   child: ListView.builder(
+            //     scrollDirection: Axis.horizontal,
+            //     itemCount: 10,
+            //     itemBuilder: (context, index) {
+            //       return Container(
+            //         margin: EdgeInsets.only(right: 15),
+            //         height: 100,
+            //         width: 100,
+
+            //         // ClipRRect -> Widget that clips its child using a rounded retangle.
+            //         child: ClipRRect(
+            //             borderRadius: BorderRadius.circular(5),
+            //             child: Image.network(
+            //               'https://i.pinimg.com/564x/93/cd/6f/93cd6f16d1e0a76a91f4beb6fd8e2a86.jpg',
+            //               fit: BoxFit.cover,
+            //             )),
+            //       );
+            //     },
+            //   ),
+            // ),
 
             //Trailer-Slider
             Headline1Component(StringA: 'Trailer'),

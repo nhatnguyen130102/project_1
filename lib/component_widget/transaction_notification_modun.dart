@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_1/screen/billing.dart';
+import 'package:project_1/style/style.dart';
 
 class Transaction_Notification_Modun extends StatelessWidget {
   const Transaction_Notification_Modun({
@@ -26,7 +27,7 @@ class Transaction_Notification_Modun extends StatelessWidget {
         width: size.width * 0.9,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
           children: [
@@ -48,18 +49,20 @@ class Transaction_Notification_Modun extends StatelessWidget {
               child: Text(
                 'Notice of payment',
                 style: TextStyle(
-                  fontSize: 15,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
+                  color: black,
                 ),
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 15, left: 15),
+              margin: EdgeInsets.only(top: 10, left: 15),
               alignment: Alignment.topLeft,
               child: Text(
                 'ACB: Acc 12341234',
                 style: TextStyle(
                   fontSize: 15,
+                  color: black,
                 ),
               ),
             ),
@@ -70,16 +73,18 @@ class Transaction_Notification_Modun extends StatelessWidget {
                 'Transfer to: CINEON - B 1234-1234-Q',
                 style: TextStyle(
                   fontSize: 15,
+                  color: black,
                 ),
               ),
             ),
             Container(
-              margin: EdgeInsets.only(left: 15),
+              margin: EdgeInsets.only(top: 10, left: 15),
               alignment: Alignment.topLeft,
               child: Text(
-                'Amount: 685.000 (VND) - ID 123456',
+                'Amount: 685.000 (VND) - ID: 123456',
                 style: TextStyle(
                   fontSize: 15,
+                  color: black.withOpacity(0.5),
                 ),
               ),
             ),

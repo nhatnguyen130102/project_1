@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 const white = Color(0xFFFFFFFF);
 const black = Color(0xFF000000);
 const background = Color(0xFF0A0043);
+const bgAccent = Color.fromARGB(255, 39, 11, 197);
 
 //purple
 const purple100 = Color(0xFFEDC8FA);

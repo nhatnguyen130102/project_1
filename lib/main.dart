@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       // themeMode: ThemeMode.dark,
       // darkTheme: ThemeData.dark(),
       theme: ThemeData(
-        primarySwatch: Colors.purple,
+        primarySwatch: Colors.blue,
         scaffoldBackgroundColor: background,
         textTheme: Theme.of(context)
             .textTheme

@@ -30,7 +30,7 @@ class _Notification_layoutState extends State<Notification_layout>
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: purple800,
+      backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
         backgroundColor: background,
         foregroundColor: white,
@@ -46,6 +46,8 @@ class _Notification_layoutState extends State<Notification_layout>
         ),
         bottom: TabBar(
           controller: _tabController,
+          labelColor: white,
+          unselectedLabelColor: white.withOpacity(0.5),
           tabs: [
             Tab(
               text: 'Transaction',

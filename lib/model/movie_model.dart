@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/src/widgets/basic.dart';
 
 class Movie {
-  late String movieID;
+  late String movieID; // Document ID
   late String name;
   late String image;
   late String banner;
@@ -11,9 +12,11 @@ class Movie {
   late String trailer;
   late String genre;
   late String director;
-  late List<Actor> actors;
+  late List<Actor> actor;
   late double rating;
+  late String time;
 
+  // Constructor
   Movie({
     required this.movieID,
     required this.name,
@@ -25,31 +28,31 @@ class Movie {
     required this.trailer,
     required this.genre,
     required this.director,
-    required this.actors,
+    required this.actor,
     required this.rating,
   });
 
-  // Factory constructor từ Firestore DocumentSnapshot
-  factory Movie.fromFirestore(DocumentSnapshot doc) {
-    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+  // Factory method to create Movie object from a DocumentSnapshot
+  factory Movie.fromSnapshot(DocumentSnapshot doc) {
+    Map data = doc.data() as Map<String, dynamic>;
     return Movie(
-      movieID: data['movieID'],
+      movieID: data['movieID'] ?? '', // Assign Document ID to movieID
       name: data['name'] ?? '',
       image: data['image'] ?? '',
       banner: data['banner'] ?? '',
       age: data['age'] ?? '',
       summary: data['summary'] ?? '',
-      date: data['date'] ?? '',
+      date: data['date'] ?? Timestamp.now(),
       trailer: data['trailer'] ?? '',
       genre: data['genre'] ?? '',
       director: data['director'] ?? '',
-      actors: (data['actors'] as List<dynamic>?)
-              ?.map((actorData) => Actor.fromMap(actorData))
-              .toList() ??
-          [],
-      rating: (data['rating'] ?? 0.0).toDouble(),
+      actor: List<Actor>.from(
+          (data['actors'] ?? []).map((actor) => Actor.fromMap(actor))),
+      rating: (data['rating'] ?? 0).toDouble(),
     );
   }
+
+  map(Builder Function(dynamic i) param0) {}
 }
 
 class Actor {

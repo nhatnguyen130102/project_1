@@ -104,10 +104,10 @@ class _MainLayoutState extends State<MainLayout> {
                       },
                       cursorColor: Colors.grey,
                       decoration: InputDecoration(
-                        fillColor: Colors.grey[200],
+                        fillColor: white,
                         filled: true,
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none,
                         ),
                         hintText: 'Search',
@@ -115,8 +115,8 @@ class _MainLayoutState extends State<MainLayout> {
                             TextStyle(color: Colors.grey[600], fontSize: 18),
                         prefixIcon: Container(
                           padding: const EdgeInsets.symmetric(
-                            vertical: 10,
-                            horizontal: 15,
+                            vertical: 8,
+                            horizontal: 5,
                           ),
                           child: Icon(Icons.search),
                         ),
@@ -228,9 +228,7 @@ class _MainLayoutState extends State<MainLayout> {
               },
             ),
 
-            const SizedBox(
-              height: 25,
-            ),
+            Gap(30),
 
             //Genres-list
             SizedBox(
@@ -250,12 +248,11 @@ class _MainLayoutState extends State<MainLayout> {
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        color: Colors.grey[200],
+                        color: blue400,
                       ),
                       child: Center(
                           child: Text(
                         'Category $index',
-                        style: TextStyle(color: black),
                       )),
                     ),
                   );
@@ -290,7 +287,8 @@ class _MainLayoutState extends State<MainLayout> {
                     scrollDirection: Axis.horizontal,
                     itemCount: movies.length,
                     itemBuilder: (context, index) {
-                      Map<String, dynamic> movie_modun = movies[index];
+                      Map<String, dynamic> movie_modun =
+                          movies[index]; // nó là cái biến thôi n
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -302,12 +300,14 @@ class _MainLayoutState extends State<MainLayout> {
                           );
                         },
                         child: Container(
-                          margin: const EdgeInsets.only(left: 20),
+                          margin: EdgeInsets.only(left: 20),
                           width: 200,
                           height: 200,
                           decoration: BoxDecoration(
                             image: DecorationImage(
                               image: NetworkImage(movie_modun['image']),
+                              // image: NetworkImage(
+                              //     'https://i.pinimg.com/564x/84/7f/e9/847fe98af13d049a78bf28738ea6e166.jpg'),
                               fit: BoxFit.cover,
                             ),
                             borderRadius: BorderRadius.circular(15),
@@ -330,6 +330,7 @@ class _MainLayoutState extends State<MainLayout> {
                                   children: [
                                     Text(
                                       movie_modun['name'],
+                                      // movie_modun['movieID'],
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
