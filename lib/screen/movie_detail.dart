@@ -265,7 +265,7 @@ class _MovieDetailState extends State<MovieDetail> {
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 15, vertical: 10),
                                   decoration: BoxDecoration(
-                                    color: red500,
+                                    color: yellow400,
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Center(
@@ -274,7 +274,7 @@ class _MovieDetailState extends State<MovieDetail> {
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
-                                        color: Colors.white,
+                                        color: black,
                                       ),
                                     ),
                                   ),

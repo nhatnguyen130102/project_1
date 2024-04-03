@@ -105,7 +105,7 @@ class _BookingState extends State<Booking> {
                               onTap: () {},
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: Colors.grey[300], // Màu của ghế
+                                  color: blue400,
                                   borderRadius: BorderRadius.circular(5),
                                 ),
                                 child: Center(

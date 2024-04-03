@@ -283,6 +283,7 @@ class _BillingState extends State<Billing> {
                               ],
                             ),
                             BarcodeWidget(
+                              color: Colors.white,
                               barcode: Barcode.qrCode(),
                               data: 'A 08345655440834565544',
                               height: 100,
@@ -341,13 +342,13 @@ class _BillingState extends State<Billing> {
                         width: 1,
                       ),
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.black,
+                      color: yellow400,
                     ),
                     child: Center(
                       child: Text(
                         'Confirm',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: black,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
