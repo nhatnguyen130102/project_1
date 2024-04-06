@@ -1,17 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:ionicons/ionicons.dart';
+import 'package:heroicons/heroicons.dart';
 
-import 'package:expandable_text/expandable_text.dart';
-import 'package:project_1/screen/rating.dart';
 import 'package:project_1/style/style.dart';
-import '../component_widget/headline_1_component.dart';
-import '../model/movie_model.dart';
 import '../model/screening_model.dart';
-import '../repository/movie_repository.dart';
 import '../repository/screening_repository.dart';
-import 'choosedate.dart';
 
 class MovieDetail extends StatefulWidget {
   final Map<String, dynamic> movie;
@@ -46,353 +40,270 @@ class _MovieDetailState extends State<MovieDetail> {
 
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: background,
+        backgroundColor: Colors.transparent,
         foregroundColor: white,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: HeroIcon(
+            HeroIcons.chevronLeft,
+            color: white,
+          ),
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.pop(context);
           },
-        ),
-        title: Text(
-          '${widget.movie['name']}',
         ),
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Stack(
           children: [
-            Gap(10),
-            Container(
-              width: size.width,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  //Movie-Image
-                  Container(
-                    margin: EdgeInsets.only(left: 15, right: 15),
-                    height: 220,
-                    width: 150,
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.network(
-                          widget.movie['image'],
-                          fit: BoxFit.cover,
-                        )),
-                  ),
+            //background-image
+            Positioned(
+              child: Container(
+                foregroundDecoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        black.withOpacity(0.6),
+                        black,
+                      ]),
+                ),
+                child: Image.network('${widget.movie['image']}'),
+              ),
+            ),
 
-                  //Movie-Info
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          height: 180,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              //Name-----------------
-                              Text(
-                                '${widget.movie['name']}',
-                                softWrap: true,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-
-                              Gap(6),
-
-                              //Ratings-----------------
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
-                                    size: 20,
-                                  ),
-                                  Gap(2),
-                                  Text(
-                                    widget.movie['rating'].toString(),
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.symmetric(
-                                      horizontal: 15,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        width: 0.8,
-                                        color: Colors.grey.shade400,
-                                      ),
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 10,
-                                      vertical: 2,
-                                    ),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) {
-                                              return Rating_Page();
-                                            },
-                                          ),
-                                        );
-                                      },
-                                      child: Text(
-                                        '182 ratings',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.grey.shade500),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-
-                              Gap(8),
-
-                              Row(
-                                children: [
-                                  //Movie Length--------
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            Ionicons.time_outline,
-                                            size: 14,
-                                            color: Colors.grey.shade300,
-                                          ),
-                                          Gap(4),
-                                          Text(
-                                            '1h00',
-                                            style: TextStyle(
-                                              color: Colors.grey.shade300,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  Gap(10),
-                                  Text('·',
-                                      style: TextStyle(
-                                        color: Colors.grey.shade300,
-                                        fontSize: 12,
-                                      )),
-                                  Gap(10),
-                                  //date
-                                  Text('${widget.movie['date']}',
-                                      style: TextStyle(
-                                        color: Colors.grey.shade300,
-                                        fontSize: 12,
-                                      )),
-                                ],
-                              ),
-
-                              Gap(10),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 6, horizontal: 10),
-                                decoration: BoxDecoration(
-                                    color: yellow100,
-                                    borderRadius: BorderRadius.circular(20)),
-                                child: Text('${widget.movie['director']}',
-                                    style: TextStyle(
-                                      color: black,
-                                      fontSize: 12,
-                                    )),
-                              ),
-                              Gap(10),
-                              //Genre----------------------------
-                              Text(
-                                widget.movie['genre'].toString().trim(),
-                                style: TextStyle(fontSize: 14, color: white),
-                              ),
-                            ],
+            //ontop-widget
+            Column(
+              children: [
+                Center(
+                  child: Column(
+                    children: [
+                      Gap(112),
+                      //Image-movie
+                      Center(
+                          child: Container(
+                        width: size.width / 2,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+                          child: Image.network(
+                            '${widget.movie['image']}',
+                            fit: BoxFit.fill,
                           ),
                         ),
-
-                        //Booking-Button
-                        Row(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                border: Border.all(width: 1, color: white),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-
-                              //T16: for 16+, T18: for 18+
-                              //P, C, K
-
-                              child: Text(
-                                widget.movie['age'],
-                                style: TextStyle(color: white),
-                              ),
-                            ),
-                            Gap(10),
-                            Container(
-                              child: GestureDetector(
-                                onTap: () async {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return Choose_Date(
-                                            screenings: _screeningsFuture);
-                                        // return MainLayout();
-                                      },
-                                    ),
-                                  );
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 15, vertical: 10),
-                                  decoration: BoxDecoration(
-                                    color: yellow400,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      'Book Now',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                        color: black,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: black
+                                  .withOpacity(0.7), // Màu của shadow và độ mờ
+                              spreadRadius: 10, // Bề rộng của shadow
+                              blurRadius: 100, // Độ mờ của shadow
+                              offset: Offset(
+                                  0, 3), // Vị trí của shadow (ngang, dọc)
                             ),
                           ],
                         ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-                width: size.width,
-                padding: EdgeInsets.only(top: 25, left: 15, right: 15),
-                child: ExpandableText(
-                  widget.movie['summary'].toString().trim(),
-                  style: TextStyle(
-                      fontWeight: FontWeight.w400, color: Colors.grey.shade400),
-                  expandText: 'show more',
-                  collapseText: 'show less',
-                  maxLines: 3,
-                  linkColor: Colors.blue,
-                )),
+                      )),
+                      Gap(32),
 
-            //Actor-Slider
-            Headline1Component(StringA: 'Actor'),
+                      //body
 
-            FutureBuilder<List<Actor>>(
-              future: MovieRepository().getAllActorsForMovie(movieId),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator(); // Hiển thị loading indicator khi đang tải dữ liệu
-                } else {
-                  if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    List<Actor> actors = snapshot.data ??
-                        []; // Lấy danh sách diễn viên từ snapshot
-                    return Container(
-                      margin: EdgeInsets.only(left: 15),
-                      height: 100,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: actors.length,
-                        itemBuilder: (context, index) {
-                          Actor actor = actors[index];
-                          return Container(
-                            margin: EdgeInsets.only(right: 15),
-                            height: 100,
-                            width: 100,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(5),
-                              child: Image.network(
-                                actor.image, // Hiển thị hình ảnh của diễn viên
-                                fit: BoxFit.cover,
+                      Column(children: [
+                        Container(
+                          width: size.width - 80,
+                          child: Text(
+                            '${widget.movie['name']}',
+                            style: TextStyle(fontSize: 24, fontWeight: bold),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Gap(8),
+                        Text(
+                          '${widget.movie['genre']}',
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ]),
+                      Gap(24),
+
+                      //Rating-time-age---------------------
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.star,
+                                color: yellow,
+                              ),
+                              Gap(4),
+                              Text(
+                                '${widget.movie['rating'].toString()}',
+                                style:
+                                    TextStyle(fontSize: 18, fontWeight: medium),
+                              )
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              HeroIcon(
+                                HeroIcons.clock,
+                                color: yellow,
+                              ),
+                              Gap(6),
+                              Text(
+                                '${widget.movie['time']}',
+                                style:
+                                    TextStyle(fontSize: 18, fontWeight: medium),
+                              )
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              HeroIcon(
+                                HeroIcons.film,
+                                color: yellow,
+                              ),
+                              Gap(8),
+                              Text(
+                                '${widget.movie['age']}',
+                                style:
+                                    TextStyle(fontSize: 18, fontWeight: medium),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+
+                      //Trailer-booking-button-row
+                      Gap(24),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: yellow),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text(
+                              'TRAILER',
+                              style: TextStyle(
+                                fontWeight: semibold,
+                                color: yellow,
+                                fontSize: 16,
                               ),
                             ),
-                          );
-                        },
+                          ),
+                          Gap(16),
+                          Container(
+                            padding: EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: yellow,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text(
+                              'BOOK NOW',
+                              style: TextStyle(
+                                fontWeight: semibold,
+                                color: black,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                Gap(16),
+
+                //Director-ReleaseDate
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          //Director-info
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Director',
+                                style: TextStyle(
+                                    color: yellow,
+                                    fontWeight: bold,
+                                    fontSize: 20),
+                              ),
+                              Gap(4),
+                              Text(
+                                '${widget.movie['director']}',
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ],
+                          ),
+                          Gap(32),
+
+                          //Slash
+                          Text(
+                            '⁄',
+                            style: TextStyle(
+                              fontSize: 48,
+                              fontWeight: FontWeight.w100,
+                            ),
+                          ),
+                          Gap(32),
+
+                          //ReleaseDate-info
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Release Date',
+                                style: TextStyle(
+                                    color: yellow,
+                                    fontWeight: bold,
+                                    fontSize: 20),
+                              ),
+                              Gap(4),
+                              Text(
+                                '${widget.movie['date']}',
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                    );
-                  }
-                }
-              },
-            ),
+                      Gap(24),
 
-            // Container(
-            //   margin: EdgeInsets.only(left: 15),
-            //   height: 100,
-            //   child: ListView.builder(
-            //     scrollDirection: Axis.horizontal,
-            //     itemCount: 10,
-            //     itemBuilder: (context, index) {
-            //       return Container(
-            //         margin: EdgeInsets.only(right: 15),
-            //         height: 100,
-            //         width: 100,
-
-            //         // ClipRRect -> Widget that clips its child using a rounded retangle.
-            //         child: ClipRRect(
-            //             borderRadius: BorderRadius.circular(5),
-            //             child: Image.network(
-            //               'https://i.pinimg.com/564x/93/cd/6f/93cd6f16d1e0a76a91f4beb6fd8e2a86.jpg',
-            //               fit: BoxFit.cover,
-            //             )),
-            //       );
-            //     },
-            //   ),
-            // ),
-
-            //Trailer-Slider
-            Headline1Component(StringA: 'Trailer'),
-            Container(
-              margin: EdgeInsets.only(left: 15),
-              height: 150,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return Container(
-                    margin: EdgeInsets.only(right: 15),
-                    height: 150,
-                    width: 250,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(5),
-                      child: Image.network(
-                        'https://i.pinimg.com/564x/7c/d6/dc/7cd6dc7b34af544375336c288aec69da.jpg',
-                        fit: BoxFit.cover,
+                      //Summary
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          ExpandableText(
+                            '${widget.movie['summary']}',
+                            style: TextStyle(color: white.withOpacity(0.8)),
+                            expandText: 'show more',
+                            collapseText: 'show less',
+                            maxLines: 3,
+                            linkColor: yellow,
+                            linkStyle: TextStyle(
+                              fontWeight: bold,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  );
-                },
-              ),
+
+                      //Actors
+                    ],
+                  ),
+                ),
+              ],
             ),
-            Gap(20),
           ],
         ),
       ),

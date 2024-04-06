@@ -1,14 +1,13 @@
+import 'package:heroicons/heroicons.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:gap/gap.dart';
+import 'package:project_1/screen/login.dart';
 import 'package:project_1/screen/notification.dart';
-import 'package:project_1/component_widget/drawer.dart';
 import 'package:project_1/screen/movie_detail.dart';
+import 'package:project_1/screen/search.dart';
 import 'package:project_1/style/style.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'package:shadow/shadow.dart';
-import '../component_widget/headline_1_component.dart';
 import '../repository/movie_repository.dart';
 
 class MainLayout extends StatefulWidget {
@@ -53,85 +52,106 @@ class _MainLayoutState extends State<MainLayout> {
 
   @override
   Widget build(BuildContext context) {
-    // Size size = MediaQuery.of(context).size;
+    double height = 560;
+    double itemMargin = 20;
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: background,
         foregroundColor: white,
-        centerTitle: true,
-        title: const Center(
-          child: Text(
-            'My App',
+        leading: IconButton(
+          icon: HeroIcon(HeroIcons.user),
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Login(),
+            ),
           ),
         ),
         actions: [
-          Container(
-            margin: EdgeInsets.only(right: 15),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const Notification_layout(),
-                  ),
-                );
-              },
-              child: const Icon(
-                Icons.notifications_none_outlined,
+          Row(
+            children: [
+              Container(
+                margin: EdgeInsets.only(right: 20),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Search_Page(),
+                      ),
+                    );
+                  },
+                  child: HeroIcon(HeroIcons.magnifyingGlass),
+                ),
               ),
-            ),
+              Container(
+                margin: EdgeInsets.only(right: 20),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Notification_layout(),
+                      ),
+                    );
+                  },
+                  child: HeroIcon(HeroIcons.bell),
+                ),
+              ),
+            ],
           ),
         ],
       ),
-      drawer: DrawerLeft(
-          userID: userID, username: username, isLoggedIn: isLoggedIn),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
           children: [
-            //Searchbar-------------------------------------------------------
+            //Category-list
             Padding(
-              padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 0),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Flexible(
-                    flex: 1,
-                    child: TextField(
-                      onChanged: (text) {
-                        setState(() {
-// Update the text variable when text changes
-                        });
-                      },
-                      cursorColor: Colors.grey,
-                      decoration: InputDecoration(
-                        fillColor: white,
-                        filled: true,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none,
-                        ),
-                        hintText: 'Search',
-                        hintStyle:
-                            TextStyle(color: Colors.grey[600], fontSize: 18),
-                        prefixIcon: Container(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 8,
-                            horizontal: 5,
-                          ),
-                          child: Icon(Icons.search),
-                        ),
+                  Container(
+                    width: size.width / 5,
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    decoration: BoxDecoration(),
+                    child: Text(
+                      'Now Playing',
+                      style: TextStyle(
+                          color: yellow, fontWeight: medium, fontSize: 16),
+                    ),
+                  ),
+                  Container(
+                    width: size.width / 5,
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    decoration: BoxDecoration(),
+                    child: Text(
+                      'Coming Soon',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: white.withOpacity(0.5),
                       ),
                     ),
                   ),
+                  Container(
+                    width: size.width / 5,
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    decoration: BoxDecoration(),
+                    child: Text(
+                      'Early Screening',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: white.withOpacity(0.5),
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),
 
-            //Heading-NowPlaying-------------------------------------------------------
-            const Headline1Component(StringA: 'Now Playing'),
-
-            //Now-Playing-Carousel-------------------------------------------------------
-
+            //Carousel-slider--------------------------------------------
             FutureBuilder(
               future: _moviesFuture,
               builder: (context, snapshot) {
@@ -149,222 +169,133 @@ class _MainLayoutState extends State<MainLayout> {
                 }
                 List<Map<String, dynamic>> movie_modun =
                     snapshot.data as List<Map<String, dynamic>>;
-                return CarouselSlider(
-                  options: CarouselOptions(
-                    height: 200,
-                    autoPlay: true,
-                    autoPlayInterval: Duration(seconds: 3),
-                    autoPlayAnimationDuration: Duration(milliseconds: 800),
-                    autoPlayCurve: Curves.fastOutSlowIn,
-                  ),
-                  items: movie_modun.map((i) {
-                    return Builder(
-                      builder: (BuildContext context) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => MovieDetail(movie: i),
-                              ),
-                            );
-                          },
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            margin: EdgeInsets.symmetric(horizontal: 10),
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: NetworkImage(i['banner']),
-                                fit: BoxFit.cover,
-                              ),
-                              // color: Colors.grey[200],
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Container(
-                              padding:
-                                  const EdgeInsets.fromLTRB(20, 130, 10, 20),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    i['name'],
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.grey.shade100,
-                                    ),
-                                  ),
-                                  Gap(2),
-                                  Row(
-                                    children: [
-                                      Text(i['genre'],
-                                          style: TextStyle(
-                                            color: Colors.grey.shade100,
-                                          )),
-                                      Gap(4),
-                                      Text(
-                                        '•',
-                                        style: TextStyle(color: Colors.amber),
-                                      ),
-                                      Gap(4),
-                                      Text(i['age'],
-                                          style: TextStyle(
-                                            color: Colors.grey.shade100,
-                                          )),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  }).toList(),
-                );
-              },
-            ),
-
-            Gap(30),
-
-            //Genres-list
-            SizedBox(
-              height: 40,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      margin: const EdgeInsets.only(
-                        left: 15,
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 15,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: blue400,
-                      ),
-                      child: Center(
-                          child: Text(
-                        'Category $index',
-                      )),
-                    ),
-                  );
-                },
-              ),
-            ),
-
-            //Heading-ComingSoon
-            const Headline1Component(StringA: 'Coming Soon'),
-
-            FutureBuilder(
-              future: _moviesFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                if (snapshot.hasError) {
-                  return Center(
-                    child: Text(
-                      'Error: ${snapshot.error}',
-                    ),
-                  );
-                }
-                List<Map<String, dynamic>> movies =
-                    snapshot.data as List<Map<String, dynamic>>;
                 return Container(
-                  margin: EdgeInsets.only(bottom: 30),
-                  height: 300,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: movies.length,
-                    itemBuilder: (context, index) {
-                      Map<String, dynamic> movie_modun =
-                          movies[index]; // nó là cái biến thôi n
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  MovieDetail(movie: movie_modun),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(left: 20),
-                          width: 200,
-                          height: 200,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(movie_modun['image']),
-                              // image: NetworkImage(
-                              //     'https://i.pinimg.com/564x/84/7f/e9/847fe98af13d049a78bf28738ea6e166.jpg'),
-                              fit: BoxFit.cover,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.all(15),
-                                decoration: BoxDecoration(
-                                  color: Colors.black.withOpacity(0.5),
-                                  borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(15),
-                                    bottomRight: Radius.circular(15),
-                                  ),
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      movie_modun['name'],
-                                      // movie_modun['movieID'],
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                  child: Stack(
+                    children: [
+                      CarouselSlider(
+                        options: CarouselOptions(
+                          viewportFraction: 1.0,
+                          height: height,
+                          autoPlay: true,
+                          autoPlayInterval: Duration(seconds: 3),
+                          autoPlayAnimationDuration:
+                              Duration(milliseconds: 1000),
+                          autoPlayCurve: Curves.fastOutSlowIn,
+                        ),
+                        items: movie_modun.map((i) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          MovieDetail(movie: i),
                                     ),
-                                    SizedBox(height: 5),
-                                    Row(
+                                  );
+                                },
+
+                                //Card-movie
+                                child: Container(
+                                  width: size.width,
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal: itemMargin),
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: NetworkImage(i['image']),
+                                      fit: BoxFit.cover,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+
+                                  //Short-movie-info-------------------
+                                  child: Container(
+                                    alignment: Alignment.topCenter,
+                                    decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                            colors: [
+                                          black.withOpacity(0.9),
+                                          Colors.transparent,
+                                        ])),
+                                    padding: const EdgeInsets.only(
+                                        top: 20, left: 20, right: 20),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Icon(
-                                          Icons.star,
-                                          color: Colors.amber,
-                                          size: 20,
+                                        //Rating-movie
+                                        Row(
+                                          children: [
+                                            Icon(
+                                              Icons.star,
+                                              color: yellow,
+                                            ),
+                                            Gap(8),
+                                            Text(
+                                              i['rating'].toDouble().toString(),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontSize: 24,
+                                                fontWeight: medium,
+                                                color: Colors.grey.shade100,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        SizedBox(width: 5),
-                                        Text(
-                                          '4.5',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16,
-                                          ),
+
+                                        //Age-movie
+                                        Container(
+                                          padding: EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                              color: yellow.withOpacity(0.9),
+                                              borderRadius:
+                                                  BorderRadius.circular(4)),
+                                          child: Text(i['age'],
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                color: black,
+                                              )),
                                         ),
                                       ],
                                     ),
-                                  ],
+                                  ),
                                 ),
+                              );
+                            },
+                          );
+                        }).toList(),
+                      ),
+                      Positioned(
+                        top: height / 2,
+                        left: 10,
+                        right: 10,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: yellow.withOpacity(0.7),
                               ),
-                            ],
-                          ),
+                              child: HeroIcon(HeroIcons.chevronLeft),
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: yellow.withOpacity(0.7),
+                              ),
+                              child: HeroIcon(HeroIcons.chevronRight),
+                            ),
+                          ],
                         ),
-                      );
-                    },
+                      ),
+                    ],
                   ),
                 );
               },

@@ -105,7 +105,7 @@ class _BookingState extends State<Booking> {
                               onTap: () {},
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: blue400,
+                                  color: Colors.grey,
                                   borderRadius: BorderRadius.circular(5),
                                 ),
                                 child: Center(
@@ -136,7 +136,10 @@ class _BookingState extends State<Booking> {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.circle),
+                        Icon(
+                          Icons.circle,
+                          color: yellow,
+                        ),
                         Gap(4),
                         Text('Unavailable'),
                       ],
@@ -146,7 +149,7 @@ class _BookingState extends State<Booking> {
                       children: [
                         Icon(
                           Icons.circle,
-                          color: Colors.grey[300],
+                          color: Colors.grey,
                         ),
                         Gap(4),
                         const Text('Available'),
@@ -176,7 +179,7 @@ class _BookingState extends State<Booking> {
                 height: 60,
                 margin: EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: yellow400,
+                  color: yellow,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: GestureDetector(

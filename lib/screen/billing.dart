@@ -342,7 +342,7 @@ class _BillingState extends State<Billing> {
                         width: 1,
                       ),
                       borderRadius: BorderRadius.circular(10),
-                      color: yellow400,
+                      color: yellow,
                     ),
                     child: Center(
                       child: Text(

@@ -43,7 +43,10 @@ class _AccountState extends State<Account> {
         backgroundColor: background,
         foregroundColor: white,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios), // Biểu tượng menu
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: white,
+          ), // Biểu tượng menu
           onPressed: () {
             Navigator.pop(context);
           },
@@ -87,7 +90,7 @@ class _AccountState extends State<Account> {
                         padding:
                             EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                         decoration: BoxDecoration(
-                          color: Colors.grey[800],
+                          color: yellow,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: widget.isLoggedIn
@@ -98,8 +101,8 @@ class _AccountState extends State<Account> {
                                 child: Center(
                                   child: Text(
                                     'Logout',
-                                    style: TextStyle(
-                                        fontSize: 17, color: Colors.white),
+                                    style:
+                                        TextStyle(fontSize: 17, color: black),
                                   ),
                                 ),
                               )
@@ -117,8 +120,8 @@ class _AccountState extends State<Account> {
                                 child: Center(
                                   child: Text(
                                     'Login',
-                                    style: TextStyle(
-                                        fontSize: 17, color: Colors.white),
+                                    style:
+                                        TextStyle(fontSize: 17, color: black),
                                   ),
                                 ),
                               ),
@@ -143,6 +146,7 @@ class _AccountState extends State<Account> {
                     children: [
                       Icon(
                         FontAwesome.lock,
+                        color: white,
                       ),
                       Gap(10),
                       Text(
@@ -154,7 +158,10 @@ class _AccountState extends State<Account> {
                       ),
                     ],
                   ),
-                  Icon(Icons.arrow_forward_ios)
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    color: white,
+                  )
                 ],
               ),
             ),
@@ -172,6 +179,7 @@ class _AccountState extends State<Account> {
                     children: [
                       Icon(
                         FontAwesome.star,
+                        color: white,
                       ),
                       Gap(10),
                       Text(
@@ -183,7 +191,10 @@ class _AccountState extends State<Account> {
                       ),
                     ],
                   ),
-                  Icon(Icons.arrow_forward_ios)
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    color: white,
+                  )
                 ],
               ),
             ),
@@ -208,6 +219,7 @@ class _AccountState extends State<Account> {
                     children: [
                       Icon(
                         FontAwesome.tag,
+                        color: white,
                       ),
                       Gap(10),
                       Text(
@@ -219,7 +231,10 @@ class _AccountState extends State<Account> {
                       ),
                     ],
                   ),
-                  Icon(Icons.arrow_forward_ios)
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    color: white,
+                  )
                 ],
               ),
             ),
@@ -240,6 +255,7 @@ class _AccountState extends State<Account> {
                     children: [
                       Icon(
                         FontAwesome.info,
+                        color: white,
                       ),
                       Gap(10),
                       Text(
@@ -251,7 +267,10 @@ class _AccountState extends State<Account> {
                       ),
                     ],
                   ),
-                  Icon(Icons.arrow_forward_ios)
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    color: white,
+                  )
                 ],
               ),
             ),
@@ -269,6 +288,7 @@ class _AccountState extends State<Account> {
                     children: [
                       Icon(
                         FontAwesome.mic,
+                        color: white,
                       ),
                       Gap(10),
                       Text(
@@ -280,7 +300,10 @@ class _AccountState extends State<Account> {
                       ),
                     ],
                   ),
-                  Icon(Icons.arrow_forward_ios)
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    color: white,
+                  )
                 ],
               ),
             ),

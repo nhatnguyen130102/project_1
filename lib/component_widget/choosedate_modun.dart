@@ -18,7 +18,7 @@ class ChooseDate_Modun extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: purple700,
+        color: Colors.grey,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -28,7 +28,7 @@ class ChooseDate_Modun extends StatelessWidget {
             margin: EdgeInsets.only(left: 4, right: 4),
             padding: EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
             decoration: BoxDecoration(
-                color: purple800,
+                color: Colors.grey,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10))),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
+import 'package:gap/gap.dart';
 import 'package:project_1/screen/mainlayout.dart';
 import 'package:project_1/style/style.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -98,27 +99,31 @@ class _LoginState extends State<Login> {
           child: Column(
             children: [
               Text(
-                'Welcom',
+                'Welcome',
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
-                'Welcom',
+                'Welcome',
                 style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w300,
-                ),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w300,
+                    color: white.withOpacity(0.8)),
               ),
+              Gap(30),
               TextField(
                 controller: _usernameController,
                 decoration: InputDecoration(
                   labelText: 'Email',
-                  prefixIcon: Icon(Icons.mail_outline),
+                  prefixIcon: Icon(
+                    Icons.mail_outline,
+                    color: white.withOpacity(0.8),
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(color: Colors.blue),
+                    borderSide: BorderSide(color: white.withOpacity(0.9)),
                   ),
                 ),
               ),
@@ -127,10 +132,13 @@ class _LoginState extends State<Login> {
                 controller: _passwordController,
                 decoration: InputDecoration(
                   labelText: 'Password',
-                  prefixIcon: Icon(Icons.remove_red_eye_outlined),
+                  prefixIcon: Icon(
+                    Icons.remove_red_eye_outlined,
+                    color: white.withOpacity(0.8),
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(color: Colors.blue),
+                    borderSide: BorderSide(color: white.withOpacity(0.9)),
                   ),
                 ),
                 obscureText: true,
@@ -149,7 +157,7 @@ class _LoginState extends State<Login> {
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Colors.black,
+                  color: yellow,
                 ),
                 child: GestureDetector(
                   onTap: _login,
@@ -157,7 +165,9 @@ class _LoginState extends State<Login> {
                     child: Text(
                       'Login',
                       style: TextStyle(
-                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: black,
                       ),
                     ),
                   ),

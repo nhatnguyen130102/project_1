@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:project_1/style/style.dart';
 
 class Search_Modun extends StatelessWidget {
   const Search_Modun({
@@ -47,23 +49,27 @@ class Search_Modun extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
+                  Gap(2),
                   Container(
                     child: Text(
                       'Genre',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
+                        color: Colors.grey.shade400,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
+                  Gap(8),
                   Container(
                     child: Row(
                       children: [
                         Container(
                           child: Icon(
-                            Icons.star_border_outlined,
+                            Icons.star,
+                            color: Colors.yellow,
                           ),
                         ),
                         Container(
@@ -87,7 +93,7 @@ class Search_Modun extends StatelessWidget {
                             borderRadius: BorderRadius.circular(15),
                             border: Border.all(
                               width: 0.5,
-                              color: Colors.black,
+                              color: Colors.grey.shade300,
                             ),
                           ),
                           child: Text(
@@ -95,19 +101,17 @@ class Search_Modun extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w500,
-                              color: const Color.fromARGB(255, 119, 119, 119),
+                              color: Colors.grey.shade400,
                             ),
                           ),
                         ),
                       ],
                     ),
                   ),
+                  Gap(18),
                   Container(
-                    margin: EdgeInsets.only(
-                      top: 20,
-                    ),
                     decoration: BoxDecoration(
-                      color: Colors.black,
+                      color: yellow,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     padding: EdgeInsets.symmetric(
@@ -119,7 +123,7 @@ class Search_Modun extends StatelessWidget {
                       child: Text(
                         'Book Now',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: black,
                         ),
                       ),
                     ),
