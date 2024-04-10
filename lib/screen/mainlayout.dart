@@ -78,7 +78,7 @@ class _MainLayoutState extends State<MainLayout> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const Search_Page(),
+                        builder: (context) => const SearchPage(),
                       ),
                     );
                   },
@@ -92,7 +92,7 @@ class _MainLayoutState extends State<MainLayout> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const Notification_layout(),
+                        builder: (context) => const NotificationPage(),
                       ),
                     );
                   },
