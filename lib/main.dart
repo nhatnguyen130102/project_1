@@ -5,8 +5,6 @@ import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 
-import 'test/testScreening.dart';
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -21,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+
       // themeMode: ThemeMode.dark,
       // darkTheme: ThemeData.dark(),
       theme: ThemeData(

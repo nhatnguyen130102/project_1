@@ -1,21 +1,19 @@
-import 'dart:html';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LocationModel {
   late String locationID;
-  late String nameLocation; // Tên của địa điểm
+  late String name; // Tên của địa điểm
 
   LocationModel({
     required this.locationID,
-    required this.nameLocation,
+    required this.name,
   });
 
   factory LocationModel.fromMap(DocumentSnapshot doc) {
     Map data = doc.data() as Map<String, dynamic>;
     return LocationModel(
-      locationID: doc.id,
-      nameLocation: data['nameLocation'] ?? '',
+      locationID: data['locationID'] ?? '',
+      name: data['name'] ?? '',
     );
   }
 
@@ -23,7 +21,7 @@ class LocationModel {
   Map<String, dynamic> toMap() {
     return {
       'locationID': locationID,
-      'nameLocation': nameLocation,
+      'name': name,
     };
   }
 }

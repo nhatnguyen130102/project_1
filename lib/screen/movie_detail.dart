@@ -2,10 +2,12 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:project_1/screen/choosedate.dart';
 
 import 'package:project_1/style/style.dart';
 import '../model/screening_model.dart';
 import '../repository/screening_repository.dart';
+import 'chooselocation.dart';
 
 class MovieDetail extends StatefulWidget {
   final Map<String, dynamic> movie;
@@ -19,16 +21,7 @@ class MovieDetail extends StatefulWidget {
 }
 
 class _MovieDetailState extends State<MovieDetail> {
-  late String movieId = widget.movie['movieID'];
-  late Future<List<ScreeningModel>> _screeningsFuture;
-  late ScreeningRepository _repository;
-
-  @override
-  void initState() {
-    super.initState();
-    _repository = ScreeningRepository();
-    _screeningsFuture = _repository.getScreeningsByMovieId(movieId);
-  }
+  late String movieId = widget.movie['movieID']; // lấy movieID
 
   @override
   Widget build(BuildContext context) {
@@ -198,18 +191,31 @@ class _MovieDetailState extends State<MovieDetail> {
                             ),
                           ),
                           Gap(16),
-                          Container(
-                            padding: EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              color: yellow,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Text(
-                              'BOOK NOW',
-                              style: TextStyle(
-                                fontWeight: semibold,
-                                color: black,
-                                fontSize: 16,
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      // Choose_Date(movieID: movieId),
+                                  Choose_Location(movieID: movieId),
+                                  // ScreeningPage(),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: yellow,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                'BOOK NOW',
+                                style: TextStyle(
+                                  fontWeight: semibold,
+                                  color: black,
+                                  fontSize: 16,
+                                ),
                               ),
                             ),
                           ),

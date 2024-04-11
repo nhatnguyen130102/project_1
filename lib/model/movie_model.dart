@@ -47,7 +47,7 @@ class Movie {
       genre: data['genre'] ?? '',
       director: data['director'] ?? '',
       actor: List<Actor>.from(
-          (data['actors'] ?? []).map((actor) => Actor.fromMap(actor))),
+          (data['actor'] ?? []).map((actor) => Actor.fromMap(actor))),
       rating: (data['rating'] ?? 0).toDouble(),
     );
   }
