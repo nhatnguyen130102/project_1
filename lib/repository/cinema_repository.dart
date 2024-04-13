@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project_1/model/cinema_model.dart';
-
 import '../model/screening_model.dart';
 
 class CinemaRepository {
@@ -22,6 +21,19 @@ class CinemaRepository {
       // Xử lý lỗi nếu có
       print('Error getting cinemas by locationID: $e');
       return []; // hoặc trả về null, hoặc đối tượng Error
+    }
+  }
+
+  Future<CinemaModel?> getCinemaByID(String cinemaID) async {
+    try {
+      QuerySnapshot querySnapshot = await _firestore
+          .collection('cinema')
+          .where('cinemaID', isEqualTo: cinemaID)
+          .get();
+      CinemaModel item = querySnapshot.docs.map((e) => CinemaModel.fromSnapshot(e)).first;
+      return item;
+    } catch (e) {
+      return null;
     }
   }
 
@@ -79,10 +91,12 @@ class CinemaRepository {
   //     return [];
   //   }
   // }
-  Future<List<CinemaModel>> getCinemasByMovieID(String movieID) async {
+  Future<List<CinemaModel>> getCinemasByMovieID(
+      String movieID, String locationID) async {
     try {
       // Khai báo danh sách để lưu các cinemaID
       List<CinemaModel> cinemaIDs = [];
+      List<CinemaModel> cinemaID2 = [];
       Set<String> uniqueCinemaID = {};
       // Truy vấn cơ sở dữ liệu Firestore để lấy danh sách các tài liệu từ bảng Screening có movieID tương ứng
       QuerySnapshot querySnapshot = await _firestore
@@ -106,7 +120,12 @@ class CinemaRepository {
           cinemaIDs.add(itemCinema);
         }
       }
-      return cinemaIDs;
+      for (CinemaModel item in cinemaIDs) {
+        if (item.locationID == locationID) {
+          cinemaID2.add(item);
+        }
+      }
+      return cinemaID2;
     } catch (e) {
       // Xử lý lỗi nếu có
       print("Error getting cinemas by movieID: $e");

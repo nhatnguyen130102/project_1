@@ -38,7 +38,7 @@ class _Choose_LocationState extends State<Choose_Location> {
   @override
   void initState() {
     super.initState();
-    _cinemas = _cinemaRepository.getCinemasByMovieID(widget.movieID);
+    _cinemas = _cinemaRepository.getCinemasByMovieID(widget.movieID,_locationID);
     _location = _locationRepository.getAllLocations();
   }
 
@@ -90,7 +90,7 @@ class _Choose_LocationState extends State<Choose_Location> {
                                     _locationSelected = index;
                                     _locationID =
                                         snapshot.data![index].locationID;
-                                    _cinemas = _cinemaRepository.getCinemasByMovieID(widget.movieID);
+                                    _cinemas = _cinemaRepository.getCinemasByMovieID(widget.movieID,_locationID);
                                     _cinemaSelected = -1;
                                   },
                                 );
@@ -260,13 +260,13 @@ class _Choose_LocationState extends State<Choose_Location> {
                 Container(
                   padding: EdgeInsets.only(left: 10),
                   width: size.width,
-                  height: 60,
+                  height: 72,
 
                   child: Row(
                     children: [
                       Container(
                         width: 5,
-                        height: 60,
+                        height: 56,
                         decoration: BoxDecoration(
                           color: yellow,
                           borderRadius: BorderRadius.circular(15),
@@ -282,15 +282,15 @@ class _Choose_LocationState extends State<Choose_Location> {
                             Container(
                               child: Text(
                                 'CINEMA',
-                                style: TextStyle(fontSize: 18, fontWeight: bold,),
+                                style: TextStyle(fontSize: 18, fontWeight: bold, color: yellow),
                               ),
                             ),
-                            Gap(4),
+                            Gap(1),
                             Container(
                               child: Text(
                                 _nameCinema != null ? _nameCinema : '',
                                 // Kiểm tra _nameCinema, nếu null thì sử dụng chuỗi rỗng
-                                style: TextStyle(fontWeight: medium, color: white.withOpacity(0.8)),
+                                style: TextStyle(fontWeight: medium),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),

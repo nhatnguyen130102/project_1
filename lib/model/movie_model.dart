@@ -30,12 +30,14 @@ class MovieModel {
     required this.director,
     required this.actor,
     required this.rating,
+    required this.time
   });
 
   // Factory method to create MovieModel object from a DocumentSnapshot
   factory MovieModel.fromMap(DocumentSnapshot doc) {
     Map data = doc.data() as Map<String, dynamic>;
     return MovieModel(
+      time: data['time'] ?? '',
       movieID: data['movieID'] ?? '', // Assign Document ID to movieID
       name: data['name'] ?? '',
       image: data['image'] ?? '',

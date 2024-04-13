@@ -3,27 +3,26 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../model/movie_model.dart';
 
 class MovieRepository {
-  final CollectionReference _moviesCollection =
-      FirebaseFirestore.instance.collection('movie');
+  final FirebaseFirestore _moviesCollection = FirebaseFirestore.instance;
 
   Future<List<Map<String, dynamic>>> getMovies() async {
-    QuerySnapshot querySnapshot = await _moviesCollection.get();
+    QuerySnapshot querySnapshot =
+        await _moviesCollection.collection('movie').get();
     return querySnapshot.docs
         .map((doc) => doc.data() as Map<String, dynamic>)
         .toList();
   }
+
   Future<MovieModel?> getMoviesByMovieID(String movieID) async {
     try {
-      QuerySnapshot querySnapshot = await _moviesCollection.where('movieID', isEqualTo: movieID).get();
+      QuerySnapshot querySnapshot = await _moviesCollection
+          .collection('movie')
+          .where('movieID', isEqualTo: movieID)
+          .get();
 
-      // Trả về danh sách các DocumentSnapshot tương ứng với tài liệu có movieID
-      if (querySnapshot.docs.isNotEmpty) {
-        // Trích xuất dữ liệu từ tài liệu đầu tiên trong danh sách
-        Map<String, dynamic> data = querySnapshot.docs.first.data() as Map<String, dynamic>;
-        return MovieModel.fromMap(data as DocumentSnapshot<Object?>); // Trả về một đối tượng MovieModel từ dữ liệu
-      } else {
-        return null; // Trả về null nếu không tìm thấy tài liệu với movieID tương ứng
-      }
+      MovieModel item = querySnapshot.docs.map((e) => MovieModel.fromMap(e)).first;
+
+      return item;
     } catch (e) {
       print("Error fetching movies by movieID: $e"); // In ra lỗi để gỡ rối
       return null; // Trả về danh sách rỗng trong trường hợp có lỗi
