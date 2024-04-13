@@ -3,7 +3,7 @@ import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:gap/gap.dart';
 import 'package:project_1/screen/login.dart';
 import 'package:project_1/screen/mainlayout.dart';
-import 'package:project_1/screen/orders.dart';
+import 'package:project_1/screen/ticket.dart';
 import 'package:project_1/style/style.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -204,7 +204,7 @@ class _AccountState extends State<Account> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Orders(),
+                  builder: (context) => TicketPage(),
                 ),
               );
             },

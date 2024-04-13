@@ -6,6 +6,7 @@ import 'package:project_1/screen/login.dart';
 import 'package:project_1/screen/notification.dart';
 import 'package:project_1/screen/movie_detail.dart';
 import 'package:project_1/screen/search.dart';
+import 'package:project_1/screen/ticket.dart';
 import 'package:project_1/style/style.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../repository/movie_repository.dart';
@@ -64,7 +65,7 @@ class _MainLayoutState extends State<MainLayout> {
           onPressed: () => Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => Login(),
+              builder: (context) => TicketPage(),
             ),
           ),
         ),

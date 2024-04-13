@@ -32,13 +32,13 @@ class _Choose_LocationState extends State<Choose_Location> {
   late String _cinemaBooked = '';
 
   late int _locationSelected = 0;
-  late int _cinemaSelected = 0;
+  late int _cinemaSelected = -1;
   late bool _locationBookedSelected = false;
 
   @override
   void initState() {
     super.initState();
-    _cinemas = _cinemaRepository.getCinemasByLocationID(_locationID);
+    _cinemas = _cinemaRepository.getCinemasByMovieID(widget.movieID);
     _location = _locationRepository.getAllLocations();
   }
 
@@ -60,188 +60,196 @@ class _Choose_LocationState extends State<Choose_Location> {
       ),
       body: Stack(
         children: [
-          Column(
-            children: [
-              Container(
-                width: size.width,
-                height: 40,
-                child: FutureBuilder(
-                  future: _location,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator(); // Hiển thị loading indicator nếu đang chờ dữ liệu
-                    } else if (snapshot.hasError) {
-                      return Text(
-                          'Error: ${snapshot.error}'); // Xử lý lỗi nếu có
-                    } else if (snapshot.data == null) {
-                      return Text(
-                          'No data available'); // Xử lý khi không có dữ liệu
-                    } else {
-                      return ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: snapshot.data?.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              setState(
-                                    () {
-                                  _locationSelected = index;
-                                  _locationID =
-                                      snapshot.data![index].locationID;
-                                  _cinemas = _cinemaRepository
-                                      .getCinemasByLocationID(_locationID);
-                                },
-                              );
-                            },
-                            child: Container(
-                              margin: EdgeInsets.symmetric(
-                                horizontal: 5,
-                              ),
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 15,
-                                vertical: 5,
-                              ),
-                              decoration: BoxDecoration(
-                                color: _locationSelected == index
-                                    ? Colors.yellow
-                                    : Color(0xff1d2223),
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  snapshot.data![index].name,
-                                  style: TextStyle(
-                                    color: _locationSelected == index
-                                        ? black
-                                        : Colors.grey,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    }
-                    ;
-                  },
-                ),
-              ),
-              Gap(30),
-              Expanded(
-                child: FutureBuilder(
-                  future: _cinemas,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator(); // Hiển thị loading indicator nếu đang chờ dữ liệu
-                    } else if (snapshot.hasError) {
-                      return Text(
-                          'Error: ${snapshot.error}'); // Xử lý lỗi nếu có
-                    } else if (snapshot.data == null) {
-                      return Text(
-                          'No data available'); // Xử lý khi không có dữ liệu
-                    } else {
-                      return Container(
-                        child: ListView.builder(
-                          scrollDirection: Axis.vertical,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Column(
+              children: [
+                Container(
+                  width: size.width,
+                  height: 40,
+                  child: FutureBuilder(
+                    future: _location,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator(); // Hiển thị loading indicator nếu đang chờ dữ liệu
+                      } else if (snapshot.hasError) {
+                        return Text(
+                            'Error: ${snapshot.error}'); // Xử lý lỗi nếu có
+                      } else if (snapshot.data == null) {
+                        return Text(
+                            'No data available'); // Xử lý khi không có dữ liệu
+                      } else {
+                        return ListView.builder(
+                          scrollDirection: Axis.horizontal,
                           itemCount: snapshot.data?.length,
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: () {
-                                setState(() {
-                                  _cinemaSelected = index;
-                                  _nameCinema = snapshot.data![index].name;
-                                  _cinemaBooked =
-                                      snapshot.data![index].cinemaID;
-                                  _locationBookedSelected = true;
-                                });
+                                setState(
+                                      () {
+                                    _locationSelected = index;
+                                    _locationID =
+                                        snapshot.data![index].locationID;
+                                    _cinemas = _cinemaRepository.getCinemasByMovieID(widget.movieID);
+                                    _cinemaSelected = -1;
+                                  },
+                                );
                               },
                               child: Container(
-                                height: 150,
-                                width: size.width,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          snapshot.data![index].name,
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          width: 20,
-                                          height: 20,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: _cinemaSelected == index
-                                                ? Colors.yellow
-                                                : Color(0xff3b4142),
-                                          ),
-                                          child: HeroIcon(
-                                            HeroIcons.check,
-                                            color: black,
-                                            size: 10,
-                                          ),
-                                        ),
-                                      ],
+                                margin: EdgeInsets.only(
+                                  right: 16,
+                                ),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 6,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: _locationSelected == index
+                                      ? Colors.yellow
+                                      : Color(0xff1d2223),
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    snapshot.data![index].name,
+                                    style: TextStyle(
+                                      color: _locationSelected == index
+                                          ? black
+                                          : Colors.grey,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                    Gap(10),
-                                    Text('1.8 km'),
-                                    Gap(10),
-                                    Row(
-                                      children: [
-                                        HeroIcon(
-                                          HeroIcons.mapPin,
-                                          color: white,
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            snapshot.data![index].address,
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    Gap(20),
-                                    Container(
-                                      height: 1.7,
-                                      width: size.width * 0.8,
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            Colors.yellow,
-                                            Colors.yellow,
-                                            Colors.yellow,
-                                            Colors.black
-                                          ],
-                                          begin: Alignment.centerLeft,
-                                          end: Alignment.centerRight,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ),
                             );
                           },
-                        ),
-                      );
-                    }
-                  },
+                        );
+                      }
+                      ;
+                    },
+                  ),
                 ),
-              ),
-            ],
+                Gap(30),
+                Expanded(
+                  child: FutureBuilder(
+                    future: _cinemas,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator(); // Hiển thị loading indicator nếu đang chờ dữ liệu
+                      } else if (snapshot.hasError) {
+                        return Text(
+                            'Error: ${snapshot.error}'); // Xử lý lỗi nếu có
+                      } else if (snapshot.data == null) {
+                        return Text(
+                            'No data available'); // Xử lý khi không có dữ liệu
+                      } else {
+                        return Container(
+                          child: ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            itemCount: snapshot.data?.length,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _cinemaSelected = index;
+                                    _nameCinema = snapshot.data![index].name;
+                                    _cinemaBooked =
+                                        snapshot.data![index].cinemaID;
+                                    _locationBookedSelected = true;
+                                  });
+                                },
+                                child: Container(
+                                  height: 150,
+                                  width: size.width,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            snapshot.data![index].name,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18,
+                                              fontWeight: semibold,
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.symmetric(horizontal: 8),
+                                            width: 30,
+                                            height: 30,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: _cinemaSelected == index
+                                                  ? Colors.yellow
+                                                  : white.withOpacity(0.3),
+                                            ),
+                                            child: HeroIcon(
+                                              HeroIcons.check,
+                                              color: black,
+                                              size: 12,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Gap(4),
+                                      Text(
+                                        '1.8 km',
+                                        style: TextStyle(color: white.withOpacity(0.8),),
+                                      ),
+                                      Gap(8),
+                                      Row(
+                                        children: [
+                                          HeroIcon(
+                                            HeroIcons.mapPin,
+                                            color: white,
+                                            size: 10,
+                                          ),
+                                          Gap(4),
+                                          Expanded(
+                                            child: Text(
+                                              snapshot.data![index].address,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                color: white.withOpacity(0.6),
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      Gap(32),
+                                      Container(
+                                        height: 1.7,
+                                        width: size.width * 0.8,
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              yellow, black,
+                                            ],
+                                            begin: Alignment.centerLeft,
+                                            end: Alignment.centerRight,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
           Positioned(
             bottom: 30,
@@ -274,15 +282,15 @@ class _Choose_LocationState extends State<Choose_Location> {
                             Container(
                               child: Text(
                                 'CINEMA',
-                                style: TextStyle(),
+                                style: TextStyle(fontSize: 18, fontWeight: bold,),
                               ),
                             ),
-                            Gap(5),
+                            Gap(4),
                             Container(
                               child: Text(
                                 _nameCinema != null ? _nameCinema : '',
                                 // Kiểm tra _nameCinema, nếu null thì sử dụng chuỗi rỗng
-                                style: TextStyle(),
+                                style: TextStyle(fontWeight: medium, color: white.withOpacity(0.8)),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -297,6 +305,7 @@ class _Choose_LocationState extends State<Choose_Location> {
                   right: 0,
                   child:
 
+                  //Cinema-Selection
                   GestureDetector(
                     onTap: _locationBookedSelected
                         ? () {
@@ -309,22 +318,22 @@ class _Choose_LocationState extends State<Choose_Location> {
                       );
                     } // Vô hiệu hóa GestureDetector nếu _locationBookedSelected là true
                         : null,
+
+                    //Button-Next
                     child: Center(
                       child: Container(
-                        height: 60,
-                        width: 150,
+                        padding: EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(5),
                             color: _locationBookedSelected ? yellow : Colors
                                 .grey),
                         child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Text('NEXT', style: TextStyle(color: black,
-                                fontWeight: FontWeight.w900,
-                                fontSize: 20),),
-                            HeroIcon(HeroIcons.arrowRight)
+                                fontWeight: semibold,
+                                fontSize: 18),),
+                            Gap(8),
+                            HeroIcon(HeroIcons.arrowRight),
                           ],
                         ),
                       ),

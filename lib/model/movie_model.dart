@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/src/widgets/basic.dart';
 
-class Movie {
+class MovieModel {
   late String movieID; // Document ID
   late String name;
   late String image;
@@ -17,7 +17,7 @@ class Movie {
   late String time;
 
   // Constructor
-  Movie({
+  MovieModel({
     required this.movieID,
     required this.name,
     required this.image,
@@ -32,10 +32,10 @@ class Movie {
     required this.rating,
   });
 
-  // Factory method to create Movie object from a DocumentSnapshot
-  factory Movie.fromSnapshot(DocumentSnapshot doc) {
+  // Factory method to create MovieModel object from a DocumentSnapshot
+  factory MovieModel.fromMap(DocumentSnapshot doc) {
     Map data = doc.data() as Map<String, dynamic>;
-    return Movie(
+    return MovieModel(
       movieID: data['movieID'] ?? '', // Assign Document ID to movieID
       name: data['name'] ?? '',
       image: data['image'] ?? '',

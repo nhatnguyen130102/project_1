@@ -30,37 +30,4 @@ class Screening_Repository {
       return [];
     }
   }
-
-  // List<String> getListDate(List<String> screening) {
-  //   Set<String> uniqueValues = Set<String>.from(screening);
-
-  //   List<String> result = uniqueValues.toList();
-
-  //   return result;
-  // }
-
-  // Future<List<String>> getDateScreening(String movieID, String date) async {
-  //   try {
-  //     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-  //         .collection('screening')
-  //         .where('movieID', isEqualTo: movieID)
-  //         .where('date', isEqualTo: date)
-  //         .get();
-  //     // tạo danh sách hướng kết quả
-  //     List<String> screeningDates = [];
-  //     querySnapshot.docs.forEach((doc) {
-  //       screeningDates.add(doc['date']);
-  //     }); // gán các kết quả và danh sách đã tạo
-
-  //     // Loại bỏ các ngày trùng lặp
-  //     Set<String> uniqueValues = screeningDates.toSet();
-
-  //     List<String> result = uniqueValues.toList();
-  //     result.sort((a, b) => a.compareTo(b));
-  //     return result;
-  //   } catch (e) {
-  //     print("Error getting screening dates: $e");
-  //     return [];
-  //   }
-  // }
 }

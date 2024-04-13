@@ -66,7 +66,7 @@ class _NotificationPageState extends State<NotificationPage> {
                   ),
                   Text(
                     'Notice of payment',
-                    style: TextStyle(fontSize: 16, fontWeight: bold),
+                    style: TextStyle(fontSize: 20, fontWeight: bold),
                   ),
                   Gap(8),
                   Text(
@@ -74,7 +74,7 @@ class _NotificationPageState extends State<NotificationPage> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                        fontSize: 10,
+                        fontSize: 12,
                         fontWeight: light,
                         color: white.withOpacity(0.5)),
                   ),
@@ -84,7 +84,7 @@ class _NotificationPageState extends State<NotificationPage> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 16,
                         fontWeight: semibold,
                         color: white.withOpacity(0.7)),
                   ),
@@ -96,7 +96,7 @@ class _NotificationPageState extends State<NotificationPage> {
                         '04/10/2024 - 08:30 AM',
                         style: TextStyle(
                           color: yellow.withOpacity(0.5),
-                          fontSize: 10,
+                          fontSize: 12,
                           fontWeight: medium,
                         ),
                       )
@@ -136,7 +136,7 @@ class _NotificationPageState extends State<NotificationPage> {
                   ),
                   Text(
                     'Announcement',
-                    style: TextStyle(fontSize: 16, fontWeight: bold),
+                    style: TextStyle(fontSize: 20, fontWeight: bold),
                   ),
                   Gap(8),
                   Text(
@@ -144,7 +144,7 @@ class _NotificationPageState extends State<NotificationPage> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                        fontSize: 10,
+                        fontSize: 12,
                         fontWeight: light,
                         color: white.withOpacity(0.5)),
                   ),
@@ -154,7 +154,7 @@ class _NotificationPageState extends State<NotificationPage> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 16,
                         fontWeight: semibold,
                         color: white.withOpacity(0.7)),
                   ),
@@ -166,7 +166,7 @@ class _NotificationPageState extends State<NotificationPage> {
                         '03/10/2024 - 09:43 AM',
                         style: TextStyle(
                           color: white.withOpacity(0.5),
-                          fontSize: 10,
+                          fontSize: 12,
                           fontWeight: medium,
                         ),
                       )

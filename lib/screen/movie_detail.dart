@@ -7,6 +7,7 @@ import 'package:project_1/screen/choosedate.dart';
 import 'package:project_1/style/style.dart';
 import '../model/screening_model.dart';
 import '../repository/screening_repository.dart';
+import '../test/chooselocationtest.dart';
 import 'chooselocation.dart';
 
 class MovieDetail extends StatefulWidget {
@@ -199,6 +200,8 @@ class _MovieDetailState extends State<MovieDetail> {
                                   builder: (context) =>
                                       // Choose_Date(movieID: movieId),
                                   Choose_Location(movieID: movieId),
+                                  // Choose_LocationTest(movieID: movieId),
+
                                   // ScreeningPage(),
                                 ),
                               );
@@ -235,22 +238,25 @@ class _MovieDetailState extends State<MovieDetail> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           //Director-info
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Director',
-                                style: TextStyle(
-                                    color: yellow,
-                                    fontWeight: bold,
-                                    fontSize: 20),
-                              ),
-                              Gap(4),
-                              Text(
-                                '${widget.movie['director']}',
-                                style: TextStyle(fontSize: 16),
-                              ),
-                            ],
+                          Container(
+                            width: size.width*1/3,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Director',
+                                  style: TextStyle(
+                                      color: yellow,
+                                      fontWeight: bold,
+                                      fontSize: 20),
+                                ),
+                                Gap(4),
+                                Text(
+                                  '${widget.movie['director']}',maxLines: 1, overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ],
+                            ),
                           ),
                           Gap(32),
 
@@ -265,22 +271,24 @@ class _MovieDetailState extends State<MovieDetail> {
                           Gap(32),
 
                           //ReleaseDate-info
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Release Date',
-                                style: TextStyle(
-                                    color: yellow,
-                                    fontWeight: bold,
-                                    fontSize: 20),
-                              ),
-                              Gap(4),
-                              Text(
-                                '${widget.movie['date']}',
-                                style: TextStyle(fontSize: 16),
-                              ),
-                            ],
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Release Date',
+                                  style: TextStyle(
+                                      color: yellow,
+                                      fontWeight: bold,
+                                      fontSize: 20),
+                                ),
+                                Gap(4),
+                                Text(
+                                  '${widget.movie['date']}',
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),

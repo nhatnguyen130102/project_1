@@ -12,6 +12,23 @@ class MovieRepository {
         .map((doc) => doc.data() as Map<String, dynamic>)
         .toList();
   }
+  Future<MovieModel?> getMoviesByMovieID(String movieID) async {
+    try {
+      QuerySnapshot querySnapshot = await _moviesCollection.where('movieID', isEqualTo: movieID).get();
+
+      // Trả về danh sách các DocumentSnapshot tương ứng với tài liệu có movieID
+      if (querySnapshot.docs.isNotEmpty) {
+        // Trích xuất dữ liệu từ tài liệu đầu tiên trong danh sách
+        Map<String, dynamic> data = querySnapshot.docs.first.data() as Map<String, dynamic>;
+        return MovieModel.fromMap(data as DocumentSnapshot<Object?>); // Trả về một đối tượng MovieModel từ dữ liệu
+      } else {
+        return null; // Trả về null nếu không tìm thấy tài liệu với movieID tương ứng
+      }
+    } catch (e) {
+      print("Error fetching movies by movieID: $e"); // In ra lỗi để gỡ rối
+      return null; // Trả về danh sách rỗng trong trường hợp có lỗi
+    }
+  }
 
   Future<List<Actor>> getAllActorsForMovie(String movieId) async {
     try {
