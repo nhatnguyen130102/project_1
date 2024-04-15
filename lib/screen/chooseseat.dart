@@ -3,7 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:heroicons/heroicons.dart';
 
 import '../style/style.dart';
-import 'billing.dart';
+import 'billingpage.dart';
 
 class ChooseSeat extends StatefulWidget {
   late String movieID;
@@ -360,7 +360,7 @@ class _SeatPageState extends State<ChooseSeat> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) {
-                                  return Billing();
+                                  return BillingPage(booked: _booked, cinemaID: widget.cinemaID, locationID: widget.locationID, movidID: widget.movieID,);
                                 }),
                               );
                             } // Vô hiệu hóa GestureDetector nếu _locationBookedSelected là true

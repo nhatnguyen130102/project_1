@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:project_1/screen/billing.dart';
+import 'package:project_1/screen/billingpage.dart';
+import 'package:project_1/screen/mainlayout.dart';
 import 'package:project_1/style/style.dart';
 
 class Transaction_Notification_Modun extends StatelessWidget {
@@ -17,7 +18,7 @@ class Transaction_Notification_Modun extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) {
-            return Billing();
+            return MainLayout(); // cần sửa
           }),
         );
       },

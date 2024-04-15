@@ -66,10 +66,11 @@ class Actor {
     required this.image,
   });
 
-  factory Actor.fromMap(Map<String, dynamic> map) {
+  factory Actor.fromMap(DocumentSnapshot doc) {
+    Map data = doc.data() as Map<String, dynamic>;
     return Actor(
-      name: map['name'] ?? '',
-      image: map['image'] ?? '',
+      name: data['name'] ?? '',
+      image: data['image'] ?? '',
     );
   }
 }

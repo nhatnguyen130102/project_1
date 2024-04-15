@@ -2,9 +2,11 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:project_1/repository/movie_repository.dart';
 import 'package:project_1/screen/choosedate.dart';
-
 import 'package:project_1/style/style.dart';
+
+import '../model/movie_model.dart';
 import '../model/screening_model.dart';
 import '../repository/screening_repository.dart';
 import '../test/chooselocationtest.dart';
@@ -12,6 +14,7 @@ import 'chooselocation.dart';
 
 class MovieDetail extends StatefulWidget {
   final Map<String, dynamic> movie;
+
   MovieDetail({
     required this.movie,
     super.key,
@@ -23,14 +26,22 @@ class MovieDetail extends StatefulWidget {
 
 class _MovieDetailState extends State<MovieDetail> {
   late String movieId = widget.movie['movieID']; // lấy movieID
+  // repository
+  MovieRepository _movieRepository = MovieRepository();
+
+  // var
+  late Future<List<Actor>> _listActor;
+
+  @override
+  void initState() {
+    super.initState();
+    _listActor = _movieRepository.getAllActorsForMovie(movieId);
+    int anc = _listActor.hashCode;
+  }
 
   @override
   Widget build(BuildContext context) {
-    // List<Actor> actors = [];
-    // if (widget.movie.containsKey('actors')) {
-    //   List<dynamic> actorList = widget.movie['actors'];
-    //   actors = actorList.map((actor) => Actor.fromMap(actor)).toList();
-    // }
+
 
     Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -90,10 +101,12 @@ class _MovieDetailState extends State<MovieDetail> {
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
                             BoxShadow(
-                              color: black
-                                  .withOpacity(0.7), // Màu của shadow và độ mờ
-                              spreadRadius: 10, // Bề rộng của shadow
-                              blurRadius: 100, // Độ mờ của shadow
+                              color: black.withOpacity(0.7),
+                              // Màu của shadow và độ mờ
+                              spreadRadius: 10,
+                              // Bề rộng của shadow
+                              blurRadius: 100,
+                              // Độ mờ của shadow
                               offset: Offset(
                                   0, 3), // Vị trí của shadow (ngang, dọc)
                             ),
@@ -199,7 +212,7 @@ class _MovieDetailState extends State<MovieDetail> {
                                 MaterialPageRoute(
                                   builder: (context) =>
                                       // Choose_Date(movieID: movieId),
-                                  Choose_Location(movieID: movieId),
+                                      Choose_Location(movieID: movieId),
                                   // Choose_LocationTest(movieID: movieId),
 
                                   // ScreeningPage(),
@@ -239,7 +252,7 @@ class _MovieDetailState extends State<MovieDetail> {
                         children: [
                           //Director-info
                           Container(
-                            width: size.width*1/3,
+                            width: size.width * 1 / 3,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -252,7 +265,9 @@ class _MovieDetailState extends State<MovieDetail> {
                                 ),
                                 Gap(4),
                                 Text(
-                                  '${widget.movie['director']}',maxLines: 1, overflow: TextOverflow.ellipsis,
+                                  '${widget.movie['director']}',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                   style: TextStyle(fontSize: 16),
                                 ),
                               ],
@@ -316,6 +331,49 @@ class _MovieDetailState extends State<MovieDetail> {
                     ],
                   ),
                 ),
+
+                Gap(20),
+                Container(
+                  alignment: Alignment.topLeft,
+                  margin: EdgeInsets.only(left: 20),
+                  child: Text(
+                    'Director',
+                    style: TextStyle(
+                        color: yellow, fontWeight: bold, fontSize: 20),
+                  ),
+                ),
+                Gap(20),
+                FutureBuilder(
+                  future: _listActor,
+                  builder: (context,SnapShot){
+                    return Container(
+                      height: 100,
+                      width: size.width,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: SnapShot.data!.length,
+                        itemBuilder: (context,index){
+                          return Container(
+                            margin: EdgeInsets.only(left: 20),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10), // Bán kính của các góc bo tròn
+                              child: AspectRatio(
+                                aspectRatio: 1/1, // Tỉ lệ chiều rộng/chiều cao của hình ảnh
+                                child: Image.network(
+                                  SnapShot.data![index].image,
+
+                                  fit: BoxFit.cover, // Hình ảnh sẽ fit theo chiều rộng
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ),
+                Gap(20),
+
               ],
             ),
           ],

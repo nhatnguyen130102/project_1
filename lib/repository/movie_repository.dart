@@ -7,7 +7,7 @@ class MovieRepository {
 
   Future<List<Map<String, dynamic>>> getMovies() async {
     QuerySnapshot querySnapshot =
-        await _moviesCollection.collection('movie').get();
+    await _moviesCollection.collection('movie').get();
     return querySnapshot.docs
         .map((doc) => doc.data() as Map<String, dynamic>)
         .toList();
@@ -20,7 +20,10 @@ class MovieRepository {
           .where('movieID', isEqualTo: movieID)
           .get();
 
-      MovieModel item = querySnapshot.docs.map((e) => MovieModel.fromMap(e)).first;
+      MovieModel item =
+          querySnapshot.docs
+              .map((e) => MovieModel.fromMap(e))
+              .first;
 
       return item;
     } catch (e) {
@@ -31,20 +34,37 @@ class MovieRepository {
 
   Future<List<Actor>> getAllActorsForMovie(String movieId) async {
     try {
-      QuerySnapshot<Map<String, dynamic>> actorsSnapshot =
-          await _moviesCollection.doc(movieId).collection('actor').get();
-
-      List<Actor> actors = actorsSnapshot.docs.map((doc) {
-        Map<String, dynamic> data = doc.data()!;
-        return Actor(
-          name: data['name'] ?? '',
-          image: data['image'] ?? '',
+      List<Actor> actors = [];
+      QuerySnapshot querySnapshot = await _moviesCollection
+          .collection('movie')
+          .doc(movieId)
+          .collection('actor')
+          .get();
+      querySnapshot.docs.forEach((doc) {
+        actors.add(
+          Actor(
+            name: doc['name'],
+            image: doc['image'],
+          ),
         );
-      }).toList();
-
+      });
       return actors;
-    } catch (error) {
-      throw error;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  Future<List<MovieModel?>> searchMovie(String search) async {
+    try {
+
+      QuerySnapshot querySnapshot = await _moviesCollection.collection('movie')
+          .where('name', isEqualTo: search)
+          .get();
+      return querySnapshot.docs.map((e) => MovieModel.fromMap(e)).toList();
+
+    }
+    catch (e) {
+      return [];
     }
   }
 }

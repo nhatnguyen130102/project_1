@@ -270,32 +270,7 @@ class _MainLayoutState extends State<MainLayout> {
                           );
                         }).toList(),
                       ),
-                      Positioned(
-                        top: height / 2,
-                        left: 10,
-                        right: 10,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              padding: EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: yellow.withOpacity(0.7),
-                              ),
-                              child: HeroIcon(HeroIcons.chevronLeft),
-                            ),
-                            Container(
-                              padding: EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: yellow.withOpacity(0.7),
-                              ),
-                              child: HeroIcon(HeroIcons.chevronRight),
-                            ),
-                          ],
-                        ),
-                      ),
+
                     ],
                   ),
                 );

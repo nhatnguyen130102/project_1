@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:intl/intl.dart';
 import 'package:project_1/model/cinema_model.dart';
 import 'package:project_1/repository/cinema_repository.dart';
 import 'package:project_1/repository/location_repository.dart';
@@ -34,6 +35,7 @@ class _Choose_LocationState extends State<Choose_Location> {
   late int _locationSelected = 0;
   late int _cinemaSelected = -1;
   late bool _locationBookedSelected = false;
+  String todayFormat = DateFormat('dd/MM/yyyy').format(DateTime.now());
 
   @override
   void initState() {
