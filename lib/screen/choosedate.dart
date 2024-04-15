@@ -7,6 +7,7 @@ import 'package:project_1/model/screening_model.dart';
 import 'package:project_1/repository/cinema_repository.dart';
 import 'package:project_1/repository/movie_repository.dart';
 import 'package:project_1/repository/screening_repository.dart';
+import 'package:project_1/screen/chooseseat.dart';
 import 'package:project_1/style/style.dart';
 
 import '../model/cinema_model.dart';
@@ -36,17 +37,16 @@ class _Choose_DateState extends State<Choose_Date> {
   late Future<MovieModel?> _movie;
   late Future<CinemaModel?> _cinema;
   late Future<List<ScreeningModel>> _listScreening;
-  DateTime now = DateTime.now();
-  DateFormat getDateTime = DateFormat('dd/MM/yyyy');
-  late String _formatDate = getDateTime.format(now);
+  String todayFormat = DateFormat('dd/MM/yyyy').format(DateTime.now());
+  late int _dateSelected = 0;
 
   @override
   void initState() {
     super.initState();
     _movie = _movieRepository.getMoviesByMovieID(widget.movieID);
     _cinema = _cinemaRepository.getCinemaByID(widget.cinemaID);
-    _listScreening = _screening_repository.getScreeningByMovieIDDate(
-        widget.movieID, _formatDate);
+    _listScreening = _screening_repository.getScreeningByMovieIDDateCinemaID(
+        widget.movieID, todayFormat, widget.cinemaID);
   }
 
   Widget build(BuildContext context) {
@@ -103,7 +103,11 @@ class _Choose_DateState extends State<Choose_Date> {
                     return GestureDetector(
                       onTap: () {
                         setState(() {
-                          _formatDate = formatDateTime[index];
+                          _dateSelected = index;
+                          todayFormat = formatDateTime[index];
+                          _listScreening = _screening_repository
+                              .getScreeningByMovieIDDateCinemaID(
+                                  widget.movieID, todayFormat, widget.cinemaID);
                         });
                       },
                       child: Container(
@@ -112,7 +116,10 @@ class _Choose_DateState extends State<Choose_Date> {
                         width: 72,
                         height: 112,
                         decoration: BoxDecoration(
-                          color: white.withOpacity(0.1),
+                          color: _dateSelected == index
+                              ? Colors.yellow
+                              : white.withOpacity(0.1),
+                          // color: white.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Column(
@@ -124,7 +131,9 @@ class _Choose_DateState extends State<Choose_Date> {
                                 //Days of week
                                 formatE[index].toUpperCase(),
                                 style: TextStyle(
-                                  color: white.withOpacity(0.9),
+                                  color: _dateSelected == index
+                                      ? Colors.black
+                                      : white.withOpacity(0.9),
                                   fontSize: 12,
                                 ),
                               ),
@@ -133,7 +142,11 @@ class _Choose_DateState extends State<Choose_Date> {
                               child: Text(
                                 //Date
                                 formatDate[index],
+
                                 style: TextStyle(
+                                  color: _dateSelected == index
+                                      ? Colors.black
+                                      : white.withOpacity(0.9),
                                   fontWeight: semibold,
                                   fontSize: 25,
                                 ),
@@ -146,7 +159,9 @@ class _Choose_DateState extends State<Choose_Date> {
                                   formatMon[index],
                                 ),
                                 style: TextStyle(
-                                  color: white.withOpacity(0.9),
+                                  color: _dateSelected == index
+                                      ? Colors.black
+                                      : white.withOpacity(0.9),
                                   fontSize: 12,
                                 ),
                               ),
@@ -224,7 +239,7 @@ class _Choose_DateState extends State<Choose_Date> {
                                 Container(
                                   child: Row(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.center,
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Row(
                                         children: [
@@ -233,8 +248,13 @@ class _Choose_DateState extends State<Choose_Date> {
                                             color: yellow,
                                           ),
                                           Gap(6),
-                                          Text(SnapShot.data!.time,
-                                            style: TextStyle(fontWeight: medium, fontSize: 16,),),
+                                          Text(
+                                            SnapShot.data!.time,
+                                            style: TextStyle(
+                                              fontWeight: medium,
+                                              fontSize: 16,
+                                            ),
+                                          ),
                                         ],
                                       ),
                                       Gap(40),
@@ -245,8 +265,13 @@ class _Choose_DateState extends State<Choose_Date> {
                                             color: yellow,
                                           ),
                                           Gap(10),
-                                          Text(SnapShot.data!.age,
-                                            style: TextStyle(fontWeight: medium, fontSize: 16,),),
+                                          Text(
+                                            SnapShot.data!.age,
+                                            style: TextStyle(
+                                              fontWeight: medium,
+                                              fontSize: 16,
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     ],
@@ -263,7 +288,10 @@ class _Choose_DateState extends State<Choose_Date> {
                                       Gap(8),
                                       Text(
                                         SnapShot.data!.rating.toString(),
-                                        style: TextStyle(fontWeight: medium, fontSize: 16,),
+                                        style: TextStyle(
+                                          fontWeight: medium,
+                                          fontSize: 16,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -326,10 +354,13 @@ class _Choose_DateState extends State<Choose_Date> {
                           ],
                         ),
                         Gap(16),
-
                         Row(
                           children: [
-                            HeroIcon(HeroIcons.mapPin, color: white.withOpacity(0.5), size: 24,),
+                            HeroIcon(
+                              HeroIcons.mapPin,
+                              color: white.withOpacity(0.5),
+                              size: 24,
+                            ),
                             Gap(6),
                             Container(
                               width: size.width - 60,
@@ -345,7 +376,11 @@ class _Choose_DateState extends State<Choose_Date> {
                         Gap(16),
                         Row(
                           children: [
-                            HeroIcon(HeroIcons.devicePhoneMobile, color: white.withOpacity(0.5), size: 22,),
+                            HeroIcon(
+                              HeroIcons.devicePhoneMobile,
+                              color: white.withOpacity(0.5),
+                              size: 22,
+                            ),
                             Gap(6),
                             Text(
                               '+ 84 98 112 56 32',
@@ -367,95 +402,106 @@ class _Choose_DateState extends State<Choose_Date> {
               Container(
                 width: size.width,
                 height: 160,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: formatDateTime.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _formatDate = formatDateTime[index];
-                        });
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(right: 16),
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        width: 128,
-                        height: 160,
-                        decoration: BoxDecoration(
-                          color: white.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('4DX', style: TextStyle(
-                                  color: white.withOpacity(0.7),
-                                  fontSize: 12,
-                                ),),
-                                Gap(16),
-                                Text('08:00', style: TextStyle(
-                                  fontWeight: medium,
-                                  fontSize: 32,
-                                ),),
-                                Gap(8),
-                                Text('Rooom 1', style: TextStyle(
-                                  fontWeight: medium,
-                                  fontSize: 14,
-                                ),),
-                                Gap(16),
-                                Container(
-                                  width: 100,
-                                  child: LinearProgressIndicator(
-                                    value: 0.8,
-                                    minHeight: 3.0,
-                                    backgroundColor: white.withOpacity(0.1),
-                                    valueColor: AlwaysStoppedAnimation<Color>(yellow),
+                child: FutureBuilder(
+                  future: _listScreening,
+                  builder: (context, SnapShot) {
+                    if (SnapShot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator(); // Hiển thị loading indicator nếu đang chờ dữ liệu
+                    } else if (SnapShot.hasError) {
+                      return Text(
+                          'Error: ${SnapShot.error}'); // Xử lý lỗi nếu có
+                    } else if (SnapShot.data == null) {
+                      return Text(
+                          'No data available'); // Xử lý khi không có dữ liệu
+                    } else {
+                      return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: SnapShot.data!.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              setState(
+                                () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ChooseSeat(
+                                          cinemaID: widget.cinemaID,
+                                          movieID: widget.movieID,
+                                          locationID: widget.locationID,
+                                          screeningID: SnapShot
+                                              .data![index].screeningID),
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(right: 16),
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              width: 128,
+                              height: 160,
+                              decoration: BoxDecoration(
+                                color: white.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        '4DX',
+                                        style: TextStyle(
+                                          color: white.withOpacity(0.7),
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                      Gap(16),
+                                      Text(
+                                        SnapShot.data![index].time
+                                            .substring(0, 5),
+                                        style: TextStyle(
+                                          fontWeight: medium,
+                                          fontSize: 32,
+                                        ),
+                                      ),
+                                      Gap(8),
+                                      Text(
+                                        SnapShot.data![index].roomID,
+                                        style: TextStyle(
+                                          fontWeight: medium,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      Gap(16),
+                                      Container(
+                                        width: 100,
+                                        child: LinearProgressIndicator(
+                                          value: 0.8,
+                                          minHeight: 3.0,
+                                          backgroundColor:
+                                              white.withOpacity(0.1),
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                                  yellow),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                // Container(
-                                //   height: 3,
-                                //   width: 100,
-                                //   decoration: BoxDecoration(color: yellow, borderRadius: BorderRadius.circular(10)),
-                                // )
-                              ],
+                                ],
+                              ),
                             ),
-                          ],
-                        ),
-                      ),
-                    );
+                          );
+                        },
+                      );
+                    }
+                    ;
                   },
                 ),
               ),
-
-
-              // //Loading-indicator
-              // FutureBuilder(
-              //   future: _listScreening,
-              //   builder: (context, SnapShot) {
-              //     if (SnapShot.connectionState == ConnectionState.waiting) {
-              //       return CircularProgressIndicator(); // Hiển thị loading indicator nếu đang chờ dữ liệu
-              //     } else if (SnapShot.hasError) {
-              //       return Text('Error: ${SnapShot.error}'); // Xử lý lỗi nếu có
-              //     } else if (SnapShot.data == null) {
-              //       return Text(
-              //           'No data available'); // Xử lý khi không có dữ liệu
-              //     } else {
-              //       return ListView.builder(
-              //         itemCount: SnapShot.data!.length,
-              //         itemBuilder: (context,index){
-              //           return Container();
-              //         },
-              //       );
-              //     }
-              //     ;
-              //   },
-              // ),
-              //
-
             ],
           ),
         ),

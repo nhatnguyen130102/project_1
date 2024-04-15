@@ -17,13 +17,14 @@ class Screening_Repository {
     }
   }
 
-  Future<List<ScreeningModel>> getScreeningByMovieIDDate(
-      String movieID, String date) async {
+  Future<List<ScreeningModel>> getScreeningByMovieIDDateCinemaID(
+      String movieID, String date, String cinemaID) async {
     try {
       QuerySnapshot querySnapshot = await _firestore
           .collection('screening')
           .where('movieID', isEqualTo: movieID)
           .where('date', isEqualTo: date)
+          .where('cinemaID', isEqualTo: cinemaID)
           .get();
       return querySnapshot.docs.map((e) => ScreeningModel.fromMap(e)).toList();
     } catch (e) {
