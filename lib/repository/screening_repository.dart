@@ -31,4 +31,57 @@ class Screening_Repository {
       return [];
     }
   }
+
+  void addBookedScreening(String screeningID, List<String> booked) async {
+    try {
+      await _firestore
+          .collection('screening')
+          .doc(
+              screeningID) // Sử dụng doc() để tham chiếu đến tài liệu có screeningID tương ứng
+          .set(
+            {
+              'booked': booked,
+            },
+            SetOptions(
+                merge:
+                    true), // Sử dụng merge: true để cập nhật trường booked mà không ghi đè các trường khác
+          )
+          .then((value) => print('Document added/updated successfully'))
+          .catchError(
+              (error) => print('Failed to add/update document: $error'));
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+  Future<List<String>> getBookedSeats(String screeningId) async {
+    try {
+      DocumentSnapshot documentSnapshot =
+      await _firestore.collection('screening').doc(screeningId).get();
+
+      if (documentSnapshot.exists) {
+        // Xác định kiểu của dữ liệu trong documentSnapshot.data()
+        Map<String, dynamic>? data = documentSnapshot.data() as Map<String, dynamic>?;
+
+        // Kiểm tra xem dữ liệu có null hay không
+        if (data != null) {
+          // Truy cập trường 'booked' từ dữ liệu và chuyển đổi sang List<String>
+          List<String>? bookedSeats = List<String>.from(data['booked'] ?? []);
+
+          // Trả về danh sách ghế đã đặt
+          return bookedSeats ?? [];
+        } else {
+          // Trả về danh sách rỗng nếu dữ liệu là null
+          return [];
+        }
+      } else {
+        // Trả về danh sách rỗng nếu không tìm thấy document
+        return [];
+      }
+    } catch (e) {
+      // Xử lý lỗi và trả về danh sách rỗng
+      print('Error retrieving booked seats: $e');
+      return [];
+    }
+  }
+
 }

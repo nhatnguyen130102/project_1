@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class ScreeningModel {
   late String screeningID;
   late String cinemaID;
-  late String roomID;
+  late String room;
   late String movieID;
   late String time;
   late List<String> booked = [];
@@ -12,7 +12,7 @@ class ScreeningModel {
   ScreeningModel({
     required this.screeningID,
     required this.cinemaID,
-    required this.roomID,
+    required this.room,
     required this.movieID,
     required this.time,
     required this.booked,
@@ -24,7 +24,7 @@ class ScreeningModel {
     return ScreeningModel(
       screeningID: doc.id,
       cinemaID: data['cinemaID'] ?? '',
-      roomID: data['roomID'] ?? '',
+      room: data['room'] ?? '',
       movieID: data['movieID'] ?? '',
       time: data['time'] ?? '',
       booked: List<String>.from(data['booked'] ?? []),
@@ -35,7 +35,7 @@ class ScreeningModel {
   Map<String, dynamic> toMap() {
     return {
       'cinemaID': cinemaID,
-      'roomID': roomID,
+      'room': room,
       'movieID': movieID,
       'time': time,
       'booked': booked,

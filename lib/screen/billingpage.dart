@@ -1,6 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:barcode_widget/barcode_widget.dart';
+import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:project_1/repository/screening_repository.dart';
+import 'package:project_1/screen/mainlayout.dart';
+
 import '../style/style.dart';
 
 class BillingPage extends StatefulWidget {
@@ -8,13 +11,26 @@ class BillingPage extends StatefulWidget {
   String cinemaID;
   String locationID;
   List<String> booked;
-  BillingPage({required this.booked ,required this.cinemaID, required this.locationID ,required this.movidID, super.key});
+  String screeningID;
+
+  BillingPage(
+      {required this.screeningID,
+      required this.booked,
+      required this.cinemaID,
+      required this.locationID,
+      required this.movidID,
+      super.key});
 
   @override
   State<BillingPage> createState() => _BillingPageState();
 }
 
 class _BillingPageState extends State<BillingPage> {
+  // repository
+  Screening_Repository _screening_repository = Screening_Repository();
+
+  // var
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -43,7 +59,12 @@ class _BillingPageState extends State<BillingPage> {
                     //Note-line
                     Text(
                       'Use QR code to pre-show tickets',
-                      style: TextStyle(fontSize: 12, fontWeight: medium, color: white.withOpacity(0.8),),),
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: medium,
+                        color: white.withOpacity(0.8),
+                      ),
+                    ),
                     Gap(12),
 
                     //Banner-background
@@ -60,12 +81,7 @@ class _BillingPageState extends State<BillingPage> {
                           gradient: LinearGradient(
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
-                              colors: [
-                                black.withOpacity(0.5),
-                                black
-                              ]
-                          )
-                      ),
+                              colors: [black.withOpacity(0.5), black])),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -121,8 +137,7 @@ class _BillingPageState extends State<BillingPage> {
                                 ),
                               ),
                             ],
-                          )
-                      ),
+                          )),
                       Gap(24),
 
                       Row(
@@ -200,7 +215,8 @@ class _BillingPageState extends State<BillingPage> {
                       //Seat-list
                       Container(
                         width: size.width * 0.8,
-                        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                         decoration: BoxDecoration(
                           border: Border(
                             left: BorderSide(
@@ -222,7 +238,7 @@ class _BillingPageState extends State<BillingPage> {
                             ),
                             Gap(10),
                             Text(
-                             widget.booked.join(', '),
+                              widget.booked.join(', '),
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: medium,
@@ -238,9 +254,8 @@ class _BillingPageState extends State<BillingPage> {
                         height: 1.5,
                         decoration: BoxDecoration(
                             gradient: LinearGradient(
-                              colors: [yellow, yellow.withOpacity(0.5)],
-                            )
-                        ),
+                          colors: [yellow, yellow.withOpacity(0.5)],
+                        )),
                       ),
                       Gap(24),
 
@@ -251,32 +266,36 @@ class _BillingPageState extends State<BillingPage> {
                             children: [
                               //Datetime
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
                                     children: [
-                                      Icon(Icons.date_range, color: yellow, size: 14,),
+                                      Icon(
+                                        Icons.date_range,
+                                        color: yellow,
+                                        size: 14,
+                                      ),
                                       Gap(6),
                                       Text(
                                         '11/04/2024',
                                         style: TextStyle(
-                                            fontWeight: medium,
-                                            fontSize: 12
-                                        ),
+                                            fontWeight: medium, fontSize: 12),
                                       ),
                                     ],
                                   ),
-
                                   Row(
                                     children: [
-                                      Icon(Icons.access_time, color: yellow, size: 14,),
+                                      Icon(
+                                        Icons.access_time,
+                                        color: yellow,
+                                        size: 14,
+                                      ),
                                       Gap(6),
                                       Text(
                                         '08:00',
                                         style: TextStyle(
-                                            fontWeight: medium,
-                                            fontSize: 12
-                                        ),
+                                            fontWeight: medium, fontSize: 12),
                                       ),
                                     ],
                                   ),
@@ -286,7 +305,11 @@ class _BillingPageState extends State<BillingPage> {
                               //Address
                               Row(
                                 children: [
-                                  Icon(Icons.location_on, color: yellow, size: 14,),
+                                  Icon(
+                                    Icons.location_on,
+                                    color: yellow,
+                                    size: 14,
+                                  ),
                                   Gap(6),
                                   Container(
                                     width: size.width * 0.7,
@@ -305,13 +328,15 @@ class _BillingPageState extends State<BillingPage> {
 
                               //2-active-buttons
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
                                 children: [
                                   Container(
                                     width: size.width * 0.4 - 16,
                                     padding: EdgeInsets.symmetric(vertical: 16),
                                     decoration: BoxDecoration(
-                                      border: Border.all(color: yellow, width: 1.5),
+                                      border:
+                                          Border.all(color: yellow, width: 1.5),
                                       borderRadius: BorderRadius.circular(5),
                                     ),
                                     child: Text(
@@ -324,38 +349,55 @@ class _BillingPageState extends State<BillingPage> {
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
-
-                                  Container(
-                                    width: size.width * 0.4 - 16,
-                                    padding: EdgeInsets.symmetric(vertical: 16),
-                                    decoration: BoxDecoration(
-                                      color: yellow,
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    child: Text(
-                                      'MY TICKETS',
-                                      style: TextStyle(
-                                        fontWeight: bold,
-                                        fontSize: 14,
-                                        color: black,
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(
+                                        () {
+                                          _screening_repository
+                                              .addBookedScreening(
+                                                  widget.screeningID,
+                                                  widget.booked);
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) {
+                                                return MainLayout();
+                                              },
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: Container(
+                                      width: size.width * 0.4 - 16,
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 16),
+                                      decoration: BoxDecoration(
+                                        color: yellow,
+                                        borderRadius: BorderRadius.circular(5),
                                       ),
-                                      textAlign: TextAlign.center,
+                                      child: Text(
+                                        'MY TICKETS',
+                                        style: TextStyle(
+                                          fontWeight: bold,
+                                          fontSize: 14,
+                                          color: black,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
                                     ),
                                   ),
                                 ],
                               ),
                             ],
-                          )
-                      ),
+                          )),
                       //Text-here
                     ],
                   ),
                 ),
               ),
-
             ],
           ),
-        )
-    );
+        ));
   }
 }

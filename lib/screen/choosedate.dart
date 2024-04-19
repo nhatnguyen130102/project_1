@@ -430,7 +430,7 @@ class _Choose_DateState extends State<Choose_Date> {
                                           movieID: widget.movieID,
                                           locationID: widget.locationID,
                                           screeningID: SnapShot
-                                              .data![index].screeningID),
+                                              .data![index].screeningID,),
                                     ),
                                   );
                                 },
@@ -470,7 +470,7 @@ class _Choose_DateState extends State<Choose_Date> {
                                       ),
                                       Gap(8),
                                       Text(
-                                        SnapShot.data![index].roomID,
+                                        'Room ' + SnapShot.data![index].room,
                                         style: TextStyle(
                                           fontWeight: medium,
                                           fontSize: 14,

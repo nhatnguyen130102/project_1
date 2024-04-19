@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:heroicons/heroicons.dart';
 
+import '../repository/screening_repository.dart';
 import '../style/style.dart';
 import 'billingpage.dart';
 
@@ -24,6 +24,7 @@ class ChooseSeat extends StatefulWidget {
 
 class _SeatPageState extends State<ChooseSeat> {
   // repository
+  Screening_Repository _screening_repository = Screening_Repository();
 
   // variable
   final int numRows = 10;
@@ -33,17 +34,27 @@ class _SeatPageState extends State<ChooseSeat> {
   bool isSelected = false;
   late List<bool> _isSelected = [];
   late List<String> _booked = [];
+  late List<String> _seatBooked = [];
   final int _maximunTicket = 8;
   late double _subtotal = 0;
   final double _priceOfTicket = 60000;
-  final List<int> _listCenterSeatRow = [3,4,5,6];
-  final List<int> _listCenterSeatColumn = [2,3,4,5,6];
+  final List<int> _listCenterSeatRow = [3, 4, 5, 6];
+  final List<int> _listCenterSeatColumn = [2, 3, 4, 5, 6];
+  late Future<List<String?>> _listBooked;
+  late final List<String> _listStringBooked = [];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _isSelected = List.generate(90, (_) => false);
+    _listBooked = _screening_repository.getBookedSeats(widget.screeningID);
+    _listBooked.then((value) {
+      // Gán giá trị của _listBooked cho _listStringBooked
+      setState(() {
+        _listStringBooked.addAll(value as Iterable<String>);
+      });
+    });
   }
 
   @override
@@ -64,6 +75,7 @@ class _SeatPageState extends State<ChooseSeat> {
       body: Center(
         child: Stack(
           children: [
+
             Container(
               padding: EdgeInsets.all(10.0),
               child: Column(
@@ -106,7 +118,9 @@ class _SeatPageState extends State<ChooseSeat> {
                           height: 30,
                           padding: EdgeInsets.all(4),
                           child: ElevatedButton(
-                            onPressed: () {
+
+
+                            onPressed:  _listStringBooked.contains(seatName) ? null : () {
                               _booked.length < _maximunTicket
                                   ? setState(
                                       () {
@@ -220,13 +234,15 @@ class _SeatPageState extends State<ChooseSeat> {
                                   borderRadius: BorderRadius.circular(5),
                                 ),
                               ),
-                              backgroundColor: _listCenterSeatRow.contains(row) && _listCenterSeatColumn.contains(column)
+                              backgroundColor: _listCenterSeatRow
+                                          .contains(row) &&
+                                      _listCenterSeatColumn.contains(column)
                                   ? MaterialStateProperty.all(_isSelected[index]
                                       ? yellow
-                                      : Colors.pink.withOpacity(0.7))
+                                      : _listStringBooked.contains(seatName) ? Colors.grey : Colors.pink.withOpacity(0.7))
                                   : MaterialStateProperty.all(_isSelected[index]
                                       ? yellow
-                                      : white.withOpacity(0.1)),
+                                      : _listStringBooked.contains(seatName) ?  Colors.grey :  white.withOpacity(0.1)),
                               foregroundColor: MaterialStateProperty.all(
                                   _isSelected[index] ? black : white),
                             ),
@@ -360,7 +376,13 @@ class _SeatPageState extends State<ChooseSeat> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) {
-                                  return BillingPage(booked: _booked, cinemaID: widget.cinemaID, locationID: widget.locationID, movidID: widget.movieID,);
+                                  return BillingPage(
+                                    booked: _booked,
+                                    cinemaID: widget.cinemaID,
+                                    locationID: widget.locationID,
+                                    movidID: widget.movieID,
+                                    screeningID: widget.screeningID,
+                                  );
                                 }),
                               );
                             } // Vô hiệu hóa GestureDetector nếu _locationBookedSelected là true
@@ -376,7 +398,7 @@ class _SeatPageState extends State<ChooseSeat> {
                           child: Row(
                             children: [
                               Text(
-                              _subtotal.toString() + ' đ',
+                                _subtotal.toString() + ' đ',
                                 style: TextStyle(
                                     color: black,
                                     fontWeight: semibold,
