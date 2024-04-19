@@ -10,6 +10,7 @@ import 'package:project_1/repository/screening_repository.dart';
 import 'package:project_1/screen/chooseseat.dart';
 import 'package:project_1/style/style.dart';
 
+import '../component_widget/loading.dart';
 import '../model/cinema_model.dart';
 
 class Choose_Date extends StatefulWidget {
@@ -180,7 +181,7 @@ class _Choose_DateState extends State<Choose_Date> {
                 future: _movie,
                 builder: (context, SnapShot) {
                   if (SnapShot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator(); // Hiển thị loading indicator nếu đang chờ dữ liệu
+                    return Loading(); // Hiển thị loading indicator nếu đang chờ dữ liệu
                   } else if (SnapShot.hasError) {
                     return Text('Error: ${SnapShot.error}'); // Xử lý lỗi nếu có
                   } else if (SnapShot.data == null) {
@@ -313,7 +314,7 @@ class _Choose_DateState extends State<Choose_Date> {
                 future: _cinema,
                 builder: (context, SnapShot) {
                   if (SnapShot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator(); // Hiển thị loading indicator nếu đang chờ dữ liệu
+                    return Loading(); // Hiển thị loading indicator nếu đang chờ dữ liệu
                   } else if (SnapShot.hasError) {
                     return Text('Error: ${SnapShot.error}'); // Xử lý lỗi nếu có
                   } else if (SnapShot.data == null) {
@@ -406,7 +407,7 @@ class _Choose_DateState extends State<Choose_Date> {
                   future: _listScreening,
                   builder: (context, SnapShot) {
                     if (SnapShot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator(); // Hiển thị loading indicator nếu đang chờ dữ liệu
+                      return Loading(); // Hiển thị loading indicator nếu đang chờ dữ liệu
                     } else if (SnapShot.hasError) {
                       return Text(
                           'Error: ${SnapShot.error}'); // Xử lý lỗi nếu có

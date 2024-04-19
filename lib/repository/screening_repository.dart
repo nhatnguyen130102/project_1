@@ -83,5 +83,13 @@ class Screening_Repository {
       return [];
     }
   }
-
+  Future<ScreeningModel?> getScreeningByID(String screeningID) async {
+    try {
+      QuerySnapshot querySnapshot = await _firestore.collection('screening').where('screeningID',isEqualTo: screeningID).get();
+      return querySnapshot.docs.map((e) => ScreeningModel.fromMap(e)).first;
+    }
+    catch (e){
+      return null;
+    }
+  }
 }

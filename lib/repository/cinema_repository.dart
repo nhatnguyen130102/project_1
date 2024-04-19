@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project_1/model/cinema_model.dart';
-import '../model/screening_model.dart';
+import 'package:project_1/model/screening_model.dart';
 
 class CinemaRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -30,7 +30,8 @@ class CinemaRepository {
           .collection('cinema')
           .where('cinemaID', isEqualTo: cinemaID)
           .get();
-      CinemaModel item = querySnapshot.docs.map((e) => CinemaModel.fromSnapshot(e)).first;
+      CinemaModel item =
+          querySnapshot.docs.map((e) => CinemaModel.fromSnapshot(e)).first;
       return item;
     } catch (e) {
       return null;
@@ -91,45 +92,79 @@ class CinemaRepository {
   //     return [];
   //   }
   // }
-  Future<List<CinemaModel>> getCinemasByMovieID(
-      String movieID, String locationID) async {
+  Future<List<CinemaModel>> getCinemaByLocationID(String locationID) async {
     try {
       // Khai báo danh sách để lưu các cinemaID
-      List<CinemaModel> cinemaIDs = [];
-      List<CinemaModel> cinemaID2 = [];
-      Set<String> uniqueCinemaID = {};
+      // List<CinemaModel> cinemaIDs = [];
+      // List<CinemaModel> cinemaID2 = [];
+      // Set<String> uniqueCinemaID = {};
       // Truy vấn cơ sở dữ liệu Firestore để lấy danh sách các tài liệu từ bảng Screening có movieID tương ứng
+      // QuerySnapshot querySnapshot = await _firestore
+      //     .collection('screening')
+      //     .where('movieID', isEqualTo: movieID)
+      //     .get();
+
       QuerySnapshot querySnapshot = await _firestore
-          .collection('screening')
-          .where('movieID', isEqualTo: movieID)
+          .collection('cinema')
+          .where('locationID', isEqualTo: locationID)
           .get();
 
-      List<ScreeningModel> listScreeningModel =
-          querySnapshot.docs.map((e) => ScreeningModel.fromMap(e)).toList();
-
-      for (ScreeningModel item in listScreeningModel) {
-        QuerySnapshot querySnapshot = await _firestore
-            .collection('cinema')
-            .where('cinemaID', isEqualTo: item.cinemaID)
-            .get();
-        CinemaModel itemCinema =
-            querySnapshot.docs.map((e) => CinemaModel.fromSnapshot(e)).first;
-
-        if (!uniqueCinemaID.contains(itemCinema.cinemaID)) {
-          uniqueCinemaID.add(itemCinema.cinemaID);
-          cinemaIDs.add(itemCinema);
-        }
-      }
-      for (CinemaModel item in cinemaIDs) {
-        if (item.locationID == locationID) {
-          cinemaID2.add(item);
-        }
-      }
-      return cinemaID2;
+      List<CinemaModel> listScreeningModel =
+          querySnapshot.docs.map((e) => CinemaModel.fromSnapshot(e)).toList();
+      // for (ScreeningModel item in listScreeningModel) {
+      //   QuerySnapshot querySnapshot = await _firestore
+      //       .collection('cinema')
+      //       .where('cinemaID', isEqualTo: item.cinemaID)
+      //       .get();
+      //   CinemaModel itemCinema =
+      //       querySnapshot.docs.map((e) => CinemaModel.fromSnapshot(e)).first;
+      //
+      //   if (!uniqueCinemaID.contains(itemCinema.cinemaID)) {
+      //     uniqueCinemaID.add(itemCinema.cinemaID);
+      //     cinemaIDs.add(itemCinema);
+      //   }
+      // }
+      // for (CinemaModel item in cinemaIDs) {
+      //   if (item.locationID == locationID) {
+      //     cinemaID2.add(item);
+      //   }
+      // }
+      return listScreeningModel;
     } catch (e) {
       // Xử lý lỗi nếu có
       print("Error getting cinemas by movieID: $e");
       return []; // Trả về danh sách rỗng nếu có lỗi
+    }
+  }
+
+  Future<List<String>> countMovieByCinema(String movieID) async {
+    try {
+      // Lấy danh sách tất cả các rạp chiếu phim
+      QuerySnapshot getCinemas = await _firestore.collection('cinema').get();
+      List<CinemaModel> cinemas = getCinemas.docs.map((e) => CinemaModel.fromSnapshot(e)).toList();
+
+      // Lấy danh sách các buổi chiếu của phim có movieID cụ thể
+      QuerySnapshot getScreenings = await _firestore.collection('screening').where('movieID', isEqualTo: movieID).get();
+      List<ScreeningModel> screenings = getScreenings.docs.map((e) => ScreeningModel.fromMap(e)).toList();
+
+      // Tạo danh sách kết quả để lưu số lượng buổi chiếu của mỗi rạp
+      List<String> result = [];
+
+      // Lặp qua từng rạp chiếu phim
+      for (var cinema in cinemas) {
+        // Đếm số lượng buổi chiếu của rạp đó
+        int count = screenings.where((screening) => screening.cinemaID == cinema.cinemaID).length;
+        // Tạo chuỗi kết quả có dạng "tên rạp - số lượng buổi chiếu"
+        String countString = '${cinema.name} - $count';
+        // Thêm vào danh sách kết quả
+        result.add(countString);
+      }
+
+      return result;
+    } catch (e) {
+      // Xử lý lỗi nếu có
+      print('Error in counting screenings by cinema: $e');
+      return [];
     }
   }
 }

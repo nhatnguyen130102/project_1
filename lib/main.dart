@@ -5,6 +5,7 @@ import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
 
@@ -29,6 +31,9 @@ class MyApp extends StatelessWidget {
             .textTheme
             .apply(bodyColor: white, displayColor: white),
         useMaterial3: true,
+        // textTheme: GoogleFonts.latoTextTheme(textTheme).copyWith(
+        //   bodyMedium: GoogleFonts.oswald(textStyle: textTheme.bodyMedium),
+        // ),
       ),
       home: MainLayout(),
     );

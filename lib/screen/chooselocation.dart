@@ -7,6 +7,7 @@ import 'package:project_1/repository/cinema_repository.dart';
 import 'package:project_1/repository/location_repository.dart';
 import 'package:project_1/screen/choosedate.dart';
 
+import '../component_widget/loading.dart';
 import '../model/location_model.dart';
 import '../style/style.dart';
 
@@ -24,25 +25,50 @@ class _Choose_LocationState extends State<Choose_Location> {
   CinemaRepository _cinemaRepository = CinemaRepository();
   LocationRepository _locationRepository = LocationRepository();
 
-
   //Variable zone
   late Future<List<CinemaModel>> _cinemas;
   late Future<List<LocationModel>> _location;
   late String _locationID = 'location1';
   late String _nameCinema = '';
   late String _cinemaBooked = '';
+  // late Future<List<String>> _listCountCinema;
+  // late List<String> _listStringCountCinema = [];
+  // List<String> _cinemaNames = [];
+  // List<String> _cinemaNumbers = [];
 
   late int _locationSelected = 0;
   late int _cinemaSelected = -1;
   late bool _locationBookedSelected = false;
   String todayFormat = DateFormat('dd/MM/yyyy').format(DateTime.now());
 
+
+
   @override
-  void initState() {
+  void initState(){
     super.initState();
-    _cinemas = _cinemaRepository.getCinemasByMovieID(widget.movieID,_locationID);
+    _cinemas = _cinemaRepository.getCinemaByLocationID(_locationID);
     _location = _locationRepository.getAllLocations();
+    // _listCountCinema = _cinemaRepository.countMovieByCinema(widget.movieID);
+
+    // _listCountCinema.then((value) {
+    //   setState(() {
+    //     _listStringCountCinema.addAll(value);
+    //   });
+    // });
+    // if(_listStringCountCinema.isNotEmpty){
+    //   for(String item in _listStringCountCinema){
+    //     List<String> parts = item.split('-');
+    //     _cinemaNumbers.add(parts[1]);
+    //     _cinemaNames.add(parts[0]);
+    //   }
+    // }
+    // else{
+    //   _cinemaNames.add('no Name');
+    //   _cinemaNumbers.add('no Number');
+    // }
+
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +88,9 @@ class _Choose_LocationState extends State<Choose_Location> {
       ),
       body: Stack(
         children: [
+          // Column(
+          //   children: _cinemaNames.map((e) => Text(e)).toList(),
+          // ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Column(
@@ -73,7 +102,7 @@ class _Choose_LocationState extends State<Choose_Location> {
                     future: _location,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator(); // Hiển thị loading indicator nếu đang chờ dữ liệu
+                        return Loading(); // Hiển thị loading indicator nếu đang chờ dữ liệu
                       } else if (snapshot.hasError) {
                         return Text(
                             'Error: ${snapshot.error}'); // Xử lý lỗi nếu có
@@ -92,7 +121,7 @@ class _Choose_LocationState extends State<Choose_Location> {
                                     _locationSelected = index;
                                     _locationID =
                                         snapshot.data![index].locationID;
-                                    _cinemas = _cinemaRepository.getCinemasByMovieID(widget.movieID,_locationID);
+                                    _cinemas = _cinemaRepository.getCinemaByLocationID(_locationID);
                                     _cinemaSelected = -1;
                                   },
                                 );
@@ -138,7 +167,7 @@ class _Choose_LocationState extends State<Choose_Location> {
                     future: _cinemas,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator(); // Hiển thị loading indicator nếu đang chờ dữ liệu
+                        return Loading(); // Hiển thị loading indicator nếu đang chờ dữ liệu
                       } else if (snapshot.hasError) {
                         return Text(
                             'Error: ${snapshot.error}'); // Xử lý lỗi nếu có
@@ -146,16 +175,19 @@ class _Choose_LocationState extends State<Choose_Location> {
                         return Text(
                             'No data available'); // Xử lý khi không có dữ liệu
                       } else {
+
                         return Container(
                           child: ListView.builder(
                             scrollDirection: Axis.vertical,
                             itemCount: snapshot.data?.length,
                             itemBuilder: (context, index) {
+                              // int indexOf = _cinemaNames.indexOf('CGV Hùng Vương Plaza');
                               return GestureDetector(
                                 onTap: () {
                                   setState(() {
                                     _cinemaSelected = index;
                                     _nameCinema = snapshot.data![index].name;
+
                                     _cinemaBooked =
                                         snapshot.data![index].cinemaID;
                                     _locationBookedSelected = true;
@@ -173,7 +205,7 @@ class _Choose_LocationState extends State<Choose_Location> {
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            snapshot.data![index].name,
+                                            snapshot.data![index].name ,
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 18,

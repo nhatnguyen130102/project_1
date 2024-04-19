@@ -3,13 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:project_1/repository/movie_repository.dart';
-import 'package:project_1/screen/choosedate.dart';
+import 'package:project_1/screen/rating.dart';
 import 'package:project_1/style/style.dart';
 
 import '../model/movie_model.dart';
-import '../model/screening_model.dart';
-import '../repository/screening_repository.dart';
-import '../test/chooselocationtest.dart';
 import 'chooselocation.dart';
 
 class MovieDetail extends StatefulWidget {
@@ -41,8 +38,6 @@ class _MovieDetailState extends State<MovieDetail> {
 
   @override
   Widget build(BuildContext context) {
-
-
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -139,19 +134,31 @@ class _MovieDetailState extends State<MovieDetail> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.star,
-                                color: yellow,
-                              ),
-                              Gap(4),
-                              Text(
-                                '${widget.movie['rating'].toString()}',
-                                style:
-                                    TextStyle(fontSize: 18, fontWeight: medium),
-                              )
-                            ],
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return RatingPage(movieID:widget.movie['movieID']);
+                                  },
+                                ),
+                              );
+                            },
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.star,
+                                  color: yellow,
+                                ),
+                                Gap(4),
+                                Text(
+                                  '${widget.movie['rating'].toString()}',
+                                  style: TextStyle(
+                                      fontSize: 18, fontWeight: medium),
+                                )
+                              ],
+                            ),
                           ),
                           Row(
                             children: [
@@ -192,7 +199,8 @@ class _MovieDetailState extends State<MovieDetail> {
                           Container(
                             padding: EdgeInsets.all(16),
                             decoration: BoxDecoration(
-                              border: Border.all(color: yellow),
+                              color: white.withOpacity(0.1),
+                              // border: Border.all(color: yellow),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Text(
@@ -345,24 +353,27 @@ class _MovieDetailState extends State<MovieDetail> {
                 Gap(20),
                 FutureBuilder(
                   future: _listActor,
-                  builder: (context,SnapShot){
+                  builder: (context, SnapShot) {
                     return Container(
                       height: 100,
                       width: size.width,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: SnapShot.data!.length,
-                        itemBuilder: (context,index){
+                        itemBuilder: (context, index) {
                           return Container(
                             margin: EdgeInsets.only(left: 20),
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10), // Bán kính của các góc bo tròn
+                              borderRadius: BorderRadius.circular(10),
+                              // Bán kính của các góc bo tròn
                               child: AspectRatio(
-                                aspectRatio: 1/1, // Tỉ lệ chiều rộng/chiều cao của hình ảnh
+                                aspectRatio: 1 / 1,
+                                // Tỉ lệ chiều rộng/chiều cao của hình ảnh
                                 child: Image.network(
                                   SnapShot.data![index].image,
 
-                                  fit: BoxFit.cover, // Hình ảnh sẽ fit theo chiều rộng
+                                  fit: BoxFit
+                                      .cover, // Hình ảnh sẽ fit theo chiều rộng
                                 ),
                               ),
                             ),
@@ -373,7 +384,6 @@ class _MovieDetailState extends State<MovieDetail> {
                   },
                 ),
                 Gap(20),
-
               ],
             ),
           ],

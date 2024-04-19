@@ -41,7 +41,7 @@ class _SeatPageState extends State<ChooseSeat> {
   final List<int> _listCenterSeatRow = [3, 4, 5, 6];
   final List<int> _listCenterSeatColumn = [2, 3, 4, 5, 6];
   late Future<List<String?>> _listBooked;
-  late final List<String> _listStringBooked = [];
+  late final List<String?> _listStringBooked = [];
 
   @override
   void initState() {
@@ -52,7 +52,7 @@ class _SeatPageState extends State<ChooseSeat> {
     _listBooked.then((value) {
       // Gán giá trị của _listBooked cho _listStringBooked
       setState(() {
-        _listStringBooked.addAll(value as Iterable<String>);
+        _listStringBooked.addAll(value );
       });
     });
   }
@@ -380,7 +380,7 @@ class _SeatPageState extends State<ChooseSeat> {
                                     booked: _booked,
                                     cinemaID: widget.cinemaID,
                                     locationID: widget.locationID,
-                                    movidID: widget.movieID,
+                                    movieID: widget.movieID,
                                     screeningID: widget.screeningID,
                                   );
                                 }),
