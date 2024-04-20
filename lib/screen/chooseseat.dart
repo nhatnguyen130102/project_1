@@ -239,12 +239,12 @@ class _SeatPageState extends State<ChooseSeat> {
                                       _listCenterSeatColumn.contains(column)
                                   ? MaterialStateProperty.all(_isSelected[index]
                                       ? yellow
-                                      : _listStringBooked.contains(seatName) ? Colors.grey : Colors.pink.withOpacity(0.7))
+                                      : _listStringBooked.contains(seatName) ? white.withOpacity(0.1) : pink.withOpacity(0.4))
                                   : MaterialStateProperty.all(_isSelected[index]
                                       ? yellow
-                                      : _listStringBooked.contains(seatName) ?  Colors.grey :  white.withOpacity(0.1)),
+                                      : _listStringBooked.contains(seatName) ?  white.withOpacity(0.1) :  white.withOpacity(0.1)),
                               foregroundColor: MaterialStateProperty.all(
-                                  _isSelected[index] ? black : white),
+                                  _isSelected[index] ? black : _listStringBooked.contains(seatName) ? white.withOpacity(0.2) : white),
                             ),
                             child: Text(
                               '${seatName}',
@@ -382,6 +382,8 @@ class _SeatPageState extends State<ChooseSeat> {
                                     locationID: widget.locationID,
                                     movieID: widget.movieID,
                                     screeningID: widget.screeningID,
+                                    total: _subtotal,
+                                    subtotal: _subtotal,
                                   );
                                 }),
                               );

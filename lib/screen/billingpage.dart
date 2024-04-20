@@ -1,6 +1,7 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:project_1/repository/booking_repository.dart';
 import 'package:project_1/repository/format.dart';
 import 'package:project_1/repository/movie_repository.dart';
 import 'package:project_1/repository/screening_repository.dart';
@@ -18,6 +19,8 @@ class BillingPage extends StatefulWidget {
   String locationID;
   List<String> booked;
   String screeningID;
+  double total;
+  double subtotal;
 
   BillingPage(
       {required this.screeningID,
@@ -25,6 +28,8 @@ class BillingPage extends StatefulWidget {
       required this.cinemaID,
       required this.locationID,
       required this.movieID,
+        required this.total,
+        required this.subtotal,
       super.key});
 
   @override
@@ -36,9 +41,11 @@ class _BillingPageState extends State<BillingPage> {
   Screening_Repository _screening_repository = Screening_Repository();
   MovieRepository _movieRepository = MovieRepository();
   FormatRepository _formatRepository = FormatRepository();
+  BookingRepository _bookingRepository = BookingRepository();
 
   // var
   late Future<MovieModel?> _movie;
+
 
 
  @override
@@ -46,7 +53,7 @@ class _BillingPageState extends State<BillingPage> {
     // TODO: implement initState
     super.initState();
     _movie = _movieRepository.getMoviesByMovieID(widget.movieID);
-
+    _bookingRepository.addBooking(widget.screeningID,'', widget.booked, widget.total, widget.subtotal, widget.cinemaID, '');
   }
 
   @override
@@ -144,7 +151,7 @@ class _BillingPageState extends State<BillingPage> {
                               height: size.width * 0.4,
                             ),
                           ),
-                          Gap(32),
+                          Gap(24),
 
                           //Ticket-details
                           Container(
@@ -244,7 +251,7 @@ class _BillingPageState extends State<BillingPage> {
                               ),
                             ],
                           ),
-                          Gap(32),
+                          Gap(24),
 
                           //Seat-list
                           Container(
@@ -281,17 +288,17 @@ class _BillingPageState extends State<BillingPage> {
                               ],
                             ),
                           ),
-                          Gap(24),
+                          Gap(32),
 
                           Container(
                             width: size.width * 0.8,
                             height: 1.5,
                             decoration: BoxDecoration(
                                 gradient: LinearGradient(
-                              colors: [yellow, yellow.withOpacity(0.5)],
+                              colors: [yellow, Colors.transparent],
                             )),
                           ),
-                          Gap(24),
+                          Gap(32),
 
                           //
                           Container(

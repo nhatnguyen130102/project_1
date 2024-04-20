@@ -265,13 +265,13 @@ class _SearchPageState extends State<SearchPage> {
                                 fit: BoxFit.cover,
                               ),
                             ),
-                            decoration: BoxDecoration(
+                            foregroundDecoration: BoxDecoration(
                               gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
                                 colors: [
-                                  black.withOpacity(0.1),
-                                  black,
+                                  black.withOpacity(0.2),
+                                  black.withOpacity(0.8),
                                 ],
                               ),
                               borderRadius: BorderRadius.circular(10),

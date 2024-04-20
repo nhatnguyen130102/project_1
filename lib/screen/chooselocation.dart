@@ -259,12 +259,12 @@ class _Choose_LocationState extends State<Choose_Location> {
                                       ),
                                       Gap(32),
                                       Container(
-                                        height: 1.7,
+                                        height: 1.5,
                                         width: size.width * 0.8,
                                         decoration: BoxDecoration(
                                           gradient: LinearGradient(
                                             colors: [
-                                              yellow, black,
+                                              yellow, Colors.transparent,
                                             ],
                                             begin: Alignment.centerLeft,
                                             end: Alignment.centerRight,

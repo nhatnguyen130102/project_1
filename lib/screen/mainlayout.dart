@@ -217,6 +217,7 @@ class _MainLayoutState extends State<MainLayout> {
                                         gradient: LinearGradient(
                                             begin: Alignment.topCenter,
                                             end: Alignment.bottomCenter,
+                                            stops: [0.1, 0.5],
                                             colors: [
                                           black.withOpacity(0.9),
                                           Colors.transparent,

@@ -345,23 +345,25 @@ class _MovieDetailState extends State<MovieDetail> {
                   alignment: Alignment.topLeft,
                   margin: EdgeInsets.only(left: 20),
                   child: Text(
-                    'Director',
+                    'Actor',
                     style: TextStyle(
                         color: yellow, fontWeight: bold, fontSize: 20),
                   ),
                 ),
                 Gap(20),
+
                 FutureBuilder(
                   future: _listActor,
                   builder: (context, SnapShot) {
                     return Container(
-                      height: 100,
+                      height: 80,
                       width: size.width,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: SnapShot.data!.length,
                         itemBuilder: (context, index) {
                           return Container(
+                            width: 80,
                             margin: EdgeInsets.only(left: 20),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
@@ -371,7 +373,6 @@ class _MovieDetailState extends State<MovieDetail> {
                                 // Tỉ lệ chiều rộng/chiều cao của hình ảnh
                                 child: Image.network(
                                   SnapShot.data![index].image,
-
                                   fit: BoxFit
                                       .cover, // Hình ảnh sẽ fit theo chiều rộng
                                 ),
@@ -383,6 +384,29 @@ class _MovieDetailState extends State<MovieDetail> {
                     );
                   },
                 ),
+                Gap(8),
+
+                FutureBuilder(
+                  future: _listActor,
+                  builder: (context, SnapShot) {
+                    return Container(
+                      height: 50,
+                      width: size.width,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: SnapShot.data!.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                              width: 80,
+                            margin: EdgeInsets.only(left: 20),
+                            child: Text(SnapShot.data![index].name, style: TextStyle(fontSize: 12), textAlign: TextAlign.center,)
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ),
+
                 Gap(20),
               ],
             ),

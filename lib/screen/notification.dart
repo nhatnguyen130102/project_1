@@ -113,11 +113,7 @@ class _NotificationPageState extends State<NotificationPage> {
               width: size.width,
               decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: white.withOpacity(0.3),
-                    width: 1.5,
-                  )),
+                  borderRadius: BorderRadius.circular(10),),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
