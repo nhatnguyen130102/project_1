@@ -33,8 +33,8 @@ class _SeatPageState extends State<ChooseSeat> {
   late int column;
   bool isSelected = false;
   late List<bool> _isSelected = [];
-  late List<String> _booked = [];
-  late List<String> _seatBooked = [];
+  late List<String> _booked;
+  // late List<String> _seatBooked = [];
   final int _maximunTicket = 8;
   late double _subtotal = 0;
   final double _priceOfTicket = 60000;
@@ -47,6 +47,7 @@ class _SeatPageState extends State<ChooseSeat> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _booked = [];
     _isSelected = List.generate(90, (_) => false);
     _listBooked = _screening_repository.getBookedSeats(widget.screeningID);
     _listBooked.then((value) {
@@ -129,10 +130,10 @@ class _SeatPageState extends State<ChooseSeat> {
                                         _isSelected[index]
                                             ? _booked.add(seatName)
                                             : _booked.remove(seatName);
-
                                         _subtotal =
                                             _booked.length * _priceOfTicket;
                                       },
+
                                     )
                                   : setState(
                                       () {

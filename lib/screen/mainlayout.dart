@@ -79,7 +79,7 @@ class _MainLayoutState extends State<MainLayout> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const SearchPage(),
+                        builder: (context) => SearchPage(),
                       ),
                     );
                   },
@@ -108,6 +108,7 @@ class _MainLayoutState extends State<MainLayout> {
         scrollDirection: Axis.vertical,
         child: Column(
           children: [
+
             //Category-list
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),

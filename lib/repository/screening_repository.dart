@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import 'package:project_1/model/screening_model.dart';
 
 class Screening_Repository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  late Timer _timer;
 
 // lấy ra danh sách screening theo movieID
   Future<List<ScreeningModel>> getScreeningByMovieID(String movieID) async {
@@ -34,6 +38,15 @@ class Screening_Repository {
 
   void addBookedScreening(String screeningID, List<String> booked) async {
     try {
+      QuerySnapshot querySnapshot = await _firestore
+          .collection('screening')
+          .where('screeningID', isEqualTo: screeningID)
+          .get();
+      ScreeningModel _itemScreening =
+          querySnapshot.docs.map((e) => ScreeningModel.fromMap(e)).first;
+      for (String item in _itemScreening.booked) {
+        booked.add(item);
+      }
       await _firestore
           .collection('screening')
           .doc(
@@ -53,14 +66,21 @@ class Screening_Repository {
       print('Error: $e');
     }
   }
+
+
+
+
+
+
   Future<List<String>> getBookedSeats(String screeningId) async {
     try {
       DocumentSnapshot documentSnapshot =
-      await _firestore.collection('screening').doc(screeningId).get();
+          await _firestore.collection('screening').doc(screeningId).get();
 
       if (documentSnapshot.exists) {
         // Xác định kiểu của dữ liệu trong documentSnapshot.data()
-        Map<String, dynamic>? data = documentSnapshot.data() as Map<String, dynamic>?;
+        Map<String, dynamic>? data =
+            documentSnapshot.data() as Map<String, dynamic>?;
 
         // Kiểm tra xem dữ liệu có null hay không
         if (data != null) {
@@ -83,13 +103,18 @@ class Screening_Repository {
       return [];
     }
   }
+
   Future<ScreeningModel?> getScreeningByID(String screeningID) async {
     try {
-      QuerySnapshot querySnapshot = await _firestore.collection('screening').where('screeningID',isEqualTo: screeningID).get();
+      QuerySnapshot querySnapshot = await _firestore
+          .collection('screening')
+          .where('screeningID', isEqualTo: screeningID)
+          .get();
       return querySnapshot.docs.map((e) => ScreeningModel.fromMap(e)).first;
-    }
-    catch (e){
+    } catch (e) {
       return null;
     }
   }
+
+
 }

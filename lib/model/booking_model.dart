@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BookingModel {
+  late String bookingID;
   late String cinemaID;
   late String dateBooking;
   late String movieID;
@@ -12,6 +13,7 @@ class BookingModel {
   late String voucherID;
 
   BookingModel({
+    required this.bookingID,
     required this.cinemaID,
     required this.dateBooking,
     required this.movieID,
@@ -25,6 +27,7 @@ class BookingModel {
 
   Map<String, dynamic> toMap() {
     return {
+      'bookingID': bookingID,
       'cinemaID': cinemaID,
       'dateBooking': dateBooking,
       'movieID': movieID,
@@ -40,6 +43,7 @@ class BookingModel {
   factory BookingModel.fromMap(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return BookingModel(
+      bookingID: data['bookingID'],
       cinemaID: data['cinemaID'],
       dateBooking: data['dateBooking'],
       movieID: data['movieID'],
