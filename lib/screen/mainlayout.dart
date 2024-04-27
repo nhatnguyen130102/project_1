@@ -12,6 +12,7 @@ import 'package:project_1/style/style.dart';
 import 'package:project_1/test/viewlocation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../repository/movie_repository.dart';
+import '../test/AD_dashboard.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key});
@@ -97,6 +98,20 @@ class _MainLayoutState extends State<MainLayout> {
                     );
                   },
                   child: HeroIcon(HeroIcons.mapPin),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(right: 20),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DashboardPage(),
+                      ),
+                    );
+                  },
+                  child: HeroIcon(HeroIcons.chartBar),
                 ),
               ),
             ],

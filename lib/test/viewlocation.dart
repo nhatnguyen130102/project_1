@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
+import '../style/style.dart';
+
 class ViewLocationPage extends StatefulWidget {
   // final double latitude;
   // final double longitude;
@@ -15,7 +17,7 @@ class ViewLocationPage extends StatefulWidget {
 
 class _ViewLocationPageState extends State<ViewLocationPage> {
   double latitude = 37.7749; // Example latitude
-  double longitude = -122.4194; // Example longitudeExample address
+  double longitude = -122.4194; // Example longitude
 
   @override
   void initState() {
@@ -28,7 +30,14 @@ class _ViewLocationPageState extends State<ViewLocationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('View Location'),
+        backgroundColor: background,
+        foregroundColor: white,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: Container(
         child: FlutterMap(
