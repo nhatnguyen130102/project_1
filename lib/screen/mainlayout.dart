@@ -6,11 +6,10 @@ import 'package:gap/gap.dart';
 import 'package:project_1/model/movie_model.dart';
 import 'package:project_1/screen/account.dart';
 import 'package:project_1/screen/login.dart';
-import 'package:project_1/screen/notification.dart';
 import 'package:project_1/screen/movie_detail.dart';
 import 'package:project_1/screen/search.dart';
-import 'package:project_1/screen/ticket.dart';
 import 'package:project_1/style/style.dart';
+import 'package:project_1/test/viewlocation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../repository/movie_repository.dart';
 
@@ -93,11 +92,11 @@ class _MainLayoutState extends State<MainLayout> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const NotificationPage(),
+                        builder: (context) => ViewLocationPage(),
                       ),
                     );
                   },
-                  child: HeroIcon(HeroIcons.bell),
+                  child: HeroIcon(HeroIcons.mapPin),
                 ),
               ),
             ],
