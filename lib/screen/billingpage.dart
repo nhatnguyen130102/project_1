@@ -12,11 +12,13 @@ import 'package:project_1/repository/movie_repository.dart';
 import 'package:project_1/repository/screening_repository.dart';
 import 'package:project_1/screen/mainlayout.dart';
 
+
 import '../component_widget/loading.dart';
 import '../model/format_model.dart';
 import '../model/movie_model.dart';
 import '../model/screening_model.dart';
 import '../style/style.dart';
+import 'package:heroicons/heroicons.dart';
 
 class BillingPage extends StatefulWidget {
   String movieID;
@@ -92,7 +94,9 @@ class _BillingPageState extends State<BillingPage> {
         backgroundColor: background,
         foregroundColor: white,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: HeroIcon(
+            HeroIcons.chevronLeft,
+          ),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -533,7 +537,7 @@ class _BillingPageState extends State<BillingPage> {
                                                       BorderRadius.circular(5),
                                                 ),
                                                 child: Text(
-                                                  'MY TICKETS',
+                                                  'CONFIRM',
                                                   style: TextStyle(
                                                     fontWeight: bold,
                                                     fontSize: 14,

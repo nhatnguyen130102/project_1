@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:gap/gap.dart';
 import 'package:project_1/repository/movie_repository.dart';
+import 'package:heroicons/heroicons.dart';
 
 import '../component_widget/loading.dart';
 import '../model/movie_model.dart';
 import '../style/style.dart';
+
+import 'package:heroicons/heroicons.dart';
 
 class RatingPage extends StatefulWidget {
   String movieID;
@@ -37,7 +40,9 @@ class _RatingPageState extends State<RatingPage> {
         backgroundColor: background,
         foregroundColor: white,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: HeroIcon(
+            HeroIcons.chevronLeft,
+          ),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -113,17 +118,16 @@ class _RatingPageState extends State<RatingPage> {
                                     children: [
                                       Row(
                                         children: [
-                                          Icon(
-                                            Icons.access_time,
+                                          HeroIcon(
+                                            HeroIcons.clock,
                                             color: yellow,
-                                            size: 14,
                                           ),
-                                          Gap(4),
+                                          Gap(6),
                                           Text(
                                             item.time,
                                             style: TextStyle(
                                               fontWeight: medium,
-                                              fontSize: 12,
+                                              fontSize: 14,
                                             ),
                                           ),
                                         ],
@@ -131,17 +135,16 @@ class _RatingPageState extends State<RatingPage> {
                                       Gap(40),
                                       Row(
                                         children: [
-                                          Icon(
-                                            Icons.movie,
+                                          HeroIcon(
+                                            HeroIcons.film,
                                             color: yellow,
-                                            size: 14,
                                           ),
-                                          Gap(6),
+                                          Gap(8),
                                           Text(
                                             item.age,
                                             style: TextStyle(
                                               fontWeight: medium,
-                                              fontSize: 12,
+                                              fontSize: 14,
                                             ),
                                           ),
                                         ],
@@ -177,6 +180,7 @@ class _RatingPageState extends State<RatingPage> {
                                   '/5',
                                   style: TextStyle(
                                     fontSize: 16,
+                                    fontWeight: bold,
                                     color: white.withOpacity(0.8),
                                   ),
                                 ),
@@ -186,7 +190,7 @@ class _RatingPageState extends State<RatingPage> {
                             Text(
                               '182 Ratings',
                               style: TextStyle(
-                                fontSize: 10,
+                                fontSize: 11,
                                 color: white.withOpacity(0.6),
                               ),
                             ),
@@ -204,7 +208,7 @@ class _RatingPageState extends State<RatingPage> {
                             itemBuilder: (context, _) => Icon(
                               Icons.star,
                               color: yellow,
-                              size: 16,
+                              size: 12,
                             ),
                             onRatingUpdate: (rating) {
                               print(rating);
@@ -220,7 +224,7 @@ class _RatingPageState extends State<RatingPage> {
                       padding: EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: white.withOpacity(0.05),
+                        color: white.withOpacity(0.08),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -276,11 +280,10 @@ class _RatingPageState extends State<RatingPage> {
                                   ),
                                 ],
                               ),
-                              Icon(Icons.menu,
-                                  size: 14, color: white.withOpacity(0.7)),
+                              HeroIcon(HeroIcons.ellipsisVertical, color: white.withOpacity(0.7),),
                             ],
                           ),
-                          Gap(8),
+                          Gap(16),
 
                           //Comment
                           Column(
@@ -301,59 +304,71 @@ class _RatingPageState extends State<RatingPage> {
                               ),
                             ],
                           ),
-                          Gap(10),
+                          Gap(16),
 
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 5, horizontal: 10),
-                                decoration: BoxDecoration(
-                                  color: white.withOpacity(0.1),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.favorite,
-                                      size: 10,
-                                      color: white.withOpacity(0.6),
+                              Row(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 5, horizontal: 10),
+                                    decoration: BoxDecoration(
+                                      color: white.withOpacity(0.1),
+                                      borderRadius: BorderRadius.circular(20),
                                     ),
-                                    Gap(4),
-                                    Text(
-                                      '1',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: white.withOpacity(0.6),
-                                      ),
+                                    child: Row(
+                                      children: [
+                                        HeroIcon(
+                                          HeroIcons.heart,
+                                          size: 12,
+                                          color: white.withOpacity(0.6),
+                                        ),
+                                        Gap(4),
+                                        Text(
+                                          '1',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: white.withOpacity(0.6),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                  Gap(8),
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 5, horizontal: 10),
+                                    decoration: BoxDecoration(
+                                      color: white.withOpacity(0.1),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        HeroIcon(
+                                          HeroIcons.chatBubbleOvalLeft,
+                                          size: 14,
+                                          color: white.withOpacity(0.6),
+                                        ),
+                                        Gap(4),
+                                        Text(
+                                          '2',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: white.withOpacity(0.6),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Gap(8),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 5, horizontal: 10),
-                                decoration: BoxDecoration(
-                                  color: white.withOpacity(0.1),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.chat_bubble,
-                                      size: 10,
-                                      color: white.withOpacity(0.6),
-                                    ),
-                                    Gap(4),
-                                    Text(
-                                      '2',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: white.withOpacity(0.6),
-                                      ),
-                                    ),
-                                  ],
+                              Text(
+                                '10/05/2024',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: white.withOpacity(0.5),
                                 ),
                               ),
                             ],

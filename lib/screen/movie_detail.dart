@@ -5,6 +5,7 @@ import 'package:heroicons/heroicons.dart';
 import 'package:project_1/repository/movie_repository.dart';
 import 'package:project_1/screen/rating.dart';
 import 'package:project_1/style/style.dart';
+import 'package:heroicons/heroicons.dart';
 
 import '../component_widget/loading.dart';
 import '../model/movie_model.dart';
@@ -51,7 +52,6 @@ class _MovieDetailState extends State<MovieDetail> {
         leading: IconButton(
           icon: HeroIcon(
             HeroIcons.chevronLeft,
-            color: white,
           ),
           onPressed: () {
             Navigator.pop(context);
@@ -426,8 +426,27 @@ class _MovieDetailState extends State<MovieDetail> {
                           );
                         },
                       ),
-
                       Gap(20),
+                      
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RatingPage(movieID: widget.movieID),
+                            ),
+                          );
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text('View Rating', style: TextStyle(color: yellow, fontWeight: medium),),
+                            Gap(8),
+                            HeroIcon(HeroIcons.arrowRight, color: yellow, size: 16,),
+                            Gap(20),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -435,8 +454,7 @@ class _MovieDetailState extends State<MovieDetail> {
             }
           },
         ),
-
-
+        
 
       ),
     );

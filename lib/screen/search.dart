@@ -4,6 +4,8 @@ import 'package:project_1/model/movie_model.dart';
 import 'package:project_1/repository/movie_repository.dart';
 import 'package:project_1/style/style.dart';
 
+import 'package:heroicons/heroicons.dart';
+
 import '../component_widget/loading.dart';
 import 'movie_detail.dart';
 
@@ -47,8 +49,8 @@ class _SearchPageState extends State<SearchPage> {
         backgroundColor: background,
         foregroundColor: white,
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
+          icon: HeroIcon(
+            HeroIcons.chevronLeft,
           ),
           onPressed: () {
             Navigator.pop(context);

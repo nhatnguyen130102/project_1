@@ -6,6 +6,7 @@ import 'package:gap/gap.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:project_1/screen/account.dart';
 import 'package:project_1/style/style.dart';
+import 'package:heroicons/heroicons.dart';
 
 import '../repository/login_repository.dart';
 
@@ -44,7 +45,9 @@ class _LoginState extends State<Login> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.arrow_back_ios),
+          icon: HeroIcon(
+            HeroIcons.chevronLeft,
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -58,20 +61,13 @@ class _LoginState extends State<Login> {
           child: Column(
             children: [
               Text(
-                'Welcome',
+                'Login',
                 style: TextStyle(
-                  fontSize: 30,
+                  fontSize: 32,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Text(
-                'Welcome',
-                style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w300,
-                    color: white.withOpacity(0.8)),
-              ),
-              Gap(30),
+              Gap(24),
               TextField(
                 controller: _usernameController,
                 decoration: InputDecoration(
@@ -80,9 +76,11 @@ class _LoginState extends State<Login> {
                     Icons.mail_outline,
                     color: white.withOpacity(0.8),
                   ),
+                  filled: true,
+                  fillColor: white.withOpacity(0.1),
                   border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
                     borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(color: white.withOpacity(0.9)),
                   ),
                 ),
               ),
@@ -95,18 +93,16 @@ class _LoginState extends State<Login> {
                     Icons.remove_red_eye_outlined,
                     color: white.withOpacity(0.8),
                   ),
+                  filled: true,
+                  fillColor: white.withOpacity(0.1),
                   border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
                     borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(color: white.withOpacity(0.9)),
                   ),
                 ),
                 obscureText: true,
               ),
-              SizedBox(height: 20.0),
-              Container(
-                alignment: Alignment.centerRight,
-                child: Text('Forgot Password?'),
-              ),
+
               SizedBox(height: 20.0),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
@@ -139,7 +135,8 @@ class _LoginState extends State<Login> {
                   ),
                 ),
               ),
-              SizedBox(height: 20.0),
+
+              SizedBox(height: 40.0),
               Container(
                 alignment: Alignment.center,
                 child: Row(
@@ -151,6 +148,7 @@ class _LoginState extends State<Login> {
                     Text(
                       'Sign Up',
                       style: TextStyle(
+                        color: yellow,
                         decoration: TextDecoration.underline,
                       ),
                     ),
@@ -201,6 +199,12 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                 ],
+              ),
+
+              SizedBox(height: 120.0),
+              Container(
+                alignment: Alignment.center,
+                child: Text('Forgot Password?', style: TextStyle(color: white.withOpacity(0.8)),),
               ),
             ],
           ),

@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import '../repository/screening_repository.dart';
 import '../style/style.dart';
 import 'billingpage.dart';
+import 'package:heroicons/heroicons.dart';
 
 class ChooseSeat extends StatefulWidget {
   late String movieID;
@@ -66,7 +67,9 @@ class _SeatPageState extends State<ChooseSeat> {
         backgroundColor: background,
         foregroundColor: white,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: HeroIcon(
+            HeroIcons.chevronLeft,
+          ),
           onPressed: () {
             Navigator.of(context).pop();
           },

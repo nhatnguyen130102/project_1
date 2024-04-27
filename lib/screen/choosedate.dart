@@ -9,6 +9,7 @@ import 'package:project_1/repository/movie_repository.dart';
 import 'package:project_1/repository/screening_repository.dart';
 import 'package:project_1/screen/chooseseat.dart';
 import 'package:project_1/style/style.dart';
+import 'package:heroicons/heroicons.dart';
 
 import '../component_widget/loading.dart';
 import '../model/cinema_model.dart';
@@ -77,7 +78,9 @@ class _Choose_DateState extends State<Choose_Date> {
         backgroundColor: background,
         foregroundColor: white,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: HeroIcon(
+            HeroIcons.chevronLeft,
+          ),
           onPressed: () {
             Navigator.pop(context);
           },

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import '../style/style.dart';
 
+import 'package:heroicons/heroicons.dart';
+
 class TicketPage extends StatefulWidget {
   const TicketPage({super.key});
 
@@ -19,8 +21,8 @@ class _TicketPageState extends State<TicketPage> {
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.white,
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
+          icon: HeroIcon(
+            HeroIcons.chevronLeft,
           ),
           onPressed: () {
             Navigator.pop(context);

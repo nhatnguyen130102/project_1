@@ -6,6 +6,7 @@ import 'package:project_1/model/cinema_model.dart';
 import 'package:project_1/repository/cinema_repository.dart';
 import 'package:project_1/repository/location_repository.dart';
 import 'package:project_1/screen/choosedate.dart';
+import 'package:heroicons/heroicons.dart';
 
 import '../component_widget/loading.dart';
 import '../model/location_model.dart';
@@ -80,7 +81,9 @@ class _Choose_LocationState extends State<Choose_Location> {
         backgroundColor: background,
         foregroundColor: white,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: HeroIcon(
+            HeroIcons.chevronLeft,
+          ),
           onPressed: () {
             Navigator.pop(context);
           },

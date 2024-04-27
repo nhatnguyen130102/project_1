@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:gap/gap.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:heroicons/heroicons.dart';
 import 'package:project_1/screen/login.dart';
 import 'package:project_1/screen/mainlayout.dart';
 import 'package:project_1/screen/ticket.dart';
+import 'package:project_1/screen/voucher.dart';
 import 'package:project_1/style/style.dart';
 
 import '../component_widget/loading.dart';
@@ -28,8 +30,8 @@ class _AccountState extends State<Account> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _accountEmail = 'AccountEmail';
-    _accountName = 'AccountName';
+    _accountEmail = 'Email';
+    _accountName = 'Username';
     _checkIfUserIsLoggedIn();
   }
   void _checkIfUserIsLoggedIn() async {
@@ -41,9 +43,8 @@ class _AccountState extends State<Account> {
       _accountEmail = FirebaseAuth.instance.currentUser!.email!;
       _accountName = FirebaseAuth.instance.currentUser!.displayName!;
     } else {
-
-      _accountEmail = 'AccountEmail';
-      _accountName = 'AccountName';
+      _accountEmail = 'Email';
+      _accountName = 'Username';
     }
   }
 
@@ -55,10 +56,9 @@ class _AccountState extends State<Account> {
         backgroundColor: background,
         foregroundColor: white,
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: white,
-          ), // Biểu tượng menu
+          icon: HeroIcon(
+            HeroIcons.chevronLeft,
+          ),
           onPressed: () {
             Navigator.push(
               context,
@@ -90,6 +90,7 @@ class _AccountState extends State<Account> {
                     _accountName,
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
+                  Gap(4),
                   Text(_accountEmail),
                   Gap(20),
                   Container(
@@ -121,7 +122,7 @@ class _AccountState extends State<Account> {
                                 },
                                 child: Text(
                                   'Login',
-                                  style: TextStyle(color: black),
+                                  style: TextStyle(color: black, fontWeight: medium, fontSize: 16),
                                 ),
                               ),
                             );
@@ -138,7 +139,7 @@ class _AccountState extends State<Account> {
                                 },
                                 child: Text(
                                   'Logout',
-                                  style: TextStyle(color: black),
+                                  style: TextStyle(color: black, fontWeight: medium, fontSize: 16),
                                 ),
                               ),
                             );
@@ -156,72 +157,6 @@ class _AccountState extends State<Account> {
           ),
           Gap(25),
           GestureDetector(
-            onTap: () {},
-            child: Container(
-              width: size.width * 0.9,
-              margin: EdgeInsets.only(top: 30),
-              padding: EdgeInsets.only(left: 20),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        FontAwesome.lock,
-                        color: white,
-                      ),
-                      Gap(10),
-                      Text(
-                        'Change Password',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    color: white,
-                  )
-                ],
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () {},
-            child: Container(
-              width: size.width * 0.9,
-              margin: EdgeInsets.only(top: 30),
-              padding: EdgeInsets.only(left: 20),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        FontAwesome.star,
-                        color: white,
-                      ),
-                      Gap(10),
-                      Text(
-                        'Favorite',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    color: white,
-                  )
-                ],
-              ),
-            ),
-          ),
-          GestureDetector(
             onTap: () {
               Navigator.push(
                 context,
@@ -232,20 +167,16 @@ class _AccountState extends State<Account> {
             },
             child: Container(
               width: size.width * 0.9,
-              margin: EdgeInsets.only(top: 30),
-              padding: EdgeInsets.only(left: 20),
+              margin: EdgeInsets.symmetric(vertical: 16),
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
                     children: [
-                      Icon(
-                        FontAwesome.tag,
-                        color: white,
-                      ),
-                      Gap(10),
+                      HeroIcon(HeroIcons.ticket, color: yellow),
+                      Gap(16),
                       Text(
-                        'Orders',
+                        'Ticket',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w400,
@@ -253,10 +184,42 @@ class _AccountState extends State<Account> {
                       ),
                     ],
                   ),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    color: white,
-                  )
+
+                  HeroIcon(HeroIcons.chevronRight, color: white,),
+                ],
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => VoucherPage(),
+                ),
+              );
+            },
+            child: Container(
+              width: size.width * 0.9,
+              margin: EdgeInsets.symmetric(vertical: 16),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      HeroIcon(HeroIcons.checkBadge, color: yellow,),
+                      Gap(16),
+                      Text(
+                        'Voucher',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  HeroIcon(HeroIcons.chevronRight, color: white,),
                 ],
               ),
             ),
@@ -268,18 +231,14 @@ class _AccountState extends State<Account> {
             onTap: () {},
             child: Container(
               width: size.width * 0.9,
-              margin: EdgeInsets.only(top: 30),
-              padding: EdgeInsets.only(left: 20),
+              margin: EdgeInsets.symmetric(vertical: 16),
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
                     children: [
-                      Icon(
-                        FontAwesome.info,
-                        color: white,
-                      ),
-                      Gap(10),
+                      HeroIcon(HeroIcons.informationCircle, color: yellow,),
+                      Gap(16),
                       Text(
                         'About',
                         style: TextStyle(
@@ -289,10 +248,8 @@ class _AccountState extends State<Account> {
                       ),
                     ],
                   ),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    color: white,
-                  )
+
+                  HeroIcon(HeroIcons.chevronRight, color: white,),
                 ],
               ),
             ),
@@ -301,18 +258,14 @@ class _AccountState extends State<Account> {
             onTap: () {},
             child: Container(
               width: size.width * 0.9,
-              margin: EdgeInsets.only(top: 30),
-              padding: EdgeInsets.only(left: 20),
+              margin: EdgeInsets.symmetric(vertical: 16),
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
                     children: [
-                      Icon(
-                        FontAwesome.mic,
-                        color: white,
-                      ),
-                      Gap(10),
+                      HeroIcon(HeroIcons.questionMarkCircle, color: yellow,),
+                      Gap(16),
                       Text(
                         'Help',
                         style: TextStyle(
@@ -322,10 +275,7 @@ class _AccountState extends State<Account> {
                       ),
                     ],
                   ),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    color: white,
-                  )
+                  HeroIcon(HeroIcons.chevronRight, color: white,),
                 ],
               ),
             ),
