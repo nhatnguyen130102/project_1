@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
 
 import 'package:heroicons/heroicons.dart';
 import 'package:project_1/screen/mainlayout.dart';
@@ -14,7 +13,6 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await FireBaseApi().initNotifications();
-  Stripe.publishableKey ='';
   runApp(MyApp());
 }
 

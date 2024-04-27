@@ -1,66 +1,87 @@
 // import 'package:flutter/material.dart';
-// import 'package:project_1/model/cinema_model.dart';
-// import 'package:project_1/repository/cinema_repository.dart';
-// import 'package:project_1/repository/location_repository.dart';
+// import 'package:open_street_map_search_and_pick/open_street_map_search_and_pick.dart';
 //
-// import '../style/style.dart';
+// // Data model for address
+// class AddressModel {
+//   final String address;
+//   final double latitude;
+//   final double longitude;
 //
-// class Choose_LocationTest extends StatefulWidget {
-//   String movieID;
-//
-//   Choose_LocationTest({required this.movieID, super.key});
-//
-//   @override
-//   State<Choose_LocationTest> createState() => _Choose_LocationState();
+//   AddressModel({required this.address, required this.latitude, required this.longitude});
 // }
 //
-// class _Choose_LocationState extends State<Choose_LocationTest> {
-//   //Repository zone
-//   CinemaRepository _cinemaRepository = CinemaRepository();
-//   LocationRepository _locationRepository = LocationRepository();
+// class LocationPage extends StatelessWidget {
+//   final List<AddressModel> addressList;
 //
-//   //Variable zone
-//   late Future<List<CinemaModel>> _cinemas;
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     _cinemas = _cinemaRepository.getCinemasByMovieID(widget.movieID);
-//   }
+//   LocationPage({required this.addressList});
 //
 //   @override
 //   Widget build(BuildContext context) {
-//     Size size = MediaQuery.of(context).size;
 //     return Scaffold(
 //       appBar: AppBar(
-//         backgroundColor: background,
-//         foregroundColor: white,
-//         leading: IconButton(
-//           icon: Icon(Icons.arrow_back_ios),
-//           onPressed: () {
-//             Navigator.pop(context);
-//           },
-//         ),
+//         title: Text('Locations'),
 //       ),
-//       body: Container(
-//         width: 200,
-//         height: 200,
-//         color: Colors.red,
+//       body: ListView.builder(
+//         itemCount: addressList.length,
+//         itemBuilder: (context, index) {
+//           final addressModel = addressList[index];
+//           return ListTile(
+//             title: Text(addressModel.address),
+//             trailing: IconButton(
+//               icon: Icon(Icons.map),
+//               onPressed: () {
+//                 Navigator.push(
+//                   context,
+//                   MaterialPageRoute(
+//                     builder: (context) => ViewLocationPage(
+//                       latitude: addressModel.latitude,
+//                       longitude: addressModel.longitude,
+//                     ),
+//                   ),
+//                 );
+//               },
+//             ),
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }
+//
+// class ViewLocationPage extends StatelessWidget {
+//   final double latitude;
+//   final double longitude;
+//
+//   ViewLocationPage({required this.latitude, required this.longitude});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('View Location'),
+//       ),
+//       body: Center(
 //         child: FutureBuilder(
-//           future: _cinemas,
+//           future: openStreetMapSearchAndPick(
+//             context: context,
+//             apiKey: 'YOUR_API_KEY', // Replace with your API key
+//             initialLatitude: latitude,
+//             initialLongitude: longitude,
+//           ),
 //           builder: (context, snapshot) {
 //             if (snapshot.connectionState == ConnectionState.waiting) {
-//               return Center(child: CircularProgressIndicator()); // Hiển thị loading indicator nếu đang chờ dữ liệu
+//               return CircularProgressIndicator();
 //             } else if (snapshot.hasError) {
-//               return Center(child: Text('Error: ${snapshot.error}')); // Xử lý lỗi nếu có
-//             } else if (snapshot.data == null || snapshot.data!.isEmpty) {
-//               return Center(child: Text('No data available')); // Xử lý khi không có dữ liệu
+//               return Text('Error: ${snapshot.error}');
 //             } else {
-//               return ListView.builder(
-//                 itemCount: snapshot.data!.length,
-//                 itemBuilder: (context, index) {
-//                   return Text(snapshot.data![index].name);
-//                 },
+//               final location = snapshot.data as LocationResult?;
+//               return Column(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: <Widget>[
+//                   Text('Latitude: ${location?.latitude ?? latitude}'),
+//                   Text('Longitude: ${location?.longitude ?? longitude}'),
+//                   Text('Address: ${location?.address ?? "Unknown"}'),
+//                 ],
 //               );
 //             }
 //           },
@@ -69,4 +90,3 @@
 //     );
 //   }
 // }
-//
