@@ -1,7 +1,10 @@
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:gap/gap.dart';
+import 'package:project_1/model/movie_model.dart';
+import 'package:project_1/screen/account.dart';
 import 'package:project_1/screen/login.dart';
 import 'package:project_1/screen/notification.dart';
 import 'package:project_1/screen/movie_detail.dart';
@@ -13,43 +16,40 @@ import '../repository/movie_repository.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key});
-
   @override
   State<MainLayout> createState() => _MainLayoutState();
 }
 
 class _MainLayoutState extends State<MainLayout> {
-  late String username = '';
-  late String userID = '';
-  late bool isLoggedIn = false;
+
   final MovieRepository _movieRepository = MovieRepository();
-  late Future<List<Map<String, dynamic>>> _moviesFuture;
+  late Future<List<MovieModel>> _moviesFuture;
   @override
   void initState() {
     super.initState();
-    checkLoginStatus();
+    // checkLoginStatus();
     _moviesFuture = _movieRepository.getMovies();
   }
 
-  void checkLoginStatus() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
-    if (isLoggedIn) {
-      String username = prefs.getString('username') ?? '';
-      String userID = prefs.getString('userID') ?? '';
-      setState(() {
-        this.isLoggedIn = isLoggedIn;
-        this.username = username;
-        this.userID = userID;
-      });
-    } else {
-      setState(() {
-        this.isLoggedIn = false;
-        this.username = '';
-        this.userID = '';
-      });
-    }
-  }
+  // void checkLoginStatus() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+  //   if (isLoggedIn) {
+  //     String username = prefs.getString('username') ?? '';
+  //     String userID = prefs.getString('userID') ?? '';
+  //     setState(() {
+  //       this.isLoggedIn = isLoggedIn;
+  //       this.username = username;
+  //       this.userID = userID;
+  //     });
+  //   } else {
+  //     setState(() {
+  //       this.isLoggedIn = false;
+  //       this.username = '';
+  //       this.userID = '';
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +65,7 @@ class _MainLayoutState extends State<MainLayout> {
           onPressed: () => Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => TicketPage(),
+              builder: (context) => Account(),
             ),
           ),
         ),
@@ -104,6 +104,7 @@ class _MainLayoutState extends State<MainLayout> {
           ),
         ],
       ),
+
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
@@ -169,8 +170,8 @@ class _MainLayoutState extends State<MainLayout> {
                     ),
                   );
                 }
-                List<Map<String, dynamic>> movie_modun =
-                    snapshot.data as List<Map<String, dynamic>>;
+                List<MovieModel> movie_modun =
+                    snapshot.data!;
                 return Container(
                   child: Stack(
                     children: [
@@ -193,7 +194,7 @@ class _MainLayoutState extends State<MainLayout> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          MovieDetail(movie: i),
+                                          MovieDetail( movieID: i.movieID,),
                                     ),
                                   );
                                 },
@@ -205,7 +206,7 @@ class _MainLayoutState extends State<MainLayout> {
                                       horizontal: itemMargin),
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
-                                      image: NetworkImage(i['image']),
+                                      image: NetworkImage(i.image),
                                       fit: BoxFit.cover,
                                     ),
                                     borderRadius: BorderRadius.circular(10),
@@ -238,7 +239,7 @@ class _MainLayoutState extends State<MainLayout> {
                                             ),
                                             Gap(8),
                                             Text(
-                                              i['rating'].toDouble().toString(),
+                                              i.rating.toDouble().toString(),
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
@@ -257,7 +258,7 @@ class _MainLayoutState extends State<MainLayout> {
                                               color: yellow.withOpacity(0.9),
                                               borderRadius:
                                                   BorderRadius.circular(4)),
-                                          child: Text(i['age'],
+                                          child: Text(i.age,
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w600,
                                                 color: black,

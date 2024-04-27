@@ -1,16 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:gap/gap.dart';
-import 'package:project_1/screen/mainlayout.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:project_1/screen/account.dart';
 import 'package:project_1/style/style.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../model/login_model.dart';
 import '../repository/login_repository.dart';
 
 class Login extends StatefulWidget {
   // final UserRepository userRepository;
   const Login({super.key});
+
   // const Login({required this.userRepository, super.key});
 
   @override
@@ -20,6 +22,8 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   late UserRepository userRepository;
   bool isLoggedIn = false;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   @override
   void initState() {
     super.initState();
@@ -28,51 +32,6 @@ class _LoginState extends State<Login> {
 
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  Future<void> _login() async {
-    String username = _usernameController.text;
-    String password = _passwordController.text;
-    UserModel? user = await userRepository.getUserByUsername(username);
-
-    if (user != null && user.password == password) {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setBool('isLoggedIn', true); // Lưu trạng thái đăng nhập
-      await prefs.setString('username', user.username);
-      await prefs.setString('userID', user.userID);
-
-      setState(() {
-        isLoggedIn = true;
-        // Gán giá trị của user vào các biến state
-        username = user.username;
-      });
-
-      // Đăng nhập thành công, chuyển hướng đến trang chính
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) {
-            return MainLayout();
-          },
-        ),
-      );
-    } else {
-      // Đăng nhập không thành công, hiển thị thông báo lỗi
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text('Login Failed'),
-          content: Text('Invalid username or password.'),
-          actions: <Widget>[
-            TextButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        ),
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +119,14 @@ class _LoginState extends State<Login> {
                   color: yellow,
                 ),
                 child: GestureDetector(
-                  onTap: _login,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Login(),
+                      ),
+                    );
+                  },
                   child: Center(
                     child: Text(
                       'Login',
@@ -214,17 +180,24 @@ class _LoginState extends State<Login> {
                     ),
                     child: Icon(Icons.apple_outlined),
                   ),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.grey[200],
-                    ),
-                    child: Icon(
-                      FontAwesome.google,
-                      weight: 0.5,
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        signInWithGoogle();
+                      });
+                    },
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.grey[200],
+                      ),
+                      child: Icon(
+                        FontAwesome.google,
+                        weight: 0.5,
+                      ),
                     ),
                   ),
                 ],
@@ -234,5 +207,45 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
+  }
+
+  signInWithGoogle() async {
+    GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+    AuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+    UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+
+    if (userCredential.user != null) {
+      await _saveUserDataToFirestore(userCredential.user!);
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => Account(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _saveUserDataToFirestore(User user) async {
+    // Tạo một tài liệu mới trong Firestore với ID là UID của người dùng
+    DocumentSnapshot documentSnapshot =
+        await _firestore.collection('user').doc(user.uid).get();
+    String _itemUser = documentSnapshot.id;
+    if (_itemUser.isEmpty) {
+      final DocumentReference userDocRef =
+          _firestore.collection('user').doc(user.uid);
+      // Lưu thông tin người dùng vào tài liệu Firestore
+      await userDocRef.set({
+        'userID': user.uid,
+        'username': user.displayName,
+        'email': user.email,
+        'photoURL': user.photoURL,
+        // Thêm các trường khác mà bạn muốn lưu trữ
+      });
+    }
   }
 }

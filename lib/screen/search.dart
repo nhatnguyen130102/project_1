@@ -239,14 +239,18 @@ class _SearchPageState extends State<SearchPage> {
                                                   ),
                                                   child: GestureDetector(
                                                     onTap: () {
-                                                      Navigator.push(context,
-                                                          MaterialPageRoute(
-                                                              builder:
-                                                                  (context) {
-                                                        return MovieDetail(
-                                                          movie: {},
-                                                        );
-                                                      }));
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) {
+                                                            return MovieDetail(
+                                                              movieID:
+                                                                  _itemMovie
+                                                                      .movieID,
+                                                            );
+                                                          },
+                                                        ),
+                                                      );
                                                     },
                                                     child: Text(
                                                       'DETAILS',

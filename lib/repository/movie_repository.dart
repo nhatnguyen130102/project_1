@@ -5,12 +5,10 @@ import '../model/movie_model.dart';
 class MovieRepository {
   final FirebaseFirestore _firebase = FirebaseFirestore.instance;
 
-  Future<List<Map<String, dynamic>>> getMovies() async {
+  Future<List<MovieModel>> getMovies() async {
     QuerySnapshot querySnapshot =
     await _firebase.collection('movie').get();
-    return querySnapshot.docs
-        .map((doc) => doc.data() as Map<String, dynamic>)
-        .toList();
+    return querySnapshot.docs.map((e) => MovieModel.fromMap(e)).toList();
   }
 
   Future<MovieModel?> getMoviesByMovieID(String movieID) async {

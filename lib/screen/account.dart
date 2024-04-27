@@ -1,38 +1,50 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:gap/gap.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:project_1/screen/login.dart';
 import 'package:project_1/screen/mainlayout.dart';
 import 'package:project_1/screen/ticket.dart';
 import 'package:project_1/style/style.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import '../component_widget/loading.dart';
 
 class Account extends StatefulWidget {
-  final isLoggedIn;
-  final username;
-  final userID;
-  const Account({super.key, this.isLoggedIn, this.username, this.userID});
+
+
+  Account({super.key});
 
   @override
   State<Account> createState() => _AccountState();
 }
 
 class _AccountState extends State<Account> {
-  Future<void> _logout() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove('isLoggedIn'); // Xóa trạng thái đăng nhập
-    await prefs.remove('username'); // Xóa tên người dùng
-    await prefs.remove('userID'); // Xóa tên người dùng
+  late String _accountName;
+  late String _accountEmail;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-    // Gán các giá trị state về giá trị mặc định hoặc rỗng
-    // setState(() {});
-    // Chuyển hướng về màn hình đăng nhập hoặc màn hình khác tùy thuộc vào logic của ứng dụng
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => MainLayout(),
-      ),
-    );
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _accountEmail = 'AccountEmail';
+    _accountName = 'AccountName';
+    _checkIfUserIsLoggedIn();
+  }
+  void _checkIfUserIsLoggedIn() async {
+    // Kiểm tra xem có người dùng nào đã đăng nhập trước đó hay không
+    User? user = _auth.currentUser;
+
+    if (user != null) {
+
+      _accountEmail = FirebaseAuth.instance.currentUser!.email!;
+      _accountName = FirebaseAuth.instance.currentUser!.displayName!;
+    } else {
+
+      _accountEmail = 'AccountEmail';
+      _accountName = 'AccountName';
+    }
   }
 
   @override
@@ -48,7 +60,12 @@ class _AccountState extends State<Account> {
             color: white,
           ), // Biểu tượng menu
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MainLayout(),
+              ),
+            );
           },
         ),
       ),
@@ -68,64 +85,69 @@ class _AccountState extends State<Account> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  widget.isLoggedIn
-                      ? Text(
-                          widget.username,
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        )
-                      : Text(
-                          'Account Name',
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                  widget.isLoggedIn
-                      ? Text(widget.userID)
-                      : Text('Account Email'),
+
+                  Text(
+                    _accountName,
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  Text(_accountEmail),
                   Gap(20),
                   Container(
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                        decoration: BoxDecoration(
-                          color: yellow,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: widget.isLoggedIn
-                            ? GestureDetector(
-                                onTap: () {
-                                  _logout();
-                                },
-                                child: Center(
-                                  child: Text(
-                                    'Logout',
-                                    style:
-                                        TextStyle(fontSize: 17, color: black),
-                                  ),
-                                ),
-                              )
-                            : GestureDetector(
-                                onTap: () {
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    decoration: BoxDecoration(
+                      color: yellow,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: StreamBuilder<User?>(
+                      stream: FirebaseAuth.instance.authStateChanges(),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.hasError) {
+                          return Text(
+                            snapshot.error.toString(),
+                          );
+                        }
+                        if (snapshot.connectionState ==
+                            ConnectionState.active) {
+                          if (snapshot.data == null) {
+                            return Center(
+                              child: GestureDetector(
+                                onTap: () async {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) {
-                                        return Login();
-                                      },
+                                      builder: (context) => Login(),
                                     ),
                                   );
                                 },
-                                child: Center(
-                                  child: Text(
-                                    'Login',
-                                    style:
-                                        TextStyle(fontSize: 17, color: black),
-                                  ),
+                                child: Text(
+                                  'Login',
+                                  style: TextStyle(color: black),
                                 ),
                               ),
-                      ),
+                            );
+                          } else {
+                            return Center(
+                              child: GestureDetector(
+                                onTap: () async {
+                                  await GoogleSignIn().signOut();
+                                  FirebaseAuth.instance.signOut();
+                                  setState(() {
+                                    _accountEmail = 'AccountEmail';
+                                    _accountName = 'AccountName';
+                                  });
+                                },
+                                child: Text(
+                                  'Logout',
+                                  style: TextStyle(color: black),
+                                ),
+                              ),
+                            );
+                          }
+                        }
+                        return Center(
+                          child: Loading(),
+                        );
+                      },
                     ),
                   ),
                 ],
