@@ -62,6 +62,9 @@ dependencies:
   flutter_map: ^6.1.0
   latlong2: ^0.9.1
 
+  appinio_video_player: ^1.2.2
+  youtube_player_flutter: ^8.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

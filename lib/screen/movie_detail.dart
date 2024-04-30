@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:project_1/repository/movie_repository.dart';
 import 'package:project_1/screen/rating.dart';
+import 'package:project_1/screen/trailer_player.dart';
 import 'package:project_1/style/style.dart';
 import 'package:heroicons/heroicons.dart';
 
@@ -214,19 +215,30 @@ class _MovieDetailState extends State<MovieDetail> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Container(
-                                  padding: EdgeInsets.all(16),
-                                  decoration: BoxDecoration(
-                                    color: white.withOpacity(0.1),
-                                    // border: Border.all(color: yellow),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Text(
-                                    'TRAILER',
-                                    style: TextStyle(
-                                      fontWeight: semibold,
-                                      color: yellow,
-                                      fontSize: 16,
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                          MyYoutube(),
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(16),
+                                    decoration: BoxDecoration(
+                                      color: white.withOpacity(0.1),
+                                      // border: Border.all(color: yellow),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Text(
+                                      'TRAILER',
+                                      style: TextStyle(
+                                        fontWeight: semibold,
+                                        color: yellow,
+                                        fontSize: 16,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -240,7 +252,6 @@ class _MovieDetailState extends State<MovieDetail> {
                                         // Choose_Date(movieID: movieId),
                                         Choose_Location(movieID: widget.movieID),
                                         // Choose_LocationTest(movieID: movieId),
-
                                         // ScreeningPage(),
                                       ),
                                     );
