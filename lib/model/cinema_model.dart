@@ -17,7 +17,7 @@ class CinemaModel {
 
   // Hàm chuyển đổi dữ liệu từ Firestore thành một đối tượng Cinema
   factory CinemaModel.fromSnapshot(DocumentSnapshot doc) {
-    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    Map data = doc.data() as Map<String, dynamic>;
     return CinemaModel(
       cinemaID: data['cinemaID'] ?? '',
       locationID: data['locationID'] ?? '',
